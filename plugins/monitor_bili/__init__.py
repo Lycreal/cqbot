@@ -3,7 +3,6 @@
 import urllib.request
 import json
 import nonebot
-import time
 from datetime import datetime, timezone, timedelta
 from config import channelList_bili as channelList
 from utils_bot.msg_ops import send_to_superusers, send_to_groups
@@ -15,36 +14,40 @@ __plugin_usage__ = r'''feature: 监控器_bili
 
 bot = nonebot.get_bot()
 
+time_pre = timedelta(minutes=10)
+
 
 class Channel:
     live_status: int = 0
     live_time: str = '1970-01-02 00:00:00'  # 本次开播时间
     last_live: str = '1970-01-02 00:00:00'  # 上次开播时间
-    last_check: str = '1970-01-02 00:00:00'  # 上次检测到直播时间
+
+    # last_check: str = '1970-01-02 00:00:00'  # 上次检测到直播时间
 
     def __init__(self, room_id, name):
         self.room_id: str = room_id  # 直播间房间号
         self.name: str = name
         self.live_url: str = f'https://api.live.bilibili.com/room/v1/Room/get_info?id={room_id}'
+        self.last_live = (datetime.now(timezone(timedelta(hours=8))) - time_pre).strftime('%Y-%m-%d %H:%M:%S')
 
     def update(self):
         json_s = urllib.request.urlopen(self.live_url).read().decode('utf-8')
         json_d = json.loads(json_s)
         self.live_status = json_d.get('data').get('live_status')
         self.live_time = json_d.get('data').get('live_time')
-        if self.live_status == 1:
-            self.last_check = datetime.now(timezone(timedelta(hours=8))).strftime('%Y-%m-%d %H:%M:%S')  # 当前时间
-        if self.time_delta(self.live_time, self.last_live) > 600:
+        # if self.live_status == 1:
+        #     self.last_check = datetime.now(timezone(timedelta(hours=8))).strftime('%Y-%m-%d %H:%M:%S')  # 当前时间
+        if self.time_delta(self.live_time, self.last_live) > time_pre:
             self.last_live = self.live_time
             return 1
         return 0
 
     @staticmethod
     def time_delta(ta, tb):
-        a = time.strptime(ta, "%Y-%m-%d %H:%M:%S")
-        b = time.strptime(tb, "%Y-%m-%d %H:%M:%S")
-        delta = time.mktime(a) - time.mktime(b)
-        return int(delta)
+        a: datetime = datetime.strptime(ta, "%Y-%m-%d %H:%M:%S")
+        b: datetime = datetime.strptime(tb, "%Y-%m-%d %H:%M:%S")
+        delta: timedelta = a - b
+        return delta
 
     def __str__(self):
         msg = f'Channel Name: {self.name}\n'
