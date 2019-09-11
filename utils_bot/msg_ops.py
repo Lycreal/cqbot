@@ -1,5 +1,5 @@
 from nonebot import get_bot
-from config import GROUPS
+from config_bot import GROUPS
 
 bot = get_bot()
 SUPERUSERS = bot.config.SUPERUSERS

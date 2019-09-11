@@ -4,8 +4,8 @@ import urllib.request
 import json
 import nonebot
 from datetime import datetime, timezone, timedelta
-from config import channelList_bili as channelList
-from utils_bot.msg_ops import send_to_superusers, send_to_groups
+from plugins.monitor_bili.config import channel_list_bili, TIME_PRE
+from utils_bot.msg_ops import send_to_groups
 
 __plugin_name__ = '监控器_bili'
 __plugin_usage__ = r'''feature: 监控器_bili
@@ -13,8 +13,6 @@ __plugin_usage__ = r'''feature: 监控器_bili
 '''
 
 bot = nonebot.get_bot()
-
-time_pre = timedelta(minutes=5)
 
 
 class Channel:
@@ -27,7 +25,7 @@ class Channel:
         self.room_id: str = room_id  # 直播间房间号
         self.name: str = name
         self.live_url: str = f'https://api.live.bilibili.com/room/v1/Room/get_info?id={room_id}'
-        self.last_live = (datetime.now(timezone(timedelta(hours=8))) - time_pre).strftime('%Y-%m-%d %H:%M:%S')
+        self.last_live = (datetime.now(timezone(timedelta(hours=8))) - TIME_PRE).strftime('%Y-%m-%d %H:%M:%S')
 
     def update(self):
         # 获取信息
@@ -39,7 +37,7 @@ class Channel:
         if self.live_status == 1:
             self.last_check = datetime.now(timezone(timedelta(hours=8))).strftime('%Y-%m-%d %H:%M:%S')  # 当前时间
         # 距离上次下播大于time_pre
-        if self.time_delta(self.live_time, self.last_live) > time_pre:
+        if self.time_delta(self.live_time, self.last_live) > TIME_PRE:
             if self.live_status == 1:
                 self.last_live = self.last_check
             return 1
@@ -70,7 +68,7 @@ def circle(n):
         x = x + 1 if x < n - 1 else 0
 
 
-channels = [Channel(room_id, name) for room_id, name in channelList]
+channels = [Channel(room_id, name) for room_id, name in channel_list_bili]
 v = circle(len(channels))
 
 
