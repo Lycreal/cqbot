@@ -18,14 +18,14 @@ bot = nonebot.get_bot()
 class Channel:
     live_status: int = 0
     live_time: str = '0000-00-00 00:00:00'  # 本次开播时间
-    last_live: str = '1970-01-02 00:00:00'  # 上次下播时间
-    last_check: str = '1970-01-02 00:00:00'  # 上次检测到直播时间
+    # last_live: str = '1970-01-02 00:00:00'  # 上次下播时间
+    # last_check: str = '1970-01-02 00:00:00'  # 上次检测到直播时间
 
     def __init__(self, room_id, name):
         self.room_id: str = room_id  # 直播间房间号
         self.name: str = name
         self.live_url: str = f'https://api.live.bilibili.com/room/v1/Room/get_info?id={room_id}'
-        self.last_live = (datetime.now(timezone(timedelta(hours=8))) - TIME_PRE).strftime('%Y-%m-%d %H:%M:%S')
+        self.last_check = (datetime.now(timezone(timedelta(hours=8))) - TIME_PRE).strftime('%Y-%m-%d %H:%M:%S')
 
     def update(self):
         # 获取信息
@@ -33,15 +33,16 @@ class Channel:
         json_d = json.loads(json_s)
         self.live_status = json_d.get('data').get('live_status')
         self.live_time = json_d.get('data').get('live_time')
+        # 距离上次下播大于time_pre
+        if self.time_delta(self.live_time, self.last_check) > TIME_PRE:
+            ret = 1
+        else:
+            ret = 0
         # 开播状态
         if self.live_status == 1:
             self.last_check = datetime.now(timezone(timedelta(hours=8))).strftime('%Y-%m-%d %H:%M:%S')  # 当前时间
-        # 距离上次下播大于time_pre
-        if self.time_delta(self.live_time, self.last_live) > TIME_PRE:
-            if self.live_status == 1:
-                self.last_live = self.last_check
-            return 1
-        return 0
+            # self.last_live = self.last_check
+        return ret
 
     @staticmethod
     def time_delta(ta, tb):
