@@ -73,7 +73,7 @@ channels = [Channel(room_id, name) for room_id, name in channel_list_bili]
 v = circle(len(channels))
 
 
-@nonebot.scheduler.scheduled_job('interval', seconds=3)
+@nonebot.scheduler.scheduled_job('interval', seconds=2.5)
 async def _():
     channel = channels[next(v)]
     if channel.update():
