@@ -12,6 +12,11 @@ with urllib.request.urlopen('https://api.vtbs.moe/v1/info') as w:
     VTB_LIST = json.load(w)
 
 
+with urllib.request.urlopen('https://api.vtbs.moe/v1/info') as w:
+    VTB_LIST = json.load(w.read().decode('utf-8'))
+
+
+
 def circle(n):
     x = 0
     while True:
