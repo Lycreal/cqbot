@@ -69,6 +69,11 @@ def load_list():
     return monitor_list_alter
 
 
+def save_list(monitor_list_alter: list):
+    with Path.joinpath(Path(__file__).parent, 'monitor_list.py').open('w', encoding='utf8') as f:
+        f.write(str(monitor_list_alter).replace('{', '\n{'))
+
+
 monitor_list_alter = load_list()
 channels = [Channel(ch) for ch in monitor_list_alter]
 v = circle(len(channels))
@@ -110,8 +115,7 @@ async def monitor_bili_add(session: CommandSession):
             if ch['roomid'] not in [x[0] for x in channel_list_bili] + [x['roomid'] for x in monitor_list_alter]:
                 monitor_list_alter.append(ch)
                 channels = [Channel(ch) for ch in monitor_list_alter]
-                with Path.joinpath(Path(__file__).parent, 'monitor_list.py').open('w', encoding='utf8') as f:
-                    f.write(str(monitor_list_alter))
+                save_list(monitor_list_alter)
                 v = circle(len(channels))
                 await session.send('已添加：%s' % {ch['uname']})
             else:
