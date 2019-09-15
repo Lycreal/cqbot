@@ -122,9 +122,9 @@ async def monitor_bili_add(session: CommandSession):
 async def alter_add_group(session: CommandSession):
     global GROUPS
     arg: str = session.get('alter_add_group')
-    if arg not in GROUPS:
+    if arg and arg not in GROUPS:
         GROUPS.append(arg)
-    await session.send(str([x['uname'] for x in monitor_list_alter]))
+    await session.send(str(GROUPS))
 
 
 @alter_add_group.args_parser
