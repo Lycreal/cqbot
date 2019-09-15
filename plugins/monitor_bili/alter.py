@@ -20,7 +20,7 @@ def circle(n):
 
 
 class Channel:
-    live_status: int = 0
+    live_status: int = 1
     live_time: str = '0000-00-00 00:00:00'  # 本次开播时间
 
     # last_live: str = '1970-01-02 00:00:00'  # 上次下播时间
