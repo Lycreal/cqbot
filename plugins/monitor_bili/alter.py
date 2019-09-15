@@ -7,6 +7,7 @@ from nonebot.permission import *
 from datetime import datetime, timezone, timedelta
 from plugins.monitor_bili.config import channel_list_bili, TIME_PRE
 from config_private import GROUP_TST
+from pathlib import Path
 
 with urllib.request.urlopen('https://api.vtbs.moe/v1/info') as w:
     VTB_LIST = json.load(w)
@@ -59,7 +60,16 @@ class Channel:
         return msg
 
 
-monitor_list_alter = []
+def load_list():
+    if not Path.joinpath(Path(__file__).parent, 'monitor_list.py').is_file():
+        monitor_list_alter = []
+    else:
+        with Path.joinpath(Path(__file__).parent, 'monitor_list.py').open(encoding='utf8') as f:
+            monitor_list_alter = json.loads(f.read().replace("'", '"'))
+    return monitor_list_alter
+
+
+monitor_list_alter = load_list()
 channels = [Channel(ch) for ch in monitor_list_alter]
 v = circle(len(channels))
 
@@ -88,6 +98,7 @@ async def monitor_bili_add(session: CommandSession):
     global v
     global monitor_list_alter
     global channels
+    monitor_list_alter = load_list()
     arg = session.get('monitor_bili_add')
     for vtb in VTB_LIST:
         if arg in (vtb['uname'], str(vtb['mid']), str(vtb['roomid'])):
@@ -99,6 +110,8 @@ async def monitor_bili_add(session: CommandSession):
             if ch['roomid'] not in [x[0] for x in channel_list_bili] + [x['roomid'] for x in monitor_list_alter]:
                 monitor_list_alter.append(ch)
                 channels = [Channel(ch) for ch in monitor_list_alter]
+                with Path.joinpath(Path(__file__).parent, 'monitor_list.py').open('w', encoding='utf8') as f:
+                    f.write(str(monitor_list_alter))
                 v = circle(len(channels))
                 await session.send('已添加：%s' % {ch['uname']})
             else:
