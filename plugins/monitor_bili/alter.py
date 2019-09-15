@@ -31,7 +31,7 @@ class Channel:
         self.room_id: str = ch['roomid']
         self.name: str = ch['uname']
         self.live_url: str = f'https://api.vtbs.moe/v1/detail/{self.mid}'
-        self.last_check = datetime.now(timezone(timedelta(hours=8))) - TIME_PRE
+        self.last_check = datetime.now(timezone(timedelta(hours=8)))
 
     def update(self):
         # 获取信息
