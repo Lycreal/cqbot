@@ -38,7 +38,7 @@ class Channel:
         with urllib.request.urlopen(self.live_url) as w:
             json_s = w.read().decode('utf-8')
         json_d = json.loads(json_s)
-        self.live_status = json_d['live_status']
+        self.live_status = json_d['liveStatus']
         self.live_time = json_d['lastLive']['time']
         # 距离上次下播大于time_pre
         if self.live_status == 1 and datetime.now(timezone(timedelta(hours=8))) - self.last_check > TIME_PRE:
