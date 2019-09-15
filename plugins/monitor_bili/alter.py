@@ -1,6 +1,5 @@
 import urllib.request
 from nonebot import on_command, CommandSession
-from plugins.monitor_bili.vtbs import vtbs as VTB_LIST
 import urllib.request
 import json
 import nonebot
@@ -8,6 +7,9 @@ from nonebot.permission import *
 from datetime import datetime, timezone, timedelta
 from plugins.monitor_bili.config import channel_list_bili, TIME_PRE
 from config_private import GROUP_TST
+
+with urllib.request.urlopen('https://api.vtbs.moe/v1/info') as w:
+    VTB_LIST = json.load(w)
 
 
 def circle(n):
