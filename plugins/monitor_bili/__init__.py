@@ -5,7 +5,9 @@ import json
 import nonebot
 from datetime import datetime, timezone, timedelta
 from plugins.monitor_bili.config import channel_list_bili, TIME_PRE
+import plugins.monitor_bili.alter
 from utils_bot.msg_ops import send_to_groups
+
 
 __plugin_name__ = '监控器_bili'
 __plugin_usage__ = r'''feature: 监控器_bili
@@ -29,7 +31,8 @@ class Channel:
 
     def update(self):
         # 获取信息
-        json_s = urllib.request.urlopen(self.live_url).read().decode('utf-8')
+        with urllib.request.urlopen(self.live_url) as w:
+            json_s = w.read().decode('utf-8')
         json_d = json.loads(json_s)
         self.live_status = json_d.get('data').get('live_status')
         self.live_time = json_d.get('data').get('live_time')
@@ -81,3 +84,4 @@ async def _():
             msg = f'{channel.name}于{channel.live_time[11:16]}开播了: '
             msg += f'https://live.bilibili.com/{channel.room_id}'
             await send_to_groups(msg)
+
