@@ -1,7 +1,9 @@
 import re
 from .general import Channel
-import socks
-import socket
+
+
+# import socks
+# import socket
 
 
 class YoutubeChannel(Channel):
@@ -23,16 +25,15 @@ class YoutubeChannel(Channel):
             self.title = ''
             self.live_url = self.api_url
 
-
-def main():
-    socks.setdefaultproxy(socks.PROXY_TYPE_SOCKS5, '127.0.0.1', 10808)
-    socket.socket = socks.socksocket
-    # quin = YoutubeChannel('UC1opHUrw8rvnsadT-iGp7Cg', 'aqua')
-    quin = YoutubeChannel('UCWCc8tO-uUl_7SJXIKJACMw', 'mea')
-    quin.update()
-    print(quin)
-    print(quin.notify())
-
-
-if __name__ == '__main__':
-    main()
+# def main():
+#     socks.setdefaultproxy(socks.PROXY_TYPE_SOCKS5, '127.0.0.1', 10808)
+#     socket.socket = socks.socksocket
+#     # quin = YoutubeChannel('UC1opHUrw8rvnsadT-iGp7Cg', 'aqua')
+#     quin = YoutubeChannel('UCWCc8tO-uUl_7SJXIKJACMw', 'mea')
+#     quin.update()
+#     print(quin)
+#     print(quin.notify())
+#
+#
+# if __name__ == '__main__':
+#     main()

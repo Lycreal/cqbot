@@ -1,6 +1,6 @@
 import plugins.live_monitor as monitor
 import nonebot
-from config_private import GROUP_TST, GROUP_BTR
+from config_private import GROUP_TST, GROUP_BTR, GROUP_KR
 from .config import *
 
 
@@ -13,7 +13,7 @@ def circle(n):
 
 bot = nonebot.get_bot()
 
-GROUPS = [GROUP_TST, GROUP_BTR]
+GROUPS = [GROUP_TST, GROUP_BTR, GROUP_KR]
 
 
 async def send_to_groups(msg: str):
@@ -42,7 +42,8 @@ async def _():
     if channels_you:
         channel = channels_you[next(vy)]
         if channel.update():
-            await send_to_groups(channel.notify())
+            await bot.send_group_msg(group_id=GROUP_TST, message=channel.notify())
+            await bot.send_group_msg(group_id=GROUP_BTR, message=channel.notify())
 
 
 channels_cc = [monitor.init_channel('cc', *channel) for channel in channel_list_bili]
@@ -54,4 +55,4 @@ async def _():
     if channels_cc:
         channel = channels_cc[next(vc)]
         if channel.update():
-            await send_to_groups(channel.notify())
+            await bot.send_group_msg(group_id=GROUP_TST, message=channel.notify())
