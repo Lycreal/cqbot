@@ -1,4 +1,4 @@
-from .general import Channel
+from plugins.live_monitor.general import Channel
 import json
 
 

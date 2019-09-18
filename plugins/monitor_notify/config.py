@@ -42,5 +42,5 @@ channel_list_you = (
 )
 
 channel_list_cc = (
-    ('361433', 'Mr.quin')
+    ('361433', 'Mr.quin'),
 )
