@@ -33,7 +33,7 @@ async def _():
             await send_to_groups(channel.notify())
 
 
-channels_you = [monitor.init_channel('you', *channel) for channel in channel_list_bili]
+channels_you = [monitor.init_channel('you', *channel) for channel in channel_list_you]
 vy = circle(len(channels_you))
 
 
@@ -46,7 +46,7 @@ async def _():
             await bot.send_group_msg(group_id=GROUP_BTR, message=channel.notify())
 
 
-channels_cc = [monitor.init_channel('cc', *channel) for channel in channel_list_bili]
+channels_cc = [monitor.init_channel('cc', *channel) for channel in channel_list_cc]
 vc = circle(len(channels_cc))
 
 
