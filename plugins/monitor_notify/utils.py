@@ -1,8 +1,25 @@
 # from datetime import timedelta
+import nonebot
+
 
 # TIME_PRE = timedelta(minutes=5)
 
-channel_list_bili = (
+def circle(n):
+    x = 0
+    while True:
+        yield x
+        x = x + 1 if x < n - 1 else 0
+
+
+bot = nonebot.get_bot()
+
+
+async def send_to_groups(GROUPS: list, msg: str):
+    for groupId in GROUPS:
+        await bot.send_group_msg(group_id=groupId, message=msg)
+
+
+channel_list_bili = [
     ('12235923', '神楽めあ'),
     ('21304638', '神楽七奈'),
 
@@ -33,14 +50,14 @@ channel_list_bili = (
 
     ('190577', '星街彗星'),
     ('21267062', 'AZKi')
-)
+]
 
-channel_list_you = (
+channel_list_you = [
     ('UCWCc8tO-uUl_7SJXIKJACMw', '神楽めあ'),
     ('UC1opHUrw8rvnsadT-iGp7Cg', '湊あくあ'),
     ('UCdn5BQ06XqgXoAxIhbqw5Rg', '白上フブキ')
-)
+]
 
-channel_list_cc = (
+channel_list_cc = [
     ('361433', 'Mr.quin'),
-)
+]

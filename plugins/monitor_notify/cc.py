@@ -1,8 +1,8 @@
 import plugins.live_monitor as monitor
 import nonebot
 from config_private import GROUP_TST, GROUP_BTR, GROUP_KR
-from .config import channel_list_cc
-from .__init__ import circle, send_to_groups
+from .utils import channel_list_cc
+from .utils import circle, send_to_groups
 
 GROUPS = [GROUP_TST]
 
