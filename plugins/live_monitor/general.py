@@ -9,18 +9,20 @@ class Channel:
     live_url: str
 
     name: str = ''
-    live_status: str = '0'
+    live_status: str = '1'
     title: str = ''
 
     def __init__(self):
-        self.last_check = datetime.now(timezone(timedelta(hours=8)))
+        self.last_check = datetime.now(timezone(timedelta(hours=8))) - self.TIME_PRE
 
     def update(self) -> bool:
-        self.get_status()
-        if self.live_status == '1' and datetime.now(timezone(timedelta(hours=8))) - self.last_check > self.TIME_PRE:
-            ret = True
-        else:
-            ret = False
+        ret = False
+        if self.live_status != '1':
+            self.get_status()
+            if self.live_status == '1':
+                ret = True
+        elif datetime.now(timezone(timedelta(hours=8))) - self.last_check > self.TIME_PRE:
+            self.get_status()
         # 开播状态
         if self.live_status == '1':
             self.last_check = datetime.now(timezone(timedelta(hours=8)))  # 当前时间
