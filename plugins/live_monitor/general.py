@@ -1,6 +1,5 @@
-import urllib.request
+import requests
 from datetime import datetime, timezone, timedelta
-
 
 class Channel:
     TIME_PRE = timedelta(minutes=10)
@@ -27,8 +26,7 @@ class Channel:
         return ret
 
     def get_status(self):
-        with urllib.request.urlopen(self.api_url) as f:
-            html_s = f.read().decode()
+        html_s = requests.get(self.api_url).text
         self.resolve(html_s)
 
     def resolve(self, string: str):
