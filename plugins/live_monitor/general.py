@@ -1,6 +1,7 @@
 import requests
 from datetime import datetime, timezone, timedelta
 
+
 class Channel:
     TIME_PRE = timedelta(minutes=10)
     last_check: datetime

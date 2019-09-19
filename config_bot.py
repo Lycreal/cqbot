@@ -12,3 +12,8 @@ PORT = 8080
 
 if not GROUPS:
     GROUPS = []
+
+APSCHEDULER_CONFIG = {
+    'apscheduler.timezone': 'Asia/Shanghai',
+    'apscheduler.job_defaults.max_instances': '5'
+}
