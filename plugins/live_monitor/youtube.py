@@ -1,9 +1,6 @@
 import re
 from plugins.live_monitor.general import Channel
 
-# import socks
-# import socket
-
 
 class YoutubeChannel(Channel):
     def __init__(self, id: str, name: str):
@@ -13,23 +10,25 @@ class YoutubeChannel(Channel):
         self.name = name
 
     def resolve(self, html_s):
+        videoId = re.search(r'<meta itemprop="videoId" content="([^"]*)">', html_s).group(1)
+        self.live_url = f'https://www.youtube.com/watch?v={videoId}'
+
         content = re.search(r'.*RELATED_PLAYER_ARGS.*', html_s).group()
-        if not re.search(r'Scheduled for', content) and re.search(r'\\"isLive\\":true', content):
-            self.live_status = '1'
-            self.title = re.search(r'\\"videoTitle\\":\\"([^\\]*)\\"', content).group(1)
-            videoId = re.search(r'<meta itemprop="videoId" content="([^"]*)">', html_s).group(1)
-            self.live_url = f'https://www.youtube.com/watch?v={videoId}'
-        else:
+        if re.search(r'Last streamed live', content):
             self.live_status = '0'
-            self.title = ''
-            self.live_url = self.api_url
+        elif re.search(r'Scheduled for', content):
+            self.live_status = '2'
+        elif re.search(r'Started streaming', content):
+            self.live_status = '1'
+        else:
+            raise KeyError('找不到关键字')
+        self.title = re.search(r'\\"videoTitle\\":\\"([^\\]*)\\"', content).group(1)
 
 
 def main():
-    # socks.setdefaultproxy(socks.PROXY_TYPE_SOCKS5, '127.0.0.1', 10808)
-    # socket.socket = socks.socksocket
     quin = YoutubeChannel('UC1opHUrw8rvnsadT-iGp7Cg', 'aqua')
     # quin = YoutubeChannel('UCWCc8tO-uUl_7SJXIKJACMw', 'mea')
+    # quin = YoutubeChannel('UCn14Z641OthNps7vppBvZFA', '千草はな')
     quin.update()
     print(quin)
     print(quin.notify())
