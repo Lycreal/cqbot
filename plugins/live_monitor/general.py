@@ -45,7 +45,7 @@ class Channel:
 
     def notify(self):
         if self.live_status == '1':
-            msg = f'{self.name}开播了:{self.title} {self.live_url}'
+            msg = f'{self.name}:{self.title} {self.live_url}'
         else:
             msg = f'{self.name}未开播'
         return msg
