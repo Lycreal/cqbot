@@ -1,6 +1,7 @@
 from nonebot import get_bot
 # from nonebot.helpers import context_id
 from nonebot.permission import Context_T
+import time
 
 __plugin_name__ = '复读机'
 __plugin_usage__ = r'''feature: 复读
@@ -18,7 +19,6 @@ class Record:
 
 
 class Records(dict):
-
     def get_record(self, group_id: str) -> Record:
         """creates tracker for each group at beginning"""
         record = self.get(group_id)
@@ -27,8 +27,7 @@ class Records(dict):
             self[group_id] = record
         return record
 
-    async def simple_repeat(self, group_id: str, msg: str,
-                            wait_until: int = 3):
+    async def simple_repeat(self, group_id: str, msg: str, wait_until: int = 3):
         # creates tracker for each group at beginning
         record = self.get_record(group_id)
         if msg != record.lastMsg:
@@ -36,6 +35,7 @@ class Records(dict):
             return
         record.count += 1
         if record.count == wait_until:
+            time.sleep(secs=1)
             await bot.send_group_msg(group_id=group_id, message=msg)
             record.count = -999
 
