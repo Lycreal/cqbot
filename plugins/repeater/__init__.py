@@ -1,8 +1,7 @@
 from nonebot import get_bot
 # from nonebot.helpers import context_id
 from nonebot.permission import Context_T
-import time
-
+import asyncio
 __plugin_name__ = '复读机'
 __plugin_usage__ = r'''feature: 复读
 人类的本质
@@ -35,7 +34,7 @@ class Records(dict):
             return
         record.count += 1
         if record.count == wait_until:
-            time.sleep(secs=1)
+            await asyncio.sleep(1.0)
             await bot.send_group_msg(group_id=group_id, message=msg)
             record.count = -999
 
