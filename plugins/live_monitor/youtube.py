@@ -14,7 +14,7 @@ class YoutubeChannel(Channel):
         self.live_url = f'https://www.youtube.com/watch?v={videoId}'
 
         content = re.search(r'.*RELATED_PLAYER_ARGS.*', html_s).group()
-        if re.search(r'Last streamed live', content):
+        if re.search(r'Last streamed live', content) or re.search(r'Streamed live', content):
             self.live_status = '0'
         elif re.search(r'Scheduled for', content):
             self.live_status = '2'
