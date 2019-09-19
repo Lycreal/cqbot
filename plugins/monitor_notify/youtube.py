@@ -10,8 +10,8 @@ channels_you = [monitor.init_channel('you', *channel) for channel in channel_lis
 vy = circle(len(channels_you))
 
 
-@nonebot.scheduler.scheduled_job('interval', seconds=40)
-async def _():
+@nonebot.scheduler.scheduled_job('interval', seconds=40, )
+async def monitor_you():
     if channels_you:
         channel = channels_you[next(vy)]
         if channel.update():

@@ -11,7 +11,7 @@ vc = circle(len(channels_cc))
 
 
 @nonebot.scheduler.scheduled_job('interval', seconds=300)  # 必须小于TIME_PRE
-async def _():
+async def monitor_cc():
     if channels_cc:
         channel = channels_cc[next(vc)]
         if channel.update():

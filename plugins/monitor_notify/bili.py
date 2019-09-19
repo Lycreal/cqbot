@@ -11,7 +11,7 @@ vb = circle(len(channels_bili))
 
 
 @nonebot.scheduler.scheduled_job('interval', seconds=5)
-async def _():
+async def monitor_bili():
     if channels_bili:
         channel = channels_bili[next(vb)]
         if channel.update():

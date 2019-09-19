@@ -14,6 +14,13 @@ if not GROUPS:
     GROUPS = []
 
 APSCHEDULER_CONFIG = {
-    'apscheduler.timezone': 'Asia/Shanghai',
-    'apscheduler.job_defaults.max_instances': '5'
+    'executors': {
+        'default': {'type': 'processpool', 'max_workers': 10}
+    },
+    'job_defaults': {
+        'coalesce': True,
+        'max_instances': 5,
+        'misfire_grace_time': 30
+    },
+    'timezone': 'Asia/Shanghai'
 }
