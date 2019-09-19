@@ -1,5 +1,5 @@
 import re
-from .general import Channel
+from plugins.live_monitor.general import Channel
 
 
 class NetEaseChannel(Channel):
@@ -13,7 +13,7 @@ class NetEaseChannel(Channel):
         live = re.search(r'isLive', room_info)
         if live:
             self.live_status = re.search(r'[\'\"]?isLive[\'\"]? ?: ?[\'\"]?(\d)[\'\"]?', room_info).group(1)
-            self.name = re.search(r'[\'\"]?anchorName[\'\"]? ?: ?[\'\"]?([^\'\"]+)[\'\"]?', room_info).group(1)
+            # self.name = re.search(r'[\'\"]?anchorName[\'\"]? ?: ?[\'\"]?([^\'\"]+)[\'\"]?', room_info).group(1)
             self.title = re.search(r'[\'\"]?title[\'\"]? ?: ?[\'\"]?([^\'\"]+)[\'\"]?', room_info).group(1)
         else:
             self.live_status = '0'

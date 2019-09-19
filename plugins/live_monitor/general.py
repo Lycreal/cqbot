@@ -3,7 +3,7 @@ from datetime import datetime, timezone, timedelta
 
 
 class Channel:
-    TIME_PRE = timedelta(minutes=5)
+    TIME_PRE = timedelta(minutes=10)
     last_check: datetime
     api_url: str
     live_url: str

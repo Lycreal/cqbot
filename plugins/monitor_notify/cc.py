@@ -10,7 +10,7 @@ channels_cc = [monitor.init_channel('cc', *channel) for channel in channel_list_
 vc = circle(len(channels_cc))
 
 
-@nonebot.scheduler.scheduled_job('interval', seconds=300)
+@nonebot.scheduler.scheduled_job('interval', seconds=300)  # 必须小于TIME_PRE
 async def _():
     if channels_cc:
         channel = channels_cc[next(vc)]
