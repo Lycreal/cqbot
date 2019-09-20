@@ -20,9 +20,9 @@ class YoutubeChannel(Channel):
             self.live_status = '2'
         elif re.search(r'Started streaming', content):
             self.live_status = '1'
+            self.title = re.search(r'\\"videoTitle\\":\\"([^\\]*)\\"', content).group(1)
         else:
             raise KeyError('找不到关键字')
-        self.title = re.search(r'\\"videoTitle\\":\\"([^\\]*)\\"', content).group(1)
 
 
 def main():
