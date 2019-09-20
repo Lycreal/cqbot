@@ -13,8 +13,8 @@ class YoutubeChannel(Channel):
 
     def resolve(self, html_s):
         content = re.search(r'.*RELATED_PLAYER_ARGS.*', html_s).group()
-        with open(self.name, 'w', encoding='utf8') as f:
-            f.write(content)
+        # with open(self.name, 'w', encoding='utf8') as f:
+        #     f.write(content)
         if re.search(r'Last streamed live', content) or re.search(r'Streamed live', content):
             self.live_status = '0'
         elif re.search(r'Scheduled for', content):
