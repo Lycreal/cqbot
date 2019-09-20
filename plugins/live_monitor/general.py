@@ -5,15 +5,23 @@ from datetime import datetime, timezone, timedelta
 class Channel:
     TIME_PRE = timedelta(minutes=10)
     last_check: datetime
-    api_url: str
-    live_url: str
-
+    api_url: str = ''
+    live_url: str = ''
+    id: str = ''
     name: str = ''
     live_status: str = '1'
     title: str = ''
 
-    def __init__(self):
+    def __init__(self, id: str, name: str):
+        self.id = id
+        self.name = name
+        self.get_url()
         self.last_check = datetime.now(timezone(timedelta(hours=8))) - self.TIME_PRE
+        return
+
+    def get_url(self):
+        self.api_url = ''
+        self.live_url = ''
 
     def update(self) -> bool:
         ret = False
@@ -21,7 +29,7 @@ class Channel:
             self.get_status()
             if self.live_status == '1':
                 ret = True
-        elif datetime.now(timezone(timedelta(hours=8))) - self.last_check > self.TIME_PRE:
+        elif datetime.now(timezone(timedelta(hours=8))) - self.last_check >= self.TIME_PRE:
             self.get_status()
         # 开播状态
         if self.live_status == '1':

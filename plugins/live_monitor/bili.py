@@ -3,11 +3,9 @@ import json
 
 
 class BiliChannel(Channel):
-    def __init__(self, id: str, name: str):
-        super(BiliChannel, self).__init__()
-        self.live_url = f'https://live.bilibili.com/{id}'
-        self.api_url = f'https://api.live.bilibili.com/room/v1/Room/get_info?id={id}'
-        self.name = name
+    def get_url(self):
+        self.live_url = f'https://live.bilibili.com/{self.id}'
+        self.api_url = f'https://api.live.bilibili.com/room/v1/Room/get_info?id={self.id}'
 
     def resolve(self, html_s):
         json_d = json.loads(html_s)

@@ -3,11 +3,9 @@ from plugins.live_monitor.general import Channel
 
 
 class NetEaseChannel(Channel):
-    def __init__(self, id: str, name: str):
-        super(NetEaseChannel, self).__init__()
-        self.live_url = f'http://cc.163.com/{id}/'
+    def get_url(self):
+        self.live_url = f'http://cc.163.com/{self.id}/'
         self.api_url = self.live_url
-        self.name = name
 
     def resolve(self, html_s):
         room_info = re.search(r'<script type="text/javascript">\s+var roomInfo(.*?)</script>', html_s, re.S).group()
@@ -21,7 +19,7 @@ class NetEaseChannel(Channel):
 
 
 def main():
-    quin = NetEaseChannel('361433', '')
+    quin = NetEaseChannel('361433', 'Mr.quin')
     quin.update()
     print(quin)
     print(quin.notify())
