@@ -5,17 +5,7 @@ from plugins.live_monitor.youtube import YoutubeChannel
 from plugins.live_monitor.bili import BiliChannel
 from plugins.live_monitor.cc import NetEaseChannel
 import time
-
-
-def init_channel(type: str, id: str, name: str):
-    if type == 'bili':
-        return BiliChannel(id, name)
-    elif type == 'you':
-        return YoutubeChannel(id, name)
-    elif type == 'cc':
-        return NetEaseChannel(id, name)
-    else:
-        return KeyError(type)
+import json
 
 
 class Monitor:
@@ -24,21 +14,41 @@ class Monitor:
     pos = -1
     notify = print
 
-    def __init__(self, channel_type, debug=False):
+    def __init__(self, channel_type: str, debug=False):
+        assert channel_type in ['bili', 'you', 'cc']
         self.channel_type = channel_type
         self.debug = debug
 
-    def add(self, ch_list):
-        for ch_info in ch_list:
-            ch = init_channel(self.channel_type, *ch_info)
-            if ch.id not in [ch.id for ch in self.channel_list]:
-                self.channel_list.append(ch)
+    def init_channel(self, id: str, name: str):
+        if self.channel_type == 'bili':
+            return BiliChannel(id, name)
+        elif self.channel_type == 'you':
+            return YoutubeChannel(id, name)
+        elif self.channel_type == 'cc':
+            return NetEaseChannel(id, name)
+
+    def add(self, id: str, name: str):
+        ch = self.init_channel(id, name)
+        if ch.id not in [ch.id for ch in self.channel_list]:
+            self.channel_list.append(ch)
+
+    def remove(self, id: str):
+        for ch in self.channel_list:
+            if ch.id == id:
+                self.channel_list.remove(ch)
 
     def load(self):
-        pass
+        try:
+            with open(self.channel_type + '.json', 'r') as f:
+                channel_json = json.load(f)
+            [self.add(ch_j['id'], ch_j['name']) for ch_j in channel_json]
+        except FileNotFoundError:
+            pass
 
     def save(self):
-        pass
+        channel_json = [{'id': ch.id, 'name': ch.name} for ch in self.channel_list]
+        with open(self.channel_type + '.json', 'w') as f:
+            json.dump(channel_json, f, indent=2)
 
     def next(self):
         if self.channel_list:
@@ -56,12 +66,3 @@ class Monitor:
         if channel.update() or self.debug:
             self.notify(channel)
             self.notify(channel.notify())
-
-
-if __name__ == '__main__':
-    monitor = Monitor('you', debug=True)
-    monitor.add([('UCdn5BQ06XqgXoAxIhbqw5Rg', 'FBK')])
-    monitor.add([('UCveZ9Ic1VtcXbsyaBgxPMvg', 'meiji')])
-    while True:
-        monitor.run()
-        time.sleep(10)
