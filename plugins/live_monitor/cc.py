@@ -7,6 +7,7 @@ class NetEaseChannel(Channel):
         super(NetEaseChannel, self).__init__()
         self.live_url = f'http://cc.163.com/{id}/'
         self.api_url = self.live_url
+        self.name = name
 
     def resolve(self, html_s):
         room_info = re.search(r'<script type="text/javascript">\s+var roomInfo(.*?)</script>', html_s, re.S).group()
