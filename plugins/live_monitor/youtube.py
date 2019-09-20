@@ -22,7 +22,7 @@ class YoutubeChannel(Channel):
         elif re.search(r'Started streaming', content):
             self.live_status = '1'
         else:
-            raise KeyError('找不到关键字')
+            return
         self.get_title(content)
 
     # def get_status(self):
