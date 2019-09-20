@@ -8,6 +8,15 @@ import time
 import json
 
 
+def init_channel(type, id: str, name: str):
+    if type == 'bili':
+        return BiliChannel(id, name)
+    elif type == 'you':
+        return YoutubeChannel(id, name)
+    elif type == 'cc':
+        return NetEaseChannel(id, name)
+
+
 class Monitor:
     channel_list: list = []
     debug = False
