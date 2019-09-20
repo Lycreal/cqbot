@@ -1,7 +1,7 @@
 import re
 from plugins.live_monitor.general import Channel
 
-import requests
+# import requests
 import ast
 import json
 
@@ -25,9 +25,9 @@ class YoutubeChannel(Channel):
             raise KeyError('找不到关键字')
         self.get_title(content)
 
-    def get_status(self):
-        html_s = requests.get(self.api_url, proxies={'https': 'socks5://127.0.0.1:10808'}).text
-        self.resolve(html_s)
+    # def get_status(self):
+    #     html_s = requests.get(self.api_url, proxies={'https': 'socks5://127.0.0.1:10808'}).text
+    #     self.resolve(html_s)
 
     def get_title(self, content):
         match = re.search(r'\\"shareVideoEndpoint\\":{(.*?)}},', content)
