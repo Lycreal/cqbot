@@ -10,6 +10,11 @@ channels_bili = [monitor.init_channel('bili', *channel) for channel in channel_l
 vb = circle(len(channels_bili))
 
 
+@nonebot.on_command('monitor_bili_status', only_to_me=False)
+async def monitor_bili_add(session: nonebot.CommandSession):
+    [await session.send(str(ch) for ch in channels_bili)]
+
+
 @nonebot.scheduler.scheduled_job('interval', seconds=5)
 async def monitor_bili():
     if channels_bili:
