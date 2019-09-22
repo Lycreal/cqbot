@@ -18,7 +18,7 @@ async def monitor_bili_status(session: nonebot.CommandSession):
         await session.send(msg)
 
 
-@nonebot.scheduler.scheduled_job('interval', seconds=5)
+@nonebot.scheduler.scheduled_job('interval', seconds=3)
 async def monitor_bili():
     if channels_bili:
         channel = channels_bili[next(vb)]

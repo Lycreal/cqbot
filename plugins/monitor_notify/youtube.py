@@ -18,7 +18,7 @@ async def monitor_you_status(session: nonebot.CommandSession):
         await session.send(msg)
 
 
-@nonebot.scheduler.scheduled_job('interval', seconds=40, )
+@nonebot.scheduler.scheduled_job('interval', seconds=20)
 async def monitor_you():
     if channels_you:
         channel = channels_you[next(vy)]
