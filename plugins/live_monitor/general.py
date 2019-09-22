@@ -9,20 +9,17 @@ s.mount('https://', HTTPAdapter(max_retries=0))
 
 class BaseChannel:
     TIME_PRE = timedelta(minutes=5)
-    last_check: datetime
-    api_url: str = ''
-    live_url: str = ''
-    cid: str = ''
-    name: str = ''
-    live_status: str = '1'
-    title: str = ''
-    ch_name: str = ''
 
     def __init__(self, cid: str, name: str):
+        self.api_url: str = ''
+        self.live_url: str = ''
+        self.live_status: str = '1'
+        self.title: str = ''
+        self.ch_name: str = ''
         self.cid = cid
         self.name = name
         self.get_url()
-        self.last_check = datetime.now(timezone(timedelta(hours=8))) - self.TIME_PRE
+        self.last_check: datetime = datetime.now(timezone(timedelta(hours=8))) - self.TIME_PRE
 
     def get_url(self):
         self.api_url = ''

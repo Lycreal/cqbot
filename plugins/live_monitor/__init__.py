@@ -7,14 +7,12 @@ from typing import List
 
 
 class Monitor:
-    channel_list: List[BaseChannel] = []
-    DEBUG = False
-    pos = -1
-    notify = print
-
     def __init__(self, channel_type: str, debug=False):
         assert channel_type in ['bili', 'you', 'cc']
+        self.channel_list: List[BaseChannel] = []
+        self.pos = -1
         self.channel_type = channel_type
+        self.DEBUG = debug
 
     def init_channel(self, cid: str, name: str):
         if self.channel_type == 'bili':
@@ -64,7 +62,7 @@ class Monitor:
     def __str__(self):
         msg = ''
         for ch in self.channel_list:
-            if ch.live_status == '1':
+            if ch.live_status == '1' or self.DEBUG:
                 msg += str(ch)
         if not msg:
             msg = '无人直播中'
