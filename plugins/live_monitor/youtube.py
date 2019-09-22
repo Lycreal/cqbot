@@ -6,7 +6,7 @@ from plugins.live_monitor.general import Channel
 
 class YoutubeChannel(Channel):
     def get_url(self):
-        self.api_url = f'https://www.youtube.com/channel/{self.id}/live'
+        self.api_url = f'https://www.youtube.com/channel/{self.cid}/live'
         self.live_url = self.api_url
 
     def resolve(self, html_s):

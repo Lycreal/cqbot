@@ -4,7 +4,7 @@ from plugins.live_monitor.general import Channel
 
 class NetEaseChannel(Channel):
     def get_url(self):
-        self.live_url = f'http://cc.163.com/{self.id}/'
+        self.live_url = f'http://cc.163.com/{self.cid}/'
         self.api_url = self.live_url
 
     def resolve(self, html_s):

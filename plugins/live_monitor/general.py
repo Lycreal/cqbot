@@ -7,18 +7,17 @@ class Channel:
     last_check: datetime
     api_url: str = ''
     live_url: str = ''
-    id: str = ''
+    cid: str = ''
     name: str = ''
     live_status: str = '1'
     title: str = ''
     ch_name: str = ''
 
-    def __init__(self, id: str, name: str):
-        self.id = id
+    def __init__(self, cid: str, name: str):
+        self.cid = cid
         self.name = name
         self.get_url()
         self.last_check = datetime.now(timezone(timedelta(hours=8))) - self.TIME_PRE
-        return
 
     def get_url(self):
         self.api_url = ''
@@ -51,7 +50,7 @@ class Channel:
               f'Live Status: {self.live_status}\n'
         return msg
 
-    def notify(self):
+    def notify(self) -> str:
         if self.live_status == '1':
             msg = f'{self.name}:{self.title} {self.live_url}'
         else:

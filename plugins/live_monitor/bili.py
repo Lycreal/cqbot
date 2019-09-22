@@ -4,8 +4,8 @@ import json
 
 class BiliChannel(Channel):
     def get_url(self):
-        self.live_url = f'https://live.bilibili.com/{self.id}'
-        self.api_url = f'https://api.live.bilibili.com/room/v1/Room/get_info?id={self.id}'
+        self.live_url = f'https://live.bilibili.com/{self.cid}'
+        self.api_url = f'https://api.live.bilibili.com/room/v1/Room/get_info?id={self.cid}'
 
     def resolve(self, html_s):
         json_d = json.loads(html_s)

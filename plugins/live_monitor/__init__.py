@@ -1,19 +1,19 @@
 __all__ = ['bili', 'cc', 'general', 'youtube', 'Monitor']
 
-from plugins.live_monitor.general import Channel as GeneralChannel
+from plugins.live_monitor.general import Channel as BaseChannel
 from plugins.live_monitor.youtube import YoutubeChannel
 from plugins.live_monitor.bili import BiliChannel
 from plugins.live_monitor.cc import NetEaseChannel
 import json
 
 
-def init_channel(type, id: str, name: str):
-    if type == 'bili':
-        return BiliChannel(id, name)
-    elif type == 'you':
-        return YoutubeChannel(id, name)
-    elif type == 'cc':
-        return NetEaseChannel(id, name)
+def init_channel(channel_type, cid: str, name: str):
+    if channel_type == 'bili':
+        return BiliChannel(cid, name)
+    elif channel_type == 'you':
+        return YoutubeChannel(cid, name)
+    elif channel_type == 'cc':
+        return NetEaseChannel(cid, name)
 
 
 class Monitor:
@@ -27,22 +27,22 @@ class Monitor:
         self.channel_type = channel_type
         self.debug = debug
 
-    def init_channel(self, id: str, name: str):
+    def init_channel(self, cid: str, name: str):
         if self.channel_type == 'bili':
-            return BiliChannel(id, name)
+            return BiliChannel(cid, name)
         elif self.channel_type == 'you':
-            return YoutubeChannel(id, name)
+            return YoutubeChannel(cid, name)
         elif self.channel_type == 'cc':
-            return NetEaseChannel(id, name)
+            return NetEaseChannel(cid, name)
 
-    def add(self, id: str, name: str):
-        ch = self.init_channel(id, name)
-        if ch.id not in [ch.id for ch in self.channel_list]:
+    def add(self, cid: str, name: str):
+        ch = self.init_channel(cid, name)
+        if ch.cid not in [ch.id for ch in self.channel_list]:
             self.channel_list.append(ch)
 
-    def remove(self, id: str):
+    def remove(self, cid: str):
         for ch in self.channel_list:
-            if ch.id == id:
+            if ch.id == cid:
                 self.channel_list.remove(ch)
 
     def load(self):
@@ -65,9 +65,9 @@ class Monitor:
         else:
             return None
 
-    def run(self):
-        channel: GeneralChannel = self.next()
-        if channel.update() or self.debug:
+    def run(self) -> str:
+        channel: BaseChannel = self.next()
+        if channel and (channel.update() or self.debug):
             return channel.notify()
 
     def __str__(self):

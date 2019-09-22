@@ -17,6 +17,6 @@ async def monitor_bili2_status(session: nonebot.CommandSession):
     await session.send(str(monitor).strip())
 
 
-@nonebot.scheduler.scheduled_job('interval', seconds=3)
+@nonebot.scheduler.scheduled_job('interval', seconds=14)
 async def monitor_bili_alter():
-    await send_to_groups(GROUPS, monitor.run())
+    await send_to_groups(GROUPS, str(monitor.run()))
