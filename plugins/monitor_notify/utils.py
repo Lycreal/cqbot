@@ -1,14 +1,4 @@
-# from datetime import timedelta
 import nonebot
-
-
-# TIME_PRE = timedelta(minutes=5)
-
-def circle(n):
-    x = 0
-    while True:
-        yield x
-        x = x + 1 if x < n - 1 else 0
 
 
 bot = nonebot.get_bot()

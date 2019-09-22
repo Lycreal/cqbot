@@ -1,8 +1,8 @@
 import re
-from plugins.live_monitor.general import Channel
+from plugins.live_monitor.general import BaseChannel
 
 
-class NetEaseChannel(Channel):
+class NetEaseChannel(BaseChannel):
     def get_url(self):
         self.live_url = f'http://cc.163.com/{self.cid}/'
         self.api_url = self.live_url
@@ -16,14 +16,3 @@ class NetEaseChannel(Channel):
             self.title = re.search(r'[\'\"]?title[\'\"]? ?: ?[\'\"]?([^\'\"]+)[\'\"]?', room_info).group(1)
         else:
             self.live_status = '0'
-
-
-def main():
-    quin = NetEaseChannel('361433', 'Mr.Quin')
-    quin.update()
-    print(quin)
-    print(quin.notify())
-
-
-if __name__ == '__main__':
-    main()

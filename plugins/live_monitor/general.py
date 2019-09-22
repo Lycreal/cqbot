@@ -2,7 +2,7 @@ import requests
 from datetime import datetime, timezone, timedelta
 
 
-class Channel:
+class BaseChannel:
     TIME_PRE = timedelta(minutes=5)
     last_check: datetime
     api_url: str = ''
@@ -44,15 +44,15 @@ class Channel:
         #     must be updated
         pass
 
-    def __str__(self):
-        msg = f'Name: {self.ch_name if self.ch_name else self.name}\n' \
-              f'Title: {self.title}\n' \
-              f'Live Status: {self.live_status}\n'
-        return msg
-
     def notify(self) -> str:
         if self.live_status == '1':
             msg = f'{self.name}:{self.title} {self.live_url}'
         else:
             msg = f'{self.name}未开播'
+        return msg
+
+    def __str__(self):
+        msg = f'Name: {self.ch_name if self.ch_name else self.name}\n' \
+              f'Title: {self.title}\n' \
+              f'Live Status: {self.live_status}\n'
         return msg

@@ -1,31 +1,20 @@
-__all__ = ['bili', 'cc', 'general', 'youtube', 'Monitor']
-
-from plugins.live_monitor.general import Channel as BaseChannel
+from plugins.live_monitor.general import BaseChannel
 from plugins.live_monitor.youtube import YoutubeChannel
 from plugins.live_monitor.bili import BiliChannel
 from plugins.live_monitor.cc import NetEaseChannel
 import json
-
-
-def init_channel(channel_type, cid: str, name: str):
-    if channel_type == 'bili':
-        return BiliChannel(cid, name)
-    elif channel_type == 'you':
-        return YoutubeChannel(cid, name)
-    elif channel_type == 'cc':
-        return NetEaseChannel(cid, name)
+from typing import List
 
 
 class Monitor:
-    channel_list: list = []
-    debug = False
+    channel_list: List[BaseChannel] = []
+    DEBUG = False
     pos = -1
     notify = print
 
     def __init__(self, channel_type: str, debug=False):
         assert channel_type in ['bili', 'you', 'cc']
         self.channel_type = channel_type
-        self.debug = debug
 
     def init_channel(self, cid: str, name: str):
         if self.channel_type == 'bili':
@@ -67,7 +56,7 @@ class Monitor:
 
     def run(self) -> str:
         channel: BaseChannel = self.next()
-        if channel and (channel.update() or self.debug):
+        if channel and (channel.update() or self.DEBUG):
             return channel.notify()
         else:
             return ''
@@ -75,5 +64,8 @@ class Monitor:
     def __str__(self):
         msg = ''
         for ch in self.channel_list:
-            msg += str(ch)
+            if ch.live_status == '1':
+                msg += str(ch)
+        if not msg:
+            msg = '无人直播中'
         return msg

@@ -1,10 +1,10 @@
 import re
 import json
 from lxml.html import etree
-from plugins.live_monitor.general import Channel
+from plugins.live_monitor.general import BaseChannel
 
 
-class YoutubeChannel(Channel):
+class YoutubeChannel(BaseChannel):
     def get_url(self):
         self.api_url = f'https://www.youtube.com/channel/{self.cid}/live'
         self.live_url = self.api_url
@@ -30,17 +30,3 @@ class YoutubeChannel(Channel):
             self.live_status = '1'
         else:
             self.live_status = '0'
-
-
-def main():
-    # quin = YoutubeChannel('UC1opHUrw8rvnsadT-iGp7Cg', 'aqua')
-    # quin = YoutubeChannel('UCWCc8tO-uUl_7SJXIKJACMw', 'mea')
-    quin = YoutubeChannel('UChN7P9OhRltW3w9IesC92PA', 'miu')
-    # quin = YoutubeChannel('UCn14Z641OthNps7vppBvZFA', '千草はな')
-    quin.update()
-    print(quin)
-    print(quin.notify())
-
-
-if __name__ == '__main__':
-    main()
