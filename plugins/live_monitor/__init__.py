@@ -37,24 +37,24 @@ class Monitor:
 
     def add(self, cid: str, name: str):
         ch = self.init_channel(cid, name)
-        if ch.cid not in [ch.id for ch in self.channel_list]:
+        if ch.cid not in [ch.cid for ch in self.channel_list]:
             self.channel_list.append(ch)
 
     def remove(self, cid: str):
         for ch in self.channel_list:
-            if ch.id == cid:
+            if ch.cid == cid:
                 self.channel_list.remove(ch)
 
     def load(self):
         try:
             with open(self.channel_type + '.json', 'r') as f:
                 channel_json = json.load(f)
-            [self.add(ch_j['id'], ch_j['name']) for ch_j in channel_json]
+            [self.add(ch_j['cid'], ch_j['name']) for ch_j in channel_json]
         except FileNotFoundError:
             pass
 
     def save(self):
-        channel_json = [{'id': ch.id, 'name': ch.name} for ch in self.channel_list]
+        channel_json = [{'cid': ch.cid, 'name': ch.name} for ch in self.channel_list]
         with open(self.channel_type + '.json', 'w') as f:
             json.dump(channel_json, f, indent=2, ensure_ascii=False)
 

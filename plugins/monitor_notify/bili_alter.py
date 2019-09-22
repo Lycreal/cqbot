@@ -8,7 +8,7 @@ GROUPS = [GROUP_TST]
 
 monitor = Monitor('bili')
 monitor.load()
-[monitor.add(id, name) for id, name in channel_list_bili]
+[monitor.add(cid, name) for cid, name in channel_list_bili]
 monitor.save()
 
 
