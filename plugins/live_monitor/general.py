@@ -50,7 +50,7 @@ class Channel:
     def __str__(self):
         msg = f'Name: {self.ch_name if self.ch_name else self.name}\n' \
               f'Title: {self.title}\n' \
-              f'Live Status: {self.live_status}'
+              f'Live Status: {self.live_status}\n'
         return msg
 
     def notify(self):
