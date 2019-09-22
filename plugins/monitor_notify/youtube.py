@@ -10,6 +10,14 @@ channels_you = [monitor.init_channel('you', *channel) for channel in channel_lis
 vy = circle(len(channels_you))
 
 
+@nonebot.on_command('monitor_you_status', only_to_me=False)
+async def monitor_you_status(session: nonebot.CommandSession):
+    msg = ''
+    for ch in channels_you:
+        msg += str(ch)
+        await session.send(msg)
+
+
 @nonebot.scheduler.scheduled_job('interval', seconds=40, )
 async def monitor_you():
     if channels_you:

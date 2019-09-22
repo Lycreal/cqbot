@@ -10,6 +10,14 @@ channels_cc = [monitor.init_channel('cc', *channel) for channel in channel_list_
 vc = circle(len(channels_cc))
 
 
+@nonebot.on_command('monitor_cc_status', only_to_me=False)
+async def monitor_cc_status(session: nonebot.CommandSession):
+    msg = ''
+    for ch in channels_cc:
+        msg += str(ch)
+        await session.send(msg)
+
+
 @nonebot.scheduler.scheduled_job('interval', seconds=300)  # 必须小于TIME_PRE
 async def monitor_cc():
     if channels_cc:

@@ -11,9 +11,11 @@ vb = circle(len(channels_bili))
 
 
 @nonebot.on_command('monitor_bili_status', only_to_me=False)
-async def monitor_bili_add(session: nonebot.CommandSession):
+async def monitor_bili_status(session: nonebot.CommandSession):
+    msg = ''
     for ch in channels_bili:
-        await session.send(str(ch))
+        msg += str(ch)
+        await session.send(msg)
 
 
 @nonebot.scheduler.scheduled_job('interval', seconds=5)
