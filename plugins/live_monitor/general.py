@@ -11,6 +11,7 @@ class Channel:
     name: str = ''
     live_status: str = '1'
     title: str = ''
+    ch_name: str = ''
 
     def __init__(self, id: str, name: str):
         self.id = id
@@ -47,9 +48,9 @@ class Channel:
         pass
 
     def __str__(self):
-        msg = f'Name: {self.name}\n' \
+        msg = f'Name: {self.ch_name if self.ch_name else self.name}\n' \
               f'Title: {self.title}\n' \
-              f'Live Status: {self.live_status}\n'
+              f'Live Status: {self.live_status}'
         return msg
 
     def notify(self):
