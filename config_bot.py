@@ -18,9 +18,8 @@ APSCHEDULER_CONFIG = {
         'default': {'type': 'processpool', 'max_workers': 10}
     },
     'job_defaults': {
-        'coalesce': True,
-        'max_instances': 5,
-        'misfire_grace_time': 30
+        'coalesce': False,
+        'max_instances': 5
     },
     'timezone': 'Asia/Shanghai'
 }
