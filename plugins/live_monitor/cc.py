@@ -12,14 +12,14 @@ class NetEaseChannel(Channel):
         live = re.search(r'isLive', room_info)
         if live:
             self.live_status = re.search(r'[\'\"]?isLive[\'\"]? ?: ?[\'\"]?(\d)[\'\"]?', room_info).group(1)
-            # self.name = re.search(r'[\'\"]?anchorName[\'\"]? ?: ?[\'\"]?([^\'\"]+)[\'\"]?', room_info).group(1)
+            self.ch_name = re.search(r'[\'\"]?anchorName[\'\"]? ?: ?[\'\"]?([^\'\"]+)[\'\"]?', room_info).group(1)
             self.title = re.search(r'[\'\"]?title[\'\"]? ?: ?[\'\"]?([^\'\"]+)[\'\"]?', room_info).group(1)
         else:
             self.live_status = '0'
 
 
 def main():
-    quin = NetEaseChannel('361433', 'Mr.quin')
+    quin = NetEaseChannel('361433', 'Mr.Quin')
     quin.update()
     print(quin)
     print(quin.notify())
