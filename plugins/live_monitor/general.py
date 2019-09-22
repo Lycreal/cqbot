@@ -3,7 +3,7 @@ from datetime import datetime, timezone, timedelta
 
 
 class Channel:
-    TIME_PRE = timedelta(minutes=10)
+    TIME_PRE = timedelta(minutes=5)
     last_check: datetime
     api_url: str = ''
     live_url: str = ''
@@ -25,21 +25,19 @@ class Channel:
         self.live_url = ''
 
     def update(self) -> bool:
-        ret = False
         if self.live_status != '1':
             self.get_status()
             if self.live_status == '1':
-                ret = True
+                return True
         elif datetime.now(timezone(timedelta(hours=8))) - self.last_check >= self.TIME_PRE:
             self.get_status()
-        # 开播状态
-        if self.live_status == '1':
-            self.last_check = datetime.now(timezone(timedelta(hours=8)))  # 当前时间
-        return ret
+        return False
 
     def get_status(self):
         html_s = requests.get(self.api_url).text
         self.resolve(html_s)
+        if self.live_status == '1':
+            self.last_check = datetime.now(timezone(timedelta(hours=8)))  # 当前时间
 
     def resolve(self, string: str):
         #     live_status: str
