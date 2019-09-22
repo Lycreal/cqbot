@@ -69,6 +69,8 @@ class Monitor:
         channel: BaseChannel = self.next()
         if channel and (channel.update() or self.debug):
             return channel.notify()
+        else:
+            return ''
 
     def __str__(self):
         msg = ''

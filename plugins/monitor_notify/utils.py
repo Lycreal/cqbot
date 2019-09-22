@@ -14,9 +14,10 @@ def circle(n):
 bot = nonebot.get_bot()
 
 
-async def send_to_groups(GROUPS: list, msg: str):
-    for groupId in GROUPS:
-        await bot.send_group_msg(group_id=groupId, message=msg)
+async def send_to_groups(groups: list, msg: str):
+    if msg:
+        for groupId in groups:
+            await bot.send_group_msg(group_id=groupId, message=msg)
 
 
 channel_list_bili = [
