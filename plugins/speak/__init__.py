@@ -22,6 +22,6 @@ async def _(session: CommandSession):
         session.state['group'] = group
         session.state['word'] = word
     else:
-        session.state['group'] = session.ctx['group_id']
+        session.state['group'] = str(session.ctx['group_id'])
         session.state['word'] = stripped_arg
     return
