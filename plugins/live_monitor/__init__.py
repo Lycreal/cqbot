@@ -1,10 +1,9 @@
-__all__ = ['bili', 'cc', 'general', 'youtube']
+__all__ = ['bili', 'cc', 'general', 'youtube', 'Monitor']
 
 from plugins.live_monitor.general import Channel as GeneralChannel
 from plugins.live_monitor.youtube import YoutubeChannel
 from plugins.live_monitor.bili import BiliChannel
 from plugins.live_monitor.cc import NetEaseChannel
-import time
 import json
 
 
@@ -57,7 +56,7 @@ class Monitor:
     def save(self):
         channel_json = [{'id': ch.id, 'name': ch.name} for ch in self.channel_list]
         with open(self.channel_type + '.json', 'w') as f:
-            json.dump(channel_json, f, indent=2)
+            json.dump(channel_json, f, indent=2, ensure_ascii=False)
 
     def next(self):
         if self.channel_list:
@@ -66,12 +65,13 @@ class Monitor:
         else:
             return None
 
-    def register_notifier(self, notify=print):
-        self.notify = notify
-
     def run(self):
         channel: GeneralChannel = self.next()
-        print(time.strftime('%H:%M:%S', time.localtime()))
         if channel.update() or self.debug:
-            self.notify(channel)
-            self.notify(channel.notify())
+            return channel.notify()
+
+    def __str__(self):
+        msg = ''
+        for ch in self.channel_list:
+            msg += str(ch)
+        return msg
