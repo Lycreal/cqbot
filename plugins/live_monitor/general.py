@@ -1,5 +1,10 @@
 import requests
+from requests.adapters import HTTPAdapter
 from datetime import datetime, timezone, timedelta
+
+s = requests.Session()
+s.mount('http://', HTTPAdapter(max_retries=0))
+s.mount('https://', HTTPAdapter(max_retries=0))
 
 
 class BaseChannel:
@@ -33,7 +38,7 @@ class BaseChannel:
         return False
 
     def get_status(self):
-        html_s = requests.get(self.api_url).text
+        html_s = requests.get(self.api_url, timeout=10).text
         self.resolve(html_s)
         if self.live_status == '1':
             self.last_check = datetime.now(timezone(timedelta(hours=8)))  # 当前时间
