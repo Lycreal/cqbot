@@ -19,4 +19,4 @@ async def monitor_you_status(session: nonebot.CommandSession):
 
 @nonebot.scheduler.scheduled_job('interval', seconds=19)
 async def monitor_you():
-    await send_to_groups(GROUPS, str(monitor.run()))
+    await send_to_groups(GROUPS, str(monitor.run().strip()))

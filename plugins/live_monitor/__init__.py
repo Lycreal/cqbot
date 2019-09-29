@@ -62,8 +62,5 @@ class Monitor:
     def __str__(self):
         msg = ''
         for ch in self.channel_list:
-            if ch.live_status == '1' or self.DEBUG:
-                msg += str(ch)
-        if not msg:
-            msg = '无人直播中'
+            msg += f'{ch.name}:{ch.live_status}'
         return msg
