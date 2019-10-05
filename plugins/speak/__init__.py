@@ -1,11 +1,11 @@
 import nonebot
 from nonebot import on_command, CommandSession
-from nonebot.default_config import SUPERUSERS
+from nonebot.permission import SUPERUSER
 
 bot: nonebot.NoneBot = nonebot.get_bot()
 
 
-@on_command('speak', aliases=('say', 'echo'), only_to_me=True, permission=SUPERUSERS)
+@on_command('speak', aliases=('say', 'echo'), permission=SUPERUSER)
 async def speak(session: CommandSession):
     group = session.get('group')
     word = session.get('word')
