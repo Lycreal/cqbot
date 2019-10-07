@@ -12,11 +12,20 @@ __plugin_usage__ = r'''feature: 直播监控
 例：monitor command
 command list: help, add, del, list, list on, list all
 '''
+monitors = {'bili': Monitor('bili'),
+            'you': Monitor('you'),
+            'cc': Monitor('cc')}
 
-monitor_bili = Monitor('bili')
+monitor_bili = monitors['bili']
+monitor_you = monitors['you']
+monitor_cc = monitors['cc']
+
 monitor_bili.load()
+[monitor.load() for monitor in monitors.values()]
 [monitor_bili.add(cid, name, [GROUP_TST, GROUP_BTR, GROUP_KR]) for cid, name in channel_list_bili]
-monitor_bili.save()
+[monitor_you.add(cid, name, [GROUP_TST, GROUP_BTR]) for cid, name in channel_list_you]
+[monitor_cc.add(cid, name, [GROUP_TST, GROUP_BTR]) for cid, name in channel_list_cc]
+[monitor.save() for monitor in monitors.values()]
 
 
 @nonebot.scheduler.scheduled_job('interval', seconds=3)
@@ -24,31 +33,14 @@ async def monitor_bili_run():
     await send_to_groups(*monitor_bili.run())
 
 
-monitor_cc = Monitor('cc')
-monitor_cc.load()
-[monitor_cc.add(cid, name, [GROUP_TST, GROUP_BTR]) for cid, name in channel_list_cc]
-monitor_cc.save()
-
-
 @nonebot.scheduler.scheduled_job('interval', seconds=300)
 async def monitor_cc_run():
     await send_to_groups(*monitor_cc.run())
 
 
-monitor_you = Monitor('you')
-monitor_you.load()
-[monitor_you.add(cid, name, [GROUP_TST, GROUP_BTR]) for cid, name in channel_list_you]
-monitor_you.save()
-
-
 @nonebot.scheduler.scheduled_job('interval', seconds=17)
 async def monitor_you_run():
     await send_to_groups(*monitor_you.run())
-
-
-monitors = {'bili': monitor_bili,
-            'cc': monitor_cc,
-            'you': monitor_you}
 
 
 @nonebot.on_command('monitor', only_to_me=False)
@@ -85,7 +77,7 @@ async def _(session: CommandSession):
                 for ch in monitor.channel_list:
                     if group in ch.sendto:
                         if len(argv) == 1:
-                            msg += f'{ch.name}\n'
+                            msg += f'{ch.name}:{ch.live_status}\n'
                         elif len(argv) >= 2 and argv[1] == 'on' and ch.live_status == '1':
                             msg += f'{ch.name}\n'
                         elif argv[1] == 'all':
