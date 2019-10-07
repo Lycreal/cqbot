@@ -30,11 +30,15 @@ class Monitor:
         group: str
         for channel in self.channel_list:
             if channel.cid == cid:
+                if name:
+                    channel.name = name
                 if group not in channel.sendto:
                     channel.sendto.append(group)
                     return 2  # 添加新sendto
+                elif name:
+                    return 3  # 名称已修改
                 else:
-                    return 0  # 已经存在
+                    return 0  # 已存在
                 # break
         else:
             ch = self.init_channel(cid, name)
