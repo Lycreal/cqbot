@@ -1,4 +1,5 @@
-# from nonebot import on_command, CommandSession
+import nonebot
+from nonebot import on_command, CommandSession
 #
 #
 # def load_list():
@@ -69,3 +70,16 @@
 # async def _(session: CommandSession):
 #     stripped_arg = session.current_arg_text.strip()
 #     session.state['alter_add_group'] = stripped_arg
+
+
+# @nonebot.on_command('monitor_bili_status', only_to_me=False)
+# async def monitor_bili_status(session: nonebot.CommandSession):
+#     await session.send(str(monitor_bili).strip())
+#
+# @nonebot.on_command('monitor_cc_status', only_to_me=False)
+# async def monitor_cc_status(session: nonebot.CommandSession):
+#     await session.send(str(monitor).strip())
+#
+# @nonebot.on_command('monitor_you_status', only_to_me=False)
+# async def monitor_you_status(session: nonebot.CommandSession):
+#     await session.send(str(monitor_you).strip())

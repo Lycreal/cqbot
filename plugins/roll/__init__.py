@@ -8,9 +8,10 @@ roll $number
 返回不大于$number的正整数，默认值为6
 '''
 
+
 # on_command 装饰器将函数声明为一个命令处理器
 # 这里 weather 为命令的名字，同时允许使用别名「天气」「天气预报」「查天气」
-@on_command('roll', aliases=('rd','Roll'), only_to_me=False)
+@on_command('roll', aliases=('rd', 'Roll'), only_to_me=False)
 async def weather(session: CommandSession):
     # 从会话状态（session.state）中获取数字上限（num_str），如果当前不存在，则询问用户
     num_str = session.get('roll')
@@ -39,7 +40,7 @@ async def get_result_of_roll(num_str: str) -> str:
     try:
         num = int(num_str)
         assert num > 0
-    except Exception as e:
+    except AssertionError as e:
         return '请输入正整数'
     result = random.randint(1, num)
     return str(result)

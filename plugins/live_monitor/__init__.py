@@ -3,7 +3,7 @@ from plugins.live_monitor.youtube import YoutubeChannel
 from plugins.live_monitor.bili import BiliChannel
 from plugins.live_monitor.cc import NetEaseChannel
 import json
-from typing import List
+from typing import List, Union, Tuple
 
 
 class Monitor:
@@ -22,10 +22,25 @@ class Monitor:
         elif self.channel_type == 'cc':
             return NetEaseChannel(cid, name)
 
-    def add(self, cid: str, name: str):
-        ch = self.init_channel(cid, name)
-        if ch.cid not in [ch.cid for ch in self.channel_list]:
+    def add(self, cid: str, name: str, group: Union[str, List[str]]):
+        if type(group) == list:
+            ret = [self.add(cid, name, group_) for group_ in group]
+            return 0 not in ret
+
+        group: str
+        for channel in self.channel_list:
+            if channel.cid == cid:
+                if group not in channel.sendto:
+                    channel.sendto.append(group)
+                    return 2  # 添加新sendto
+                else:
+                    return 0  # 已经存在
+                # break
+        else:
+            ch = self.init_channel(cid, name)
+            ch.sendto = [group]
             self.channel_list.append(ch)
+            return 1  # 添加新频道
 
     def remove(self, cid: str):
         for ch in self.channel_list:
@@ -36,12 +51,12 @@ class Monitor:
         try:
             with open(self.channel_type + '.json', 'r') as f:
                 channel_json = json.load(f)
-            [self.add(ch_j['cid'], ch_j['name']) for ch_j in channel_json]
+            [self.add(ch_j['cid'], ch_j['name'], ch_j['groups']) for ch_j in channel_json]
         except FileNotFoundError:
             pass
 
     def save(self):
-        channel_json = [{'cid': ch.cid, 'name': ch.name} for ch in self.channel_list]
+        channel_json = [{'cid': ch.cid, 'name': ch.name, 'groups': ch.sendto} for ch in self.channel_list]
         with open(self.channel_type + '.json', 'w') as f:
             json.dump(channel_json, f, indent=2, ensure_ascii=False)
 
@@ -52,12 +67,12 @@ class Monitor:
         else:
             return None
 
-    def run(self) -> str:
+    def run(self) -> Tuple[List, str]:
         channel: BaseChannel = self.next()
-        if channel and (channel.update() or self.DEBUG):
-            return channel.notify()
+        if channel and channel.sendto and (channel.update() or self.DEBUG):
+            return channel.sendto, channel.notify()
         else:
-            return ''
+            return channel.sendto, ''
 
     def __str__(self):
         msg = ''

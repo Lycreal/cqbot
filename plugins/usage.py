@@ -20,8 +20,7 @@ async def _(session: CommandSession):
             and not session.ctx.get('discuss_id'):
         plugins = [p for p in nonebot.get_loaded_plugins() if p.name]
     else:
-        plugins = [p for p in nonebot.get_loaded_plugins() if p.name \
-                   and not p.name.endswith('private)')]
+        plugins = [p for p in nonebot.get_loaded_plugins() if p.name and not p.name.endswith('private)')]
 
     arg = session.current_arg_text.strip().lower()
     if not arg:
