@@ -75,7 +75,7 @@ async def _(session: CommandSession):
         elif cmd == 'del':
             channel_type = argv[1]
             channel_id = argv[2]
-            monitors[channel_type].remove(channel_id)
+            monitors[channel_type].remove(channel_id, session.ctx['group_id'])
 
         elif cmd == 'list':
             final_msg = ''

@@ -46,10 +46,16 @@ class Monitor:
             self.channel_list.append(ch)
             return 1  # 添加新频道
 
-    def remove(self, cid: str):
+    def remove(self, cid: str, group: str):
+        ret = 0
         for ch in self.channel_list:
             if ch.cid == cid:
-                self.channel_list.remove(ch)
+                if group in ch.sendto:
+                    ch.sendto.remove(group)
+                    ret = 1
+                    if not ch.sendto:
+                        self.channel_list.remove(ch)
+        return ret
 
     def load(self):
         try:
