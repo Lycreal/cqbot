@@ -106,7 +106,7 @@ async def _(session: CommandSession):
         else:
             raise AssertionError
 
-    except AssertionError or IndexError:
+    except (AssertionError, IndexError):
         msg = '''monitor [command]
 command list: help, add, del, list, list on, list all'''
         await session.send(msg)
