@@ -52,8 +52,8 @@ monitors = {'bili': monitor_bili,
 
 @nonebot.on_command('monitor', only_to_me=False)
 async def _(session: CommandSession):
-    cmd = session.argv[1]
     try:
+        cmd = session.argv[1]
         if cmd == 'add':
             assert len(session.argv) in [4, 5]
             channel_type = session.argv[2]
@@ -103,7 +103,7 @@ async def _(session: CommandSession):
         else:
             raise AssertionError
 
-    except AssertionError or ValueError:
+    except AssertionError or IndexError:
         msg = '''monitor [command]
 command list: help, add, del, list, list on, list all'''
         await session.send(msg)
