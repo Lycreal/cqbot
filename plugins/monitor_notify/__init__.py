@@ -90,10 +90,8 @@ async def _(session: CommandSession):
                             msg += f'{ch.name}\n'
                         elif argv[1] == 'all':
                             msg += f'{ch.cid}:{ch.name}\n'
-                        else:
-                            await session.send(str(argv))
                 if msg:
-                    final_msg += f'{monitor.channel_type}\n'
+                    final_msg += f'[{monitor.channel_type}]\n'
                     final_msg += msg
             await session.send(final_msg)
 
