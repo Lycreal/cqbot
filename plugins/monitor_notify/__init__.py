@@ -55,6 +55,7 @@ monitors = {'bili': monitor_bili,
 async def _(session: CommandSession):
     arg = session.current_arg_text
     argv = arg.split()
+    group = str(session.ctx['group_id'])
     try:
         cmd = argv[0]
         if cmd == 'add':
@@ -65,7 +66,7 @@ async def _(session: CommandSession):
                 channel_name = argv[3]
             else:
                 channel_name = ''
-            ret = monitors[channel_type].add(channel_id, channel_name, session.ctx['group_id'])
+            ret = monitors[channel_type].add(channel_id, channel_name, group)
             monitors[channel_type].save()
             if ret == 0:
                 await session.send(f'已存在：{channel_id} {channel_name}')
@@ -75,23 +76,22 @@ async def _(session: CommandSession):
         elif cmd == 'del':
             channel_type = argv[1]
             channel_id = argv[2]
-            monitors[channel_type].remove(channel_id, session.ctx['group_id'])
+            monitors[channel_type].remove(channel_id, group)
 
         elif cmd == 'list':
             final_msg = ''
             for monitor in monitors.values():
                 msg = ''
                 for ch in monitor.channel_list:
-                    if session.ctx['group_id'] in ch.sendto:
-                        msg += f'{ch.cid}:{ch.name}\n'
-                        # if len(argv) == 1:
-                        #     msg += f'{ch.name}\n'
-                        # elif len(argv) >= 2 and argv[1] == 'on' and ch.live_status == '1':
-                        #     msg += f'{ch.name}\n'
-                        # elif argv[1] == 'all':
-                        #     msg += f'{ch.cid}:{ch.name}\n'
-                        # else:
-                        #     await session.send(str(argv))
+                    if group in ch.sendto:
+                        if len(argv) == 1:
+                            msg += f'{ch.name}\n'
+                        elif len(argv) >= 2 and argv[1] == 'on' and ch.live_status == '1':
+                            msg += f'{ch.name}\n'
+                        elif argv[1] == 'all':
+                            msg += f'{ch.cid}:{ch.name}\n'
+                        else:
+                            await session.send(str(argv))
                 if msg:
                     final_msg += f'{monitor.channel_type}\n'
                     final_msg += msg
