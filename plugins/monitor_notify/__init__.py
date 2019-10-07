@@ -56,13 +56,13 @@ async def _(session: CommandSession):
     arg = session.current_arg_text
     argv = arg.split()
     try:
-        cmd = argv[1]
+        cmd = argv[0]
         if cmd == 'add':
-            assert len(argv) in [4, 5]
-            channel_type = argv[2]
-            channel_id = argv[3]
-            if len(argv) == 5:
-                channel_name = argv[4]
+            assert len(argv) in [3, 4]
+            channel_type = argv[1]
+            channel_id = argv[2]
+            if len(argv) == 4:
+                channel_name = argv[3]
             else:
                 channel_name = ''
             ret = monitors[channel_type].add(channel_id, channel_name, session.ctx['group_id'])
@@ -73,8 +73,8 @@ async def _(session: CommandSession):
                 await session.send(f'已添加：{channel_id} {channel_name}')
 
         elif cmd == 'del':
-            channel_type = argv[2]
-            channel_id = argv[3]
+            channel_type = argv[1]
+            channel_id = argv[2]
             monitors[channel_type].remove(channel_id)
 
         elif cmd == 'list':
@@ -83,22 +83,26 @@ async def _(session: CommandSession):
                 msg = ''
                 for ch in monitor.channel_list:
                     if session.ctx['group_id'] in ch.sendto:
-                        if len(argv) == 2:
+                        if len(argv) == 1:
                             msg += f'{ch.name}\n'
-                        elif len(argv) >= 3 and argv[2] == 'on' and ch.live_status == '1':
+                        elif len(argv) >= 2 and argv[1] == 'on' and ch.live_status == '1':
                             msg += f'{ch.name}\n'
-                        elif argv[2] == 'all':
+                        elif argv[1] == 'all':
                             msg += f'{ch.cid}:{ch.name}\n'
+                        else:
+                            await session.send(str(argv))
                 if msg:
                     final_msg += f'{monitor.channel_type}\n'
                     final_msg += msg
             await session.send(final_msg)
+
         elif cmd == 'help':
-            if argv[2] == 'add':
+            sub = argv[1]
+            if sub == 'add':
                 await session.send('monitor add [type] [cid] [name]')
-            elif argv[2] == 'del':
+            elif sub == 'del':
                 await session.send('monitor add [type] [cid]')
-            elif argv[2] == 'list':
+            elif sub == 'list':
                 msg = 'monitor list\n'
                 msg += 'monitor list on\n'
                 msg += 'monitor list all'
