@@ -3,7 +3,8 @@ from nonebot import CommandSession
 from plugins.live_monitor import Monitor
 from config_private import GROUP_TST, GROUP_BTR, GROUP_KR
 from .utils import send_to_groups, channel_list_bili, channel_list_cc, channel_list_you
-import re
+
+# import re
 
 __plugin_name__ = '直播监控'
 __plugin_usage__ = r'''feature: 直播监控
@@ -52,14 +53,16 @@ monitors = {'bili': monitor_bili,
 
 @nonebot.on_command('monitor', only_to_me=False)
 async def _(session: CommandSession):
+    arg = session.current_arg_text
+    argv = arg.split()
     try:
-        cmd = session.argv[1]
+        cmd = argv[1]
         if cmd == 'add':
-            assert len(session.argv) in [4, 5]
-            channel_type = session.argv[2]
-            channel_id = session.argv[3]
-            if len(session.argv) == 5:
-                channel_name = session.argv[4]
+            assert len(argv) in [4, 5]
+            channel_type = argv[2]
+            channel_id = argv[3]
+            if len(argv) == 5:
+                channel_name = argv[4]
             else:
                 channel_name = ''
             ret = monitors[channel_type].add(channel_id, channel_name, session.ctx['group_id'])
@@ -70,8 +73,8 @@ async def _(session: CommandSession):
                 await session.send(f'已添加：{channel_id} {channel_name}')
 
         elif cmd == 'del':
-            channel_type = session.argv[2]
-            channel_id = session.argv[3]
+            channel_type = argv[2]
+            channel_id = argv[3]
             monitors[channel_type].remove(channel_id)
 
         elif cmd == 'list':
@@ -80,22 +83,22 @@ async def _(session: CommandSession):
                 msg = ''
                 for ch in monitor.channel_list:
                     if session.ctx['group_id'] in ch.sendto:
-                        if len(session.argv) == 2:
+                        if len(argv) == 2:
                             msg += f'{ch.name}\n'
-                        elif len(session.argv) >= 3 and session.argv[2] == 'on' and ch.live_status == '1':
+                        elif len(argv) >= 3 and argv[2] == 'on' and ch.live_status == '1':
                             msg += f'{ch.name}\n'
-                        elif session.argv[2] == 'all':
+                        elif argv[2] == 'all':
                             msg += f'{ch.cid}:{ch.name}\n'
                 if msg:
                     final_msg += f'{monitor.channel_type}\n'
                     final_msg += msg
             await session.send(final_msg)
         elif cmd == 'help':
-            if session.argv[2] == 'add':
+            if argv[2] == 'add':
                 await session.send('monitor add [type] [cid] [name]')
-            elif session.argv[2] == 'del':
+            elif argv[2] == 'del':
                 await session.send('monitor add [type] [cid]')
-            elif session.argv[2] == 'list':
+            elif argv[2] == 'list':
                 msg = 'monitor list\n'
                 msg += 'monitor list on\n'
                 msg += 'monitor list all'
