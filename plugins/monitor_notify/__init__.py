@@ -83,14 +83,15 @@ async def _(session: CommandSession):
                 msg = ''
                 for ch in monitor.channel_list:
                     if session.ctx['group_id'] in ch.sendto:
-                        if len(argv) == 1:
-                            msg += f'{ch.name}\n'
-                        elif len(argv) >= 2 and argv[1] == 'on' and ch.live_status == '1':
-                            msg += f'{ch.name}\n'
-                        elif argv[1] == 'all':
-                            msg += f'{ch.cid}:{ch.name}\n'
-                        else:
-                            await session.send(str(argv))
+                        msg += f'{ch.cid}:{ch.name}\n'
+                        # if len(argv) == 1:
+                        #     msg += f'{ch.name}\n'
+                        # elif len(argv) >= 2 and argv[1] == 'on' and ch.live_status == '1':
+                        #     msg += f'{ch.name}\n'
+                        # elif argv[1] == 'all':
+                        #     msg += f'{ch.cid}:{ch.name}\n'
+                        # else:
+                        #     await session.send(str(argv))
                 if msg:
                     final_msg += f'{monitor.channel_type}\n'
                     final_msg += msg
