@@ -61,8 +61,10 @@ async def _(session: CommandSession):
             monitors[channel_type].save()
             if ret == 0:
                 await session.send(f'已存在：{channel_id} {channel_name}')
+            elif ret == 3:
+                await session.send(f'名称已修改：{channel_id} {channel_name}')
             else:
-                await session.send(f'已添加：{channel_id} {channel_name}')
+                await session.send(f'已添加：{channel_id} {ret.name if ret.name else ret.ch_name}')
 
         elif cmd == 'del':
             channel_type = argv[1]

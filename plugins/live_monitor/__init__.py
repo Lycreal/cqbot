@@ -30,7 +30,7 @@ class Monitor:
     def add(self, cid: str, name: str, group: Union[str, List[str]]):
         if type(group) == list:
             ret = [self.add(cid, name, group_) for group_ in group]
-            return 0 not in ret
+            return ret
 
         group: str
         for channel in self.channel_list:
@@ -39,7 +39,7 @@ class Monitor:
                     channel.name = name
                 if group not in channel.sendto:
                     channel.sendto.append(group)
-                    return 2  # 添加新sendto
+                    return channel  # 添加新sendto
                 elif name:
                     return 3  # 名称已修改
                 else:
@@ -49,7 +49,7 @@ class Monitor:
             ch = self.init_channel(cid, name)
             ch.sendto = [group]
             self.channel_list.append(ch)
-            return 1  # 添加新频道
+            return ch  # 添加新频道
 
     def remove(self, cid: str, group: str):
         ret = 0
