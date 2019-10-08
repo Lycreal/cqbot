@@ -1,11 +1,14 @@
 from plugins.live_monitor.general import BaseChannel
 import json
+import requests
 
 
 class BiliChannel(BaseChannel):
     def __init__(self, cid: str, name: str):
         super(BiliChannel, self).__init__(cid, name)
-        self.live_time = ''
+        self.live_time: str = ''
+        if not name:
+            self.ch_name: str = self.get_bili_name(cid)
 
     def get_url(self):
         self.live_url = f'https://live.bilibili.com/{self.cid}'
@@ -23,3 +26,12 @@ class BiliChannel(BaseChannel):
         else:
             msg = f'{self.name}未开播'
         return msg
+
+    @staticmethod
+    def get_bili_name(cid: str):
+        j = json.loads(requests.get(f'https://api.live.bilibili.com/room/v1/Room/get_info?id={cid}').text)
+        assert j['code'] == 0
+        uid: int = j['data']['uid']
+        j2 = json.loads(requests.get(f'https://api.kaaass.net/biliapi/user/space?id={uid}').text)
+        name = j2['data']['card']['name']
+        return name

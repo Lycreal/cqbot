@@ -8,9 +8,9 @@ from .utils import send_to_groups, channel_list_bili, channel_list_cc, channel_l
 
 __plugin_name__ = '直播监控'
 __plugin_usage__ = r'''feature: 直播监控
-关键词：monitor
-例：monitor command
-command list: help, add, del, list, list on, list all
+关键词：monitor [command]
+command list: help, add, del, list
+例：monitor help
 '''
 monitors = {'bili': Monitor('bili'),
             'you': Monitor('you'),
@@ -84,12 +84,13 @@ async def _(session: CommandSession):
                 msg = ''
                 for ch in monitor.channel_list:
                     if group in ch.sendto:
+                        name = ch.name if ch.name else ch.ch_name
                         if sub == '':
-                            msg += f'{ch.name}:{ch.live_status}\n'
+                            msg += f'{name}:{ch.live_status}\n'
                         elif sub == 'on' and ch.live_status == '1':
-                            msg += f'{ch.name}\n'
+                            msg += f'{name}\n'
                         elif sub == 'all':
-                            msg += f'{ch.cid}:{ch.name}\n'
+                            msg += f'{ch.cid}:{name}\n'
                         else:
                             raise AssertionError
                 if msg:
@@ -116,6 +117,7 @@ async def help_(session: CommandSession, *argv):
         msg += '[type]:频道类型,备选值:bili,you,cc\n'
         msg += '[cid]:频道id,对于bilibili指直播间号\n'
         msg += '[name]:频道名\n'
+        msg += '频道名若不填写，将自动获取'
     elif argv[0] == 'del':
         msg += 'monitor del [type] [cid]\n'
         msg += '[type]:频道类型\n'

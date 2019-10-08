@@ -3,6 +3,7 @@ from plugins.live_monitor.youtube import YoutubeChannel
 from plugins.live_monitor.bili import BiliChannel
 from plugins.live_monitor.cc import NetEaseChannel
 import json
+import requests
 from typing import List, Union, Tuple
 
 
@@ -16,10 +17,14 @@ class Monitor:
 
     def init_channel(self, cid: str, name: str):
         if self.channel_type == 'bili':
+            assert cid.isdecimal()
             return BiliChannel(cid, name)
         elif self.channel_type == 'you':
+            assert len(cid) == 24
+            assert cid.startswith('UC')
             return YoutubeChannel(cid, name)
         elif self.channel_type == 'cc':
+            assert cid.isdecimal()
             return NetEaseChannel(cid, name)
 
     def add(self, cid: str, name: str, group: Union[str, List[str]]):
