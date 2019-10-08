@@ -13,17 +13,17 @@ class BaseChannel:
         self.live_url: str = ''
         self.live_status: str = '1'
         self.title: str = ''
-        self.ch_name: str = ''
-        self.cid = cid
-        self.name = name
+        self.ch_name: str = ''  # 频道名，自动获取
+        self.cid: str = cid
+        self.name: str = name  # 频道名，手动录入
         self.get_url()
         self.last_check: datetime = datetime.now(timezone(timedelta(hours=8))) - self.TIME_PRE
 
         self.sendto: List[str] = []
 
     def get_url(self):
-        self.api_url = ''
-        self.live_url = ''
+        self.api_url: str = ''
+        self.live_url: str = ''
 
     def update(self) -> bool:
         if self.live_status != '1':
@@ -48,7 +48,7 @@ class BaseChannel:
 
     def notify(self) -> str:
         if self.live_status == '1':
-            msg = f'{self.name}:{self.title} {self.live_url}'
+            msg = f'{self.name if self.name else self.ch_name}:{self.title} {self.live_url}'
         else:
             msg = f'{self.name}未开播'
         return msg
