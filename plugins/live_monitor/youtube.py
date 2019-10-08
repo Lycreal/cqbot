@@ -11,11 +11,11 @@ class YoutubeChannel(BaseChannel):
 
     def resolve(self, html_s):
         html: etree._Element = etree.HTML(html_s)
-        script = html.xpath('body/script[contains(text(),"RELATED_PLAYER_ARGS")]/text()')
-        if not script:
+        script_ = html.xpath('body/script[contains(text(),"RELATED_PLAYER_ARGS")]/text()')
+        if not script_:
             with open('debug.html', 'w', encoding='utf8') as f:
                 f.write(html.text)
-        script = script[0]
+        script = script_[0]
         json_s = re.search(r'\'RELATED_PLAYER_ARGS\':(.*),', script).group(1)
         RELATED_PLAYER_ARGS = json.loads(json_s)
 
