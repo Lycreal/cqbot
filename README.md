@@ -6,6 +6,6 @@
 
 - https://github.com/cleoold/sendo-erika
 
-### LICENSE
+## License
 
-MIT License
+[MIT LICENSE](LICENSE)
