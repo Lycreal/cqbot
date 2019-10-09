@@ -10,7 +10,7 @@ class YoutubeChannel(BaseChannel):
         self.live_url = self.api_url
 
     def resolve(self, html_s):
-        html: etree._Element = etree.HTML(html_s)
+        html: etree.Element = etree.HTML(html_s)
         script_ = html.xpath('body/script[contains(text(),"RELATED_PLAYER_ARGS")]/text()')
         if not script_:
             with open('debug.html', 'w', encoding='utf8') as f:
