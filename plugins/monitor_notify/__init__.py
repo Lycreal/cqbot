@@ -74,13 +74,13 @@ async def add_(session: CommandSession, *argv: str):
     elif argv[1].find('http') != '-1':
         url = argv[1]
         channel_name = argv[2] if len(argv) >= 3 else ''
-        if url.find('bilibili') != '-1':
+        if url.find('bilibili') != -1:
             channel_type = 'bili'
             channel_id = url.split('/')[-1].split('?')[0]
-        elif url.find('youtube.com') != '-1':
+        elif url.find('youtube.com') != -1:
             channel_type = 'you'
             channel_id = re.search(r'(UC[\w-]{22})', url)[0]
-        elif url.find('cc.163.com') != '-1':
+        elif url.find('cc.163.com') != -1:
             channel_type = 'cc'
             channel_id = url.split('/')[-1]
         else:
