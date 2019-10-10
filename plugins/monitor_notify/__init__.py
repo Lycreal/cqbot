@@ -1,10 +1,8 @@
 import nonebot
 from nonebot import CommandSession
 from plugins.live_monitor import Monitor
-from config_private import GROUP_TST, GROUP_BTR, GROUP_KR
-from .utils import send_to_groups, channel_list_bili, channel_list_cc, channel_list_you
-
-# import re
+# from config_private import GROUP_TST, GROUP_BTR, GROUP_KR
+from .utils import send_to_groups
 
 __plugin_name__ = '直播监控'
 __plugin_usage__ = r'''feature: 直播监控
@@ -16,31 +14,31 @@ monitors = {'bili': Monitor('bili'),
             'you': Monitor('you'),
             'cc': Monitor('cc')}
 
-monitor_bili = monitors['bili']
-monitor_you = monitors['you']
-monitor_cc = monitors['cc']
-
-monitor_bili.load()
 [monitor.load() for monitor in monitors.values()]
-[monitor_bili.add(cid, name, [GROUP_TST, GROUP_BTR, GROUP_KR]) for cid, name in channel_list_bili]
-[monitor_you.add(cid, name, [GROUP_TST, GROUP_BTR]) for cid, name in channel_list_you]
-[monitor_cc.add(cid, name, [GROUP_TST, GROUP_BTR]) for cid, name in channel_list_cc]
-[monitor.save() for monitor in monitors.values()]
+
+
+# [monitor_bili.add(cid, name, [GROUP_TST, GROUP_BTR, GROUP_KR]) for cid, name in channel_list_bili]
+# [monitor_you.add(cid, name, [GROUP_TST, GROUP_BTR]) for cid, name in channel_list_you]
+# [monitor_cc.add(cid, name, [GROUP_TST, GROUP_BTR]) for cid, name in channel_list_cc]
+# [monitor.save() for monitor in monitors.values()]
 
 
 @nonebot.scheduler.scheduled_job('interval', seconds=3)
 async def monitor_bili_run():
-    await send_to_groups(*monitor_bili.run())
-
-
-@nonebot.scheduler.scheduled_job('interval', seconds=300)
-async def monitor_cc_run():
-    await send_to_groups(*monitor_cc.run())
+    monitor = monitors['bili']
+    await send_to_groups(*monitor.run())
 
 
 @nonebot.scheduler.scheduled_job('interval', seconds=17)
 async def monitor_you_run():
-    await send_to_groups(*monitor_you.run())
+    monitor = monitors['you']
+    await send_to_groups(*monitor.run())
+
+
+@nonebot.scheduler.scheduled_job('interval', seconds=300)
+async def monitor_cc_run():
+    monitor = monitors['cc']
+    await send_to_groups(*monitor.run())
 
 
 @nonebot.on_command('monitor', only_to_me=False)
@@ -98,7 +96,7 @@ async def _(session: CommandSession):
                 if msg:
                     final_msg += f'[{monitor.channel_type}]\n'
                     final_msg += msg
-            await session.send(final_msg)
+            await session.send(final_msg.strip())
 
         elif cmd == 'help':
             argv.pop(0)

@@ -1,6 +1,6 @@
 from nonebot import NoticeSession, RequestSession, on_notice, on_request
 
-from utils_bot.msg_ops import SUPERUSERS, send_to_superusers
+from utils_bot.msg_ops import send_to_superusers
 
 __plugin_usage__ = r'''feature: 处理群邀请
 '''

@@ -40,7 +40,7 @@ async def get_result_of_roll(num_str: str) -> str:
     try:
         num = int(num_str)
         assert num > 0
-    except AssertionError as e:
+    except AssertionError:
         return '请输入正整数'
     result = random.randint(1, num)
     return str(result)
