@@ -79,7 +79,7 @@ async def add_(session: CommandSession, *argv: str):
             channel_id = url.split('/')[-1].split('?')[0]
         elif url.find('youtube.com') != '-1':
             channel_type = 'you'
-            channel_id = re.match(r'(UC[^/]{22})', url)[0]
+            channel_id = re.search(r'(UC[^/]{22})', url)[0]
         elif url.find('cc.163.com') != '-1':
             channel_type = 'cc'
             channel_id = url.split('/')[-1]
