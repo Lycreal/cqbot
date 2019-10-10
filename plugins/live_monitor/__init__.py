@@ -25,7 +25,8 @@ class Monitor:
             assert cid.isdecimal(), f'解析失败:{cid}'
             return BiliChannel(cid, name)
         elif self.channel_type == 'you':
-            assert len(cid) == 24 and cid.startswith('UC'), f'解析失败:{cid}'
+            assert len(cid) == 24, f'解析失败:{cid, len(cid)}'
+            assert cid.startswith('UC'), f'解析失败:{cid, repr(cid)}'
             return YoutubeChannel(cid, name)
         elif self.channel_type == 'cc':
             assert cid.isdecimal(), f'解析失败:{cid}'
