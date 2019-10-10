@@ -75,7 +75,10 @@ class Monitor:
             self.save()
 
     def save(self):
-        channel_json = [{'cid': ch.cid, 'name': ch.name, 'groups': ch.sendto} for ch in self.channel_list]
+        channel_json = [{'cid': ch.cid,
+                         'name': ch.name if ch.name else ch.ch_name,
+                         'groups': ch.sendto}
+                        for ch in self.channel_list]
         with self.save_file.open('w', encoding='utf8') as f:
             json.dump(channel_json, f, indent=2, ensure_ascii=False)
 
