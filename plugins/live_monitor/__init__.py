@@ -10,7 +10,11 @@ from typing import List, Union, Tuple
 class Monitor:
     def __init__(self, channel_type: str, debug=False):
         assert channel_type in ['bili', 'you', 'cc']
+
+        if not pathlib.Path('data').exists():
+            pathlib.Path('data').mkdir()
         self.save_file = pathlib.Path('data').joinpath(f'{self.channel_type}.json')
+
         self.channel_list: List[BaseChannel] = []
         self.pos = -1
         self.channel_type = channel_type
