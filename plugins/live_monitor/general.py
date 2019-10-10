@@ -50,7 +50,7 @@ class BaseChannel:
         if self.live_status == '1':
             msg = f'{self.name if self.name else self.ch_name}:{self.title} {self.live_url}'
         else:
-            msg = f'{self.name}未开播'
+            msg = f'{self.name if self.name else self.ch_name}未开播'
         return msg
 
     def __str__(self):
