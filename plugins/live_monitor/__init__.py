@@ -3,13 +3,14 @@ from plugins.live_monitor.youtube import YoutubeChannel
 from plugins.live_monitor.bili import BiliChannel
 from plugins.live_monitor.cc import NetEaseChannel
 import json
-import requests
+import pathlib
 from typing import List, Union, Tuple
 
 
 class Monitor:
     def __init__(self, channel_type: str, debug=False):
         assert channel_type in ['bili', 'you', 'cc']
+        self.save_file = pathlib.Path('data').joinpath(f'{self.channel_type}.json')
         self.channel_list: List[BaseChannel] = []
         self.pos = -1
         self.channel_type = channel_type
@@ -63,16 +64,16 @@ class Monitor:
         return ret
 
     def load(self):
-        try:
-            with open(self.channel_type + '.json', 'r') as f:
+        if self.save_file.exists():
+            with self.save_file.open('r', encoding='utf8') as f:
                 channel_json = json.load(f)
             [self.add(ch_j['cid'], ch_j['name'], ch_j['groups']) for ch_j in channel_json]
-        except FileNotFoundError:
-            pass
+        else:
+            self.save()
 
     def save(self):
         channel_json = [{'cid': ch.cid, 'name': ch.name, 'groups': ch.sendto} for ch in self.channel_list]
-        with open(self.channel_type + '.json', 'w') as f:
+        with self.save_file.open('w', encoding='utf8') as f:
             json.dump(channel_json, f, indent=2, ensure_ascii=False)
 
     def next(self):
