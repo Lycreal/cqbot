@@ -10,14 +10,15 @@ class YoutubeChannel(BaseChannel):
         self.live_url = self.api_url
 
     def resolve(self, html_s):
-        html: etree.Element = etree.HTML(html_s)
-        script_ = html.xpath('body/script[contains(text(),"RELATED_PLAYER_ARGS")]/text()')
-        if not script_:
+        # html: etree.Element = etree.HTML(html_s)
+        # script_ = html.xpath('body/script[contains(text(),"RELATED_PLAYER_ARGS")]/text()')
+        try:
+            json_s = re.search(r'\'RELATED_PLAYER_ARGS\':(.*),', html_s).group(1)
+            RELATED_PLAYER_ARGS = json.loads(json_s)
+        except:
             with open('debug.html', 'w', encoding='utf8') as f:
-                f.write(html.text)
-        script = script_[0]
-        json_s = re.search(r'\'RELATED_PLAYER_ARGS\':(.*),', script).group(1)
-        RELATED_PLAYER_ARGS = json.loads(json_s)
+                f.write(str(html_s))
+            raise
 
         json_s = RELATED_PLAYER_ARGS['watch_next_response']
         watch_next_response = json.loads(json_s)
