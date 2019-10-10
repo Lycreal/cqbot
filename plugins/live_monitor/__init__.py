@@ -22,14 +22,14 @@ class Monitor:
 
     def init_channel(self, cid: str, name: str):
         if self.channel_type == 'bili':
-            assert cid.isdecimal()
+            assert cid.isdecimal(), '解析失败'
             return BiliChannel(cid, name)
         elif self.channel_type == 'you':
-            assert len(cid) == 24
-            assert cid.startswith('UC')
+            assert len(cid) == 24, '解析失败'
+            assert cid.startswith('UC'), '解析失败'
             return YoutubeChannel(cid, name)
         elif self.channel_type == 'cc':
-            assert cid.isdecimal()
+            assert cid.isdecimal(), '解析失败'
             return NetEaseChannel(cid, name)
 
     def add(self, cid: str, name: str, group: Union[str, List[str]]):
