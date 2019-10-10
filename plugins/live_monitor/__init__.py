@@ -10,6 +10,7 @@ from typing import List, Union, Tuple
 class Monitor:
     def __init__(self, channel_type: str, debug=False):
         assert channel_type in ['bili', 'you', 'cc']
+        self.channel_type = channel_type
 
         if not pathlib.Path('data').exists():
             pathlib.Path('data').mkdir()
@@ -17,7 +18,6 @@ class Monitor:
 
         self.channel_list: List[BaseChannel] = []
         self.pos = -1
-        self.channel_type = channel_type
         self.DEBUG = debug
 
     def init_channel(self, cid: str, name: str):

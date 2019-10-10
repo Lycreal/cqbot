@@ -12,11 +12,8 @@ record_image = {}
 record_fox = {}
 record_fox_emoji = {}
 
-
-@bot.on_message('group')
-async def _(ctx: Context_T):
-    if ctx['group_id'] == GROUP_BTR and ctx['sender']['role'] == 'owner':
-        if ctx
-
-        msg = ctx['raw_message']
-        await records.simple_repeat(groupId, msg)
+# @bot.on_message('group')
+# async def _(ctx: Context_T):
+#     if ctx['group_id'] == GROUP_BTR and ctx['sender']['role'] == 'owner':
+#         msg = ctx['raw_message']
+#         await
