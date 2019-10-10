@@ -30,7 +30,8 @@ class BiliChannel(BaseChannel):
     @staticmethod
     def get_bili_name(cid: str):
         j = json.loads(requests.get(f'https://api.live.bilibili.com/room/v1/Room/get_info?id={cid}').text)
-        assert j['code'] == 0
+        if j['code'] != 0:
+            return
         uid: int = j['data']['uid']
         j2 = json.loads(requests.get(f'https://api.kaaass.net/biliapi/user/space?id={uid}').text)
         name = j2['data']['card']['name']

@@ -9,7 +9,7 @@ from typing import List, Union, Tuple
 
 class Monitor:
     def __init__(self, channel_type: str, debug=False):
-        assert channel_type in ['bili', 'you', 'cc']
+        assert channel_type in ['bili', 'you', 'cc'], 'Fatal Error: wrong channel_type'
         self.channel_type = channel_type
 
         if not pathlib.Path('data').exists():
@@ -22,14 +22,13 @@ class Monitor:
 
     def init_channel(self, cid: str, name: str):
         if self.channel_type == 'bili':
-            assert cid.isdecimal(), '解析失败'
+            assert cid.isdecimal(), f'解析失败:{cid}'
             return BiliChannel(cid, name)
         elif self.channel_type == 'you':
-            assert len(cid) == 24, '解析失败'
-            assert cid.startswith('UC'), '解析失败'
+            assert len(cid) == 24 and cid.startswith('UC'), f'解析失败:{cid}'
             return YoutubeChannel(cid, name)
         elif self.channel_type == 'cc':
-            assert cid.isdecimal(), '解析失败'
+            assert cid.isdecimal(), f'解析失败:{cid}'
             return NetEaseChannel(cid, name)
 
     def add(self, cid: str, name: str, group: Union[str, List[str]]):
