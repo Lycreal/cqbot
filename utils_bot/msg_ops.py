@@ -10,9 +10,10 @@ async def send_to_superusers(msg: str):
         await bot.send_private_msg(user_id=eachId, message=msg)
 
 
-async def send_to_groups(groups, msg: str):
-    for groupId in groups:
-        await bot.send_group_msg(group_id=groupId, message=str(msg).strip())
+async def send_to_groups(groups: list, msg: str):
+    if msg:
+        for groupId in groups:
+            await bot.send_group_msg(group_id=groupId, message=str(msg).strip())
 
 
 def msg_is_calling_me(msg: str) -> bool:
