@@ -19,6 +19,11 @@ class BiliChannel(BaseChannel):
         self.live_status = str(json_d['data']['live_status'])
         self.title = json_d['data']['title']
         self.live_time = json_d['data']['live_time']
+        if not self.name:
+            try:
+                self.ch_name: str = self.get_bili_name(self.cid)
+            except (requests.exceptions.ConnectionError, KeyError):
+                self.name = self.ch_name
 
     def notify(self) -> str:
         if self.live_status == '1':

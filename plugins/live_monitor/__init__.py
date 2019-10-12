@@ -1,10 +1,12 @@
-from plugins.live_monitor.general import BaseChannel
-from plugins.live_monitor.youtube import YoutubeChannel
-from plugins.live_monitor.bili import BiliChannel
-from plugins.live_monitor.cc import NetEaseChannel
+from .general import BaseChannel
+from .youtube import YoutubeChannel
+from .bili import BiliChannel
+from .cc import NetEaseChannel
 import json
 import pathlib
 from typing import List, Union, Tuple
+
+__all__ = ['Monitor', 'BaseChannel', 'BiliChannel', 'YoutubeChannel', 'NetEaseChannel']
 
 
 class Monitor:
@@ -20,7 +22,7 @@ class Monitor:
         self.pos = -1
         self.DEBUG = debug
 
-    def init_channel(self, cid: str, name: str):
+    def init_channel(self, cid: str, name: str) -> BaseChannel:
         if self.channel_type == 'bili':
             assert cid.isdecimal(), f'格式错误:{self.channel_type} {cid}'
             return BiliChannel(cid, name)
@@ -51,7 +53,7 @@ class Monitor:
                 # break
         else:
             ch = self.init_channel(cid, name)
-            ch.sendto = [group]
+            ch.sendto.append(group)
             self.channel_list.append(ch)
             return ch  # 添加新频道
 
