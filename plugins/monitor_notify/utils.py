@@ -1,14 +1,3 @@
-import nonebot
-
-bot = nonebot.get_bot()
-
-
-async def send_to_groups(groups: list, msg: str):
-    if msg:
-        for groupId in groups:
-            await bot.send_group_msg(group_id=groupId, message=msg)
-
-
 channel_list_bili = [
     ('12235923', '神楽めあ'),
     ('21304638', '神楽七奈'),

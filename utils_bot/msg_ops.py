@@ -1,5 +1,4 @@
 from nonebot import get_bot
-from config_bot import GROUPS
 
 bot = get_bot()
 SUPERUSERS = bot.config.SUPERUSERS
@@ -11,9 +10,9 @@ async def send_to_superusers(msg: str):
         await bot.send_private_msg(user_id=eachId, message=msg)
 
 
-async def send_to_groups(msg: str):
-    for groupId in GROUPS:
-        await bot.send_group_msg(group_id=groupId, message=msg)
+async def send_to_groups(groups, msg: str):
+    for groupId in groups:
+        await bot.send_group_msg(group_id=groupId, message=str(msg).strip())
 
 
 def msg_is_calling_me(msg: str) -> bool:

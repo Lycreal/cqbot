@@ -1,7 +1,7 @@
 import nonebot
 from nonebot import CommandSession
 from plugins.live_monitor import Monitor
-from .utils import send_to_groups
+from utils_bot.msg_ops import send_to_groups
 import re
 
 __plugin_name__ = '直播监控'

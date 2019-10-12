@@ -1,6 +1,5 @@
 from nonebot import on_command, CommandSession, get_bot
 from nonebot.permission import Context_T
-from config_private import GROUP_BTR
 
 __plugin_name__ = ''
 __plugin_usage__ = r'''战言统计
