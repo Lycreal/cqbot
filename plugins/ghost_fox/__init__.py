@@ -58,7 +58,7 @@ ghosts: List[Ghost] = []
 
 @on_command('set_ghost', only_to_me=False, permission=SUPERUSER)
 async def add_ghost(session: CommandSession):
-    argv = session.current_arg_text.strip()
+    argv = session.current_arg_text.split()
     group = argv[0]
     ts = argv[1] if len(argv) >= 2 else 0
     if group.isdecimal():
