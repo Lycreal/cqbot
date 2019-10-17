@@ -1,12 +1,10 @@
 # encoding: utf8
 
-import nonebot
 from nonebot import on_command, CommandSession, get_bot
 from nonebot.permission import Context_T, SUPERUSER
-from typing import Dict, Union
+from typing import Dict, List
 from datetime import datetime
 import asyncio
-from config_private import GROUP_BTR as G
 
 __plugin_name__ = ''
 __plugin_usage__ = r'''战言重现
@@ -16,19 +14,18 @@ bot = get_bot()
 
 
 class Ghost:
-    def __init__(self, group):
+    def __init__(self, group, timedelta=0):
         self.group: str = group
         self.record: Dict[float, str] = {}
+        self.timedelta = timedelta if timedelta != 0 else 3600
+        self.running = 0
 
-    def income_msg(self, msg: str):
+    async def income_msg(self, msg: str):
         if self.check(msg):
-            time = datetime.now().timestamp()
+            time = datetime.now().timestamp() + self.timedelta  # time to repeat
             self.record.update({time: msg})
-
-    def new_day(self):
-        ret = self.record
-        self.record = {}
-        return ret
+            if not self.running:
+                await self.run()
 
     @staticmethod
     def check(msg: str) -> bool:
@@ -40,45 +37,39 @@ class Ghost:
         else:
             return False
 
-    async def repeat(self, record):
-        while record:
-            now_last_day = datetime.now().timestamp() - 3600
-            next_stamp = min(record.keys())
-            delay = next_stamp - now_last_day
+    async def run(self):
+        self.running = 1
+        while self.record:
+            now = datetime.now().timestamp()
+            next_stamp = min(self.record.keys())
+            delay = next_stamp - now
+            # if delay > 5 * 60:
             await asyncio.sleep(delay)
-            await bot.send_group_msg(group_id=self.group, message=record[next_stamp])
-            record.pop(next_stamp)
+            await bot.send_group_msg(group_id=self.group, message=self.record[next_stamp])
+            self.record.pop(next_stamp)
+            # else:
+            #     msg = self.record.pop(next_stamp)
+            #     self.record.update({next_stamp + self.timedelta: msg})
+        self.running = 0
 
 
-ghost = Ghost(G)
+ghosts: List[Ghost] = []
 
 
-# @on_command('set_ghost', only_to_me=False, permission=SUPERUSER)
-# async def add_ghost(session: CommandSession):
-#     global ghost
-#     group = session.current_arg_text.strip()
-#     if group.isdecimal():
-#         ghost = Ghost(group)
-#         await session.send(f'已添加：{group}')
+@on_command('set_ghost', only_to_me=False, permission=SUPERUSER)
+async def add_ghost(session: CommandSession):
+    argv = session.current_arg_text.strip()
+    group = argv[0]
+    ts = argv[1] if len(argv) >= 2 else 0
+    if group.isdecimal():
+        ghosts.append(Ghost(group, ts))
+        await session.send(f'已添加：{group}')
 
 
 @bot.on_message('group')
 async def _(ctx: Context_T):
-    groupId = str(ctx['group_id'])
+    group_id = str(ctx['group_id'])
     msg = ctx['raw_message']
-    if groupId == ghost.group:
-        ghost.income_msg(msg)
-
-
-@nonebot.scheduler.scheduled_job('cron', hour='*')
-async def _():
-    rec = ghost.new_day()
-    await ghost.repeat(rec)
-
-# @bot.on_message('group')
-# async def _(ctx: Context_T):
-#     groupId = str(ctx['group_id'])
-#     msg = ctx['raw_message']
-#     if Ghost.check(msg):
-#         await asyncio.sleep(24 * 3600)
-#         await bot.send_group_msg(group_id=groupId, message=msg)
+    for ghost in ghosts:
+        if group_id == ghost.group:
+            await ghost.income_msg(msg)
