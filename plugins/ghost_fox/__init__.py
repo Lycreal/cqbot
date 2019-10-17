@@ -14,10 +14,10 @@ bot = get_bot()
 
 
 class Ghost:
-    def __init__(self, group, timedelta=0):
+    def __init__(self, group, timedelta: float = 0.):
         self.group: str = group
         self.record: Dict[float, str] = {}
-        self.timedelta = timedelta if timedelta != 0 else 3600
+        self.timedelta = timedelta if timedelta != 0. else 3600.
         self.running = 0
 
     async def income_msg(self, msg: str):
@@ -60,10 +60,9 @@ ghosts: List[Ghost] = []
 async def add_ghost(session: CommandSession):
     argv = session.current_arg_text.split()
     group = argv[0]
-    ts = argv[1] if len(argv) >= 2 else 0
-    if group.isdecimal():
-        ghosts.append(Ghost(group, ts))
-        await session.send(f'已添加：{group}')
+    ts = float(argv[1]) if len(argv) >= 2 else 0.
+    ghosts.append(Ghost(group, ts))
+    await session.send(f'已添加：{group} {ts}')
 
 
 @bot.on_message('group')
