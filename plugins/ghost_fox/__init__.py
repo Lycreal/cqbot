@@ -25,8 +25,6 @@ class Ghost:
             time = datetime.now().timestamp() + 30
             # self.record.update({time: msg})
             # self.next = min(self.record.keys()) if self.record else None
-            await asyncio.sleep(15)
-            await bot.send_group_msg(group_id=self.group, message=str(msg).strip())
 
     def get_words(self):
         ret = {}
@@ -64,3 +62,12 @@ async def add_ghost(session: CommandSession):
             added += group
     if added:
         await session.send(f'已添加：{added}')
+
+
+@bot.on_message('group')
+async def _(ctx: Context_T):
+    groupId = ctx['group_id']
+    msg = ctx['raw_message']
+    if groupId in ghosts.keys():
+        await asyncio.sleep(15)
+        await bot.send_group_msg(group_id=groupId, message=msg)
