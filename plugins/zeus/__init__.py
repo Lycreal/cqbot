@@ -6,9 +6,8 @@ from nonebot import CommandSession, on_command
 __plugin_name__ = '宙斯模拟器'
 __plugin_usage__ = r'''feature: 宙斯模拟器
 [关键词] zeus 宙斯
-zeus $number
-进化次数为$number的宙斯模拟器，默认值为6
-为了防止刷屏，必须在命令前@本bot
+zeus <number>
+进化次数为<number>的宙斯模拟器，默认值为6
 '''
 
 
@@ -76,7 +75,7 @@ class Zeus:
 
 # on_command 装饰器将函数声明为一个命令处理器
 # 这里 weather 为命令的名字，同时允许使用别名「天气」「天气预报」「查天气」
-@on_command('zeus', aliases=('Zeus', '宙斯'), only_to_me=True)
+@on_command('zeus', aliases=('Zeus', '宙斯'))
 async def zeus(session: CommandSession):
     # 从会话状态（session.state）中获取数字上限（num_str），如果当前不存在，则询问用户
     num_str = session.get('times')
