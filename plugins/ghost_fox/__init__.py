@@ -2,7 +2,7 @@
 
 from nonebot import on_command, CommandSession, get_bot
 from nonebot.permission import Context_T, SUPERUSER
-from typing import Dict, List
+from typing import Dict
 from datetime import datetime
 import asyncio
 
@@ -15,9 +15,9 @@ bot = get_bot()
 
 class Ghost:
     def __init__(self, group, timedelta: float = 0.):
-        self.group: str = group
+        self.group: str = group if timedelta != 0 else '0'
         self.record: Dict[float, str] = {}
-        self.timedelta = timedelta if timedelta != 0. else 3600.
+        self.timedelta = timedelta
         self.running = 0
 
     async def income_msg(self, msg: str):
@@ -53,7 +53,7 @@ class Ghost:
         self.running = 0
 
 
-ghosts: List[Ghost] = []
+ghosts: Dict[str, Ghost] = {}
 
 
 @on_command('set_ghost', only_to_me=False, permission=SUPERUSER)
@@ -61,14 +61,14 @@ async def add_ghost(session: CommandSession):
     argv = session.current_arg_text.split()
     group = argv[0]
     ts = float(argv[1]) if len(argv) >= 2 else 0.
-    ghosts.append(Ghost(group, ts))
-    await session.send(f'已添加：{group} {ts}')
+    ghosts.update({group: Ghost(group, ts)})
+    await session.send(f'已设置：{group} {ts}')
 
 
 @bot.on_message('group')
 async def _(ctx: Context_T):
     group_id = str(ctx['group_id'])
     msg = ctx['raw_message']
-    for ghost in ghosts:
+    for ghost in ghosts.values():
         if group_id == ghost.group:
             await ghost.income_msg(msg)
