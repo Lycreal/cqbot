@@ -21,29 +21,33 @@ async def _(session: RequestSession):
     #     await session.reject()
 
 
+@on_request('friend')
+async def _(session: RequestSession):
+    await send_to_superusers(f'{session.ctx["user_id"]}请求添加好友，附加消息：{session.ctx["comment"]}')
+
+
 # notify superusers when bot joins a group
-@on_notice('group_increase.invite')
+@on_notice('group_increase')
 async def _(session: NoticeSession):
-    await send_to_superusers(
-        f'加入了群{session.ctx["group_id"]}。')
+    await send_to_superusers(f'{session.ctx["user_id"]}加入了群{session.ctx["group_id"]}。')
 
 
 # notify superusers when bot gets kicked from a group
-@on_notice('group_decrease.kick_me')
+@on_notice('group_decrease')
 async def _(session: NoticeSession):
     await send_to_superusers(
-        f'被群{session.ctx["group_id"]}踢出了。')
+        f'{session.ctx["user_id"]}被{session.ctx["operator_id"]}踢出了群{session.ctx["group_id"]}。')
 
 
 # notify superusers when bot is set admin
 @on_notice('group_admin.set')
 async def _(session: NoticeSession):
     await send_to_superusers(
-        f'被群{session.ctx["group_id"]}设置为管理员。')
+        f'{session.ctx["user_id"]}被群{session.ctx["group_id"]}设置为管理员。')
 
 
 # notify superusers when bot is unset admin
 @on_notice('group_admin.unset')
 async def _(session: NoticeSession):
     await send_to_superusers(
-        f'被群{session.ctx["group_id"]}取消管理员。')
+        f'{session.ctx["user_id"]}被群{session.ctx["group_id"]}取消管理员。')

@@ -1,5 +1,5 @@
 import re
-from plugins.live_monitor.general import BaseChannel
+from plugins.monitor_notify.live_monitor import BaseChannel
 
 
 class NetEaseChannel(BaseChannel):

@@ -1,6 +1,6 @@
 import nonebot
 from nonebot import CommandSession
-from plugins.live_monitor import Monitor
+from .live_monitor import Monitor
 from utils_bot.msg_ops import send_to_groups
 import re
 
