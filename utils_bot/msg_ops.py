@@ -2,7 +2,7 @@ from nonebot import get_bot
 
 bot = get_bot()
 SUPERUSERS = bot.config.SUPERUSERS
-MY_NAMES = bot.config.NICKNAME.union({'机器人', '复读机'})
+MY_NAMES = bot.config.NICKNAME.union({'机器人', '复读机', 'Bot', 'bot'})
 
 
 async def send_to_superusers(msg: str):

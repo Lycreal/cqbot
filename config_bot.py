@@ -5,7 +5,7 @@ try:
 except ImportError:
     pass
 
-NICKNAME = {'机器人', '复读机'}
+NICKNAME = {'机器人', '复读机', 'bot', 'Bot'}
 COMMAND_START = {'.'}
 SESSION_EXPIRE_TIMEOUT = timedelta(minutes=1)
 
