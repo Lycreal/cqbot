@@ -38,16 +38,6 @@ class Records(dict):
 records = Records()
 
 
-# @bot.on_message('group')
-# async def _(ctx: Context_T):
-#     groupId = ctx['group_id']
-#     msg = ctx['raw_message']
-#     word = records.simple_repeat(groupId, msg)
-#     if word:
-#         await asyncio.sleep(3)
-#         await bot.send_group_msg(group_id=groupId, message=word)
-
-
 @on_natural_language(None, permission=GROUP, only_to_me=False)
 async def _(session: NLPSession):
     groupId = session.ctx['group_id']

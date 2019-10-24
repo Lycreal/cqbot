@@ -1,7 +1,7 @@
 # encoding: utf8
 
-from nonebot import on_command, CommandSession, get_bot
-from nonebot.permission import Context_T, SUPERUSER
+from nonebot import on_command, CommandSession, get_bot, on_natural_language, NLPSession
+from nonebot.permission import SUPERUSER, GROUP
 from typing import Dict
 from datetime import datetime
 import asyncio
@@ -43,13 +43,9 @@ class Ghost:
             now = datetime.now().timestamp()
             next_stamp = min(self.record.keys())
             delay = next_stamp - now
-            # if delay > 5 * 60:
             await asyncio.sleep(delay)
             await bot.send_group_msg(group_id=self.group, message=self.record[next_stamp])
             self.record.pop(next_stamp)
-            # else:
-            #     msg = self.record.pop(next_stamp)
-            #     self.record.update({next_stamp + self.timedelta: msg})
         self.running = 0
 
 
@@ -65,10 +61,10 @@ async def add_ghost(session: CommandSession):
     await session.send(f'已设置：{group} {ts}')
 
 
-@bot.on_message('group')
-async def _(ctx: Context_T):
-    group_id = str(ctx['group_id'])
-    msg = ctx['raw_message']
-    for ghost in ghosts.values():
-        if group_id == ghost.group:
-            await ghost.income_msg(msg)
+@on_natural_language(None, permission=GROUP, only_to_me=False)
+async def _(session: NLPSession):
+    group_id = str(session.ctx['group_id'])
+    if group_id in ghosts.keys():
+        ghost = ghosts[group_id]
+        msg = session.ctx['raw_message']
+        await ghost.income_msg(msg)
