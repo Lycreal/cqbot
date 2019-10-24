@@ -13,7 +13,7 @@ bot = get_bot()
 @on_command('rollmember', aliases=('rm', 'rollmem'), only_to_me=False)
 async def weather(session: CommandSession):
     group_id = session.ctx['group_id']
-    group_member_list = bot.get_group_member_list(group_id=group_id)
+    group_member_list = await bot.get_group_member_list(group_id=group_id)
     group_member_info = random.choice(group_member_list)
     nickname = group_member_info['nickname']
     card = group_member_info['card']
