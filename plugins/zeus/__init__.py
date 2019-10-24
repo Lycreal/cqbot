@@ -75,7 +75,7 @@ class Zeus:
 
 # on_command 装饰器将函数声明为一个命令处理器
 # 这里 weather 为命令的名字，同时允许使用别名「天气」「天气预报」「查天气」
-@on_command('zeus', aliases=('Zeus', '宙斯'))
+@on_command('zeus', aliases=('Zeus', '宙斯'), only_to_me=False)
 async def zeus(session: CommandSession):
     # 从会话状态（session.state）中获取数字上限（num_str），如果当前不存在，则询问用户
     num_str = session.get('times')

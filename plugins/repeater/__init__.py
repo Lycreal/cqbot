@@ -1,15 +1,12 @@
-from nonebot import get_bot
-# from nonebot.helpers import context_id
-from nonebot.permission import Context_T
+from nonebot import on_natural_language, NLPSession
+from nonebot.permission import GROUP
+import random
 import asyncio
 
 __plugin_name__ = '复读机'
 __plugin_usage__ = r'''feature: 复读
 人类的本质
 '''
-
-# acquires global event monitor
-bot = get_bot()
 
 
 class Record:
@@ -27,7 +24,7 @@ class Records(dict):
             self[group_id] = record
         return record
 
-    async def simple_repeat(self, group_id: str, msg: str, wait_until: int = 3):
+    def simple_repeat(self, group_id: str, msg: str, wait_until: int = 3):
         # creates tracker for each group at beginning
         record = self.get_record(group_id)
         if msg != record.lastMsg:
@@ -35,16 +32,27 @@ class Records(dict):
             return
         record.count += 1
         if record.count == wait_until:
-            await asyncio.sleep(1.0)
-            await bot.send_group_msg(group_id=group_id, message=msg)
-            record.count = -999
+            return msg
 
 
 records = Records()
 
 
-@bot.on_message('group')
-async def _(ctx: Context_T):
-    groupId = ctx['group_id']
-    msg = ctx['raw_message']
-    await records.simple_repeat(groupId, msg)
+# @bot.on_message('group')
+# async def _(ctx: Context_T):
+#     groupId = ctx['group_id']
+#     msg = ctx['raw_message']
+#     word = records.simple_repeat(groupId, msg)
+#     if word:
+#         await asyncio.sleep(3)
+#         await bot.send_group_msg(group_id=groupId, message=word)
+
+
+@on_natural_language(None, permission=GROUP, only_to_me=False)
+async def _(session: NLPSession):
+    groupId = session.ctx['group_id']
+    msg = session.ctx['raw_message']
+    word = records.simple_repeat(groupId, msg)
+    if word:
+        await asyncio.sleep(2 + 3 * random.random() ** 2)
+        await session.send(word)
