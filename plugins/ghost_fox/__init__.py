@@ -29,7 +29,7 @@ class Ghost:
 
     @staticmethod
     def check(msg: str) -> bool:
-        watch = '爱❤❤️🧡💛💚💙💜🖤♥️💘💝💖💗💓💞💕❣❣️💟🦊'
+        watch = '爱❤❤️🧡💛💚💙💜🖤♥️💘💝💖💗💓💞💕❣❣️💟🦊🍥⚓🏮'
         if msg[0] in watch and msg[-1] in watch:
             return True
         elif '可爱' in msg and '喜欢' in msg:

@@ -34,7 +34,7 @@ RollMember()
 
 
 @on_command('rollmember', aliases=('rm', 'rollmem'), only_to_me=False)
-async def weather(session: CommandSession):
+async def _(session: CommandSession):
     group_id = session.ctx['group_id']
     msg = await RollMember.get(group_id)
     await session.send(msg)
