@@ -1,6 +1,6 @@
 from nonebot import on_natural_language, NLPSession
 from nonebot.permission import GROUP
-import random
+from utils_bot.random_number import square_random
 import asyncio
 
 __plugin_name__ = '复读机'
@@ -44,5 +44,5 @@ async def _(session: NLPSession):
     msg = session.ctx['raw_message']
     word = records.simple_repeat(groupId, msg)
     if word:
-        await asyncio.sleep(2 + 3 * random.random() ** 2)
+        await asyncio.sleep(square_random(2, 5))
         await session.send(word)
