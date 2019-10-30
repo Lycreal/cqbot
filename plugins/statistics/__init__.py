@@ -53,16 +53,15 @@ class Statistics:
     @classmethod
     def time_result(cls, group_id: int):
         result = [time.hour for time in cls.data_time[group_id]]
-        a = [0] * 8
-        for i in range(8):
-            a[i] += result.count(0 + 3 * i)
-            a[i] += result.count(1 + 3 * i)
-            a[i] += result.count(2 + 3 * i)
+        a = [0] * 12
+        for i in range(12):
+            a[i] += result.count(0 + 2 * i)
+            a[i] += result.count(1 + 2 * i)
         char = '█'
         max_display = 12
 
-        msg = '今日发言时段（每3小时）：'
-        for i in range(8):
+        msg = '今日发言时段（每2小时）：'
+        for i in range(12):
             msg += '\n' + max_display * a[i] // max(a) * char + str(a[i])
         return msg
 
