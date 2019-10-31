@@ -52,7 +52,7 @@ class Statistics:
 
     @classmethod
     def time_result(cls, group_id: int):
-        result = [time.hour - 4 if time.hour >= 4 else time.hour + 16 for time in cls.data_time[group_id]]
+        result = [time.hour - 4 if time.hour >= 4 else time.hour + 24 - 4 for time in cls.data_time[group_id]]
         a = [0] * 12
         for i in range(12):
             a[i] += result.count(0 + 2 * i)
