@@ -43,11 +43,11 @@ class Statistics:
     @classmethod
     def top_talker(cls, group_id: int, number=5):  # <20
         listed = cls.sort_dict(cls.data_count[group_id])
-        msg = f'今日发言Top{number}:\n'
+        msg = f'今日发言Top{number}:'
         for i in range(number if len(listed) > number else len(listed)):
             user_id = listed[i][0]
             count = listed[i][1]
-            msg += f'{cls.data_name[group_id][user_id]}:{count}'
+            msg += f'\n{cls.data_name[group_id][user_id]}:{count}'
         return msg
 
     @classmethod
