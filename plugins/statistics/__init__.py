@@ -52,7 +52,7 @@ class Statistics:
 
     @classmethod
     def time_result(cls, group_id: int):
-        result = [time.hour for time in cls.data_time[group_id]]
+        result = [time.hour - 4 if time.hour >= 4 else time.hour + 16 for time in cls.data_time[group_id]]
         a = [0] * 12
         for i in range(12):
             a[i] += result.count(0 + 2 * i)
@@ -60,7 +60,7 @@ class Statistics:
         char = '█'
         max_display = 12
 
-        msg = '今日发言时段（每2小时）：'
+        msg = '今日发言时段（4点起，每2小时）：'
         for i in range(12):
             msg += '\n' + max_display * a[i] // max(a) * char + str(a[i])
         return msg
@@ -126,6 +126,6 @@ async def _(session: CommandSession):
     await session.send(msg)
 
 
-@nonebot.scheduler.scheduled_job('cron', hour='0')
+@nonebot.scheduler.scheduled_job('cron', hour='4')
 async def _():
     Statistics.clear()
