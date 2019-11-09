@@ -1,4 +1,6 @@
 import re
+from lxml import html
+import json
 from plugins.monitor_notify.live_monitor import BaseChannel
 
 
@@ -8,12 +10,22 @@ class NetEaseChannel(BaseChannel):
         self.api_url = self.live_url
 
     def resolve(self, html_s):
-        room_info = re.search(r'<script type="text/javascript">\s+var roomInfo(.*?)</script>', html_s, re.S).group()
-        live = re.search(r'isLive', room_info)
-        if live:
-            self.live_status = re.search(r'[\'\"]?isLive[\'\"]? ?: ?[\'\"]?(\d)[\'\"]?', room_info).group(1)
-            self.ch_name = re.search(r'[\'\"]?anchorName[\'\"]? ?: ?[\'\"]?([^\'\"]+)[\'\"]?', room_info).group(1)
-            self.title = re.search(r'[\'\"]?title[\'\"]? ?: ?[\'\"]?([^\'\"]+)[\'\"]?', room_info).group(1)
-            self.title = self.title.replace('\\u0026', '&')
-        else:
-            self.live_status = '0'
+        html_element = html.fromstring(html_s)
+        try:
+            script = html_element.xpath('//script[@id="__NEXT_DATA__"]/text()')[0]
+            room_info = json.loads(script)['props']['pageProps']['roomInfoInitData']['live']
+
+            self.title = room_info['title']
+            hot_score = room_info['hot_score']
+            self.live_status = '1' if hot_score > 0 else '0'
+        except IndexError as e:
+            script = html_element.xpath('//script[contains(text(),"var roomInfo")]/text()')[0]
+            # room_info = re.search(r'var roomInfo(.*?);', html_s, re.S).group()
+            live = re.search(r'isLive', script)
+            if live:
+                self.live_status = re.search(r'[\'\"]?isLive[\'\"]? ?: ?[\'\"]?(\d)[\'\"]?', script).group(1)
+                self.ch_name = re.search(r'[\'\"]?anchorName[\'\"]? ?: ?[\'\"]?([^\'\"]+)[\'\"]?', script).group(1)
+                title = re.search(r'[\'\"]?title[\'\"]? ?: ?[\'\"]?([^\'\"]+)[\'\"]?', script).group(1)
+                self.title = title.replace('\\u0026', '&')
+            else:
+                self.live_status = '0'
