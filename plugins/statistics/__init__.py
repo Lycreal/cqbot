@@ -43,27 +43,26 @@ class Statistics:
     @classmethod
     def top_talker(cls, group_id: int, number=5):  # <20
         listed = cls.sort_dict(cls.data_count[group_id])
-        msg = f'今日发言Top{number}:\n'
+        msg = f'今日发言Top{number}:'
         for i in range(number if len(listed) > number else len(listed)):
             user_id = listed[i][0]
             count = listed[i][1]
-            msg += f'{cls.data_name[group_id][user_id]}:{count}'
+            msg += f'\n{cls.data_name[group_id][user_id]}:{count}'
         return msg
 
     @classmethod
     def time_result(cls, group_id: int):
-        result = [time.hour for time in cls.data_time[group_id]]
-        a = [0] * 8
-        for i in range(8):
-            a[i] += result.count(0 + 3 * i)
-            a[i] += result.count(1 + 3 * i)
-            a[i] += result.count(2 + 3 * i)
+        result = [time.hour - 4 if time.hour >= 4 else time.hour + 24 - 4 for time in cls.data_time[group_id]]
+        a = [0] * 12
+        for i in range(12):
+            a[i] += result.count(0 + 2 * i)
+            a[i] += result.count(1 + 2 * i)
         char = '█'
         max_display = 12
 
-        msg = '今日发言时段（每3小时）：'
-        for i in range(8):
-            msg += '\n' + max_display * a[i] // max(a) * char + str(a[i])
+        msg = '今日发言时段（4点起，每2小时）：'
+        for i in range(12):
+            msg += '\n' +round( max_display * a[i] / max(a)) * char + str(a[i])
         return msg
 
     @staticmethod
@@ -127,6 +126,6 @@ async def _(session: CommandSession):
     await session.send(msg)
 
 
-@nonebot.scheduler.scheduled_job('cron', hour='0')
+@nonebot.scheduler.scheduled_job('cron', hour='4')
 async def _():
     Statistics.clear()
