@@ -9,7 +9,7 @@ NICKNAME = {'机器人', '复读机', 'bot', 'Bot'}
 COMMAND_START = {'.', '。', '!', '！'}
 COMMAND_SEP = {'.'}
 SESSION_EXPIRE_TIMEOUT = timedelta(minutes=1)
-SESSION_RUN_TIMEOUT = timedelta(seconds=30)
+SESSION_RUN_TIMEOUT = timedelta(seconds=20)
 HOST = '172.17.0.1'
 PORT = 8080
 
