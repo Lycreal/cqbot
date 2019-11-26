@@ -62,7 +62,7 @@ class Statistics:
 
         msg = '今日发言时段（4点起，每2小时）：'
         for i in range(12):
-            msg += '\n' +round( max_display * a[i] / max(a)) * char + str(a[i])
+            msg += '\n' + round(max_display * a[i] / max(a)) * char + str(a[i])
         return msg
 
     @staticmethod
