@@ -36,7 +36,7 @@ async def monitor_you_run():
     await send_to_groups(*monitor.run())
 
 
-@nonebot.scheduler.scheduled_job('interval', seconds=300)
+@nonebot.scheduler.scheduled_job('interval', seconds=150)
 async def monitor_cc_run():
     from utils_bot.msg_ops import send_to_groups
     monitor = monitors['cc']

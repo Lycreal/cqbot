@@ -96,7 +96,7 @@ class Monitor:
         if channel and channel.sendto and (channel.update() or self.DEBUG):
             return channel.sendto, channel.notify()
         else:
-            return channel.sendto, ''
+            return [], ''
 
     def __str__(self):
         msg = ''
