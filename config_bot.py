@@ -10,8 +10,8 @@ COMMAND_START = {'.', '。', '!', '！'}
 COMMAND_SEP = {'.'}
 SESSION_EXPIRE_TIMEOUT = timedelta(minutes=1)
 SESSION_RUN_TIMEOUT = timedelta(seconds=20)
-HOST = '172.17.0.1'
-PORT = 8080
+# HOST = '172.17.0.1'
+# PORT = 8080
 
 APSCHEDULER_CONFIG = {
     'executors': {

@@ -1,7 +1,6 @@
 import nonebot
 from nonebot import CommandSession
 from .live_monitor import Monitor
-from utils_bot.msg_ops import send_to_groups
 import re
 
 __plugin_name__ = '直播监控'
@@ -25,18 +24,21 @@ monitors = {'bili': Monitor('bili'),
 
 @nonebot.scheduler.scheduled_job('interval', seconds=3)
 async def monitor_bili_run():
+    from utils_bot.msg_ops import send_to_groups
     monitor = monitors['bili']
     await send_to_groups(*monitor.run())
 
 
 @nonebot.scheduler.scheduled_job('interval', seconds=17)
 async def monitor_you_run():
+    from utils_bot.msg_ops import send_to_groups
     monitor = monitors['you']
     await send_to_groups(*monitor.run())
 
 
 @nonebot.scheduler.scheduled_job('interval', seconds=300)
 async def monitor_cc_run():
+    from utils_bot.msg_ops import send_to_groups
     monitor = monitors['cc']
     await send_to_groups(*monitor.run())
 
