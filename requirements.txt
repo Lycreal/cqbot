@@ -1,4 +1,3 @@
 lxml
 requests
-nonebot
 nonebot[scheduler]
