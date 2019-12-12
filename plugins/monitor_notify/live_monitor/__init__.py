@@ -14,9 +14,11 @@ class Monitor:
         assert channel_type in ['bili', 'you', 'cc'], 'Fatal Error: wrong channel_type'
         self.channel_type = channel_type
 
-        if not pathlib.Path('data').exists():
-            pathlib.Path('data').mkdir()
-        self.save_file = pathlib.Path('data').joinpath(f'{self.channel_type}.json')
+        from bot import root_path
+        data_path = pathlib.Path(root_path).joinpath('data')
+        if not data_path.exists():
+            data_path.mkdir()
+        self.save_file = data_path.joinpath(f'{self.channel_type}.json')
 
         self.channel_list: List[BaseChannel] = []
         self.pos = -1
