@@ -1,24 +1,50 @@
+import json
+import pathlib
+from typing import Dict, List, Any
 from datetime import datetime
 import nonebot
 from nonebot import on_command, CommandSession, on_natural_language, NLPSession
-from typing import Dict, List, Any
+from bot import root_path
 
 
 class Statistics:
-    data_count: Dict[int, Dict[int, int]] = {}
-    data_time: Dict[int, List[datetime]] = {}
-    data_name: Dict[int, Dict[int, str]] = {}
-    last_day_msg_count: Dict[int, str] = {}
-    last_day_msg_time: Dict[int, str] = {}
+    loaded = False
+    data_count: Dict[int, Dict[int, int]] = {}  # 计数用字典
+    data_time: Dict[int, List[datetime]] = {}  # 计时用字典
+    data_name: Dict[int, Dict[int, str]] = {}  # 保存名字的字典
+    last_day_msg_count: Dict[int, str] = {}  # 昨日计数
+    last_day_msg_time: Dict[int, str] = {}  # 昨日计时
+
+    last_save_time = None
+    save_file = pathlib.Path(root_path).joinpath('data').joinpath('statistics.json')
+
+    @classmethod
+    def load(cls):
+        if cls.save_file.exists():
+            with cls.save_file.open('r', encoding='utf8') as f:
+                save_data = json.load(f)
+            cls.data_count, cls.data_time, cls.data_name, cls.last_day_msg_count, cls.last_day_msg_time = save_data
+        else:
+            cls.save()
+
+    @classmethod
+    def save(cls):
+        save_data = cls.data_count, cls.data_time, cls.data_name, cls.last_day_msg_count, cls.last_day_msg_time
+        with cls.save_file.open('w', encoding='utf8') as f:
+            json.dump(save_data, f, indent=2, ensure_ascii=False)
 
     @classmethod
     def incoming_msg(cls, group_id: int, user_id: int, name: str):
+        if not cls.loaded:
+            cls.load()
         cls.init(group_id, user_id, name)
         cls.data_count[group_id][user_id] += 1
         cls.data_time[group_id].append(datetime.now())
+        cls.save()
 
     @classmethod
     def init(cls, group_id: int, user_id: int, name: str):
+        # 初始化group_id和user_id结构
         if group_id not in cls.data_time.keys():
             cls.data_time.update({group_id: []})
 
@@ -58,7 +84,7 @@ class Statistics:
             a[i] += result.count(0 + 2 * i)
             a[i] += result.count(1 + 2 * i)
         char = '█'
-        max_display = 12
+        max_display = 12 if max(a) < 1000 else 11
 
         msg = '今日发言时段（4点起，每2小时）：'
         for i in range(12):
