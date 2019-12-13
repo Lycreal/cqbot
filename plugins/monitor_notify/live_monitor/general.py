@@ -35,7 +35,9 @@ class BaseChannel:
         return False
 
     def get_status(self):
-        html_s = requests.get(self.api_url, timeout=10).text
+        resp = requests.get(self.api_url, timeout=10)
+        resp.encoding = 'uft-8'
+        html_s = resp.text
         self.resolve(html_s)
         if self.live_status == '1':
             self.last_check = datetime.now(timezone(timedelta(hours=8)))  # 当前时间
