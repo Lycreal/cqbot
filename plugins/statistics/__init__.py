@@ -9,14 +9,14 @@ from bot import root_path
 
 
 class Statistics(BaseModel):
-    loaded = False
+    loaded: bool = False
     data_count: Dict[int, Dict[int, int]] = {}  # 计数用字典
     data_time: Dict[int, List[datetime]] = {}  # 计时用字典
     data_name: Dict[int, Dict[int, str]] = {}  # 保存名字的字典
     last_day_msg_count: Dict[int, str] = {}  # 昨日计数
     last_day_msg_time: Dict[int, str] = {}  # 昨日计时
 
-    save_file = pathlib.Path(root_path).joinpath('data').joinpath('statistics.dat')
+    save_file: pathlib.Path = pathlib.Path(root_path).joinpath('data').joinpath('statistics.dat')
 
     @classmethod
     def load(cls):
