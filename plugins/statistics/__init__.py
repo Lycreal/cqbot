@@ -7,6 +7,8 @@ import nonebot
 from nonebot import on_command, CommandSession, on_natural_language, NLPSession
 from bot import root_path
 
+save_file = pathlib.Path(root_path).joinpath('data').joinpath('statistics.dat')
+
 
 class Statistics:
     class SaveData(BaseModel):
@@ -15,12 +17,11 @@ class Statistics:
         data_name: Dict[int, Dict[int, str]] = {}  # 保存名字的字典
         last_day_msg_count: Dict[int, str] = {}  # 昨日计数
         last_day_msg_time: Dict[int, str] = {}  # 昨日计时
-        save_file = pathlib.Path(root_path).joinpath('data').joinpath('statistics.dat')
 
         @classmethod
         def load(cls):
             try:
-                with cls.save_file.open('rb') as f:
+                with save_file.open('rb') as f:
                     save_data = pickle.load(f)
                 cls.data_count, cls.data_time, cls.data_name, cls.last_day_msg_count, cls.last_day_msg_time = save_data
             except (ValidationError, FileNotFoundError):
@@ -29,7 +30,7 @@ class Statistics:
         @classmethod
         def save(cls):
             save_data = cls.data_count, cls.data_time, cls.data_name, cls.last_day_msg_count, cls.last_day_msg_time
-            with cls.save_file.open('wb') as f:
+            with save_file.open('wb') as f:
                 pickle.dump(save_data, f)
 
     not_loaded = True
