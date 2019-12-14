@@ -1,13 +1,14 @@
 import pickle
 import pathlib
-from typing import Dict, List, Any
+from pydantic import BaseModel, ValidationError
+from typing import Dict, List, Any, Type
 from datetime import datetime
 import nonebot
 from nonebot import on_command, CommandSession, on_natural_language, NLPSession
 from bot import root_path
 
 
-class Statistics:
+class Statistics(BaseModel):
     loaded = False
     data_count: Dict[int, Dict[int, int]] = {}  # 计数用字典
     data_time: Dict[int, List[datetime]] = {}  # 计时用字典
@@ -22,19 +23,19 @@ class Statistics:
     def load(cls):
         try:
             if cls.save_file.exists():
-                with cls.save_file.open('rb', encoding='utf8') as f:
+                with cls.save_file.open('rb') as f:
                     save_data = pickle.load(f)
                 cls.data_count, cls.data_time, cls.data_name, cls.last_day_msg_count, cls.last_day_msg_time = save_data
             else:
                 cls.save()
-        except:
+        except ValidationError:
             cls.save()
         cls.loaded = True
 
     @classmethod
     def save(cls):
         save_data = cls.data_count, cls.data_time, cls.data_name, cls.last_day_msg_count, cls.last_day_msg_time
-        with cls.save_file.open('wb', encoding='utf8') as f:
+        with cls.save_file.open('wb') as f:
             pickle.dump(save_data, f)
 
     @classmethod
