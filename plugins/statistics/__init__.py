@@ -1,7 +1,7 @@
 import pickle
 import pathlib
 from pydantic import BaseModel, ValidationError
-from typing import Dict, List, Any, Type
+from typing import Dict, List, Any
 from datetime import datetime
 import nonebot
 from nonebot import on_command, CommandSession, on_natural_language, NLPSession
@@ -16,7 +16,6 @@ class Statistics(BaseModel):
     last_day_msg_count: Dict[int, str] = {}  # 昨日计数
     last_day_msg_time: Dict[int, str] = {}  # 昨日计时
 
-    last_save_time = None
     save_file = pathlib.Path(root_path).joinpath('data').joinpath('statistics.dat')
 
     @classmethod
