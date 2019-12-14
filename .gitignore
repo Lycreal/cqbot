@@ -3,6 +3,7 @@
 ### Example user template
 
 config_private.py
+data/
 
 ### Python template
 # Byte-compiled / optimized / DLL files
