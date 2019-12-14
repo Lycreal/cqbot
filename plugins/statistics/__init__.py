@@ -20,15 +20,13 @@ class Statistics(BaseModel):
 
     @classmethod
     def load(cls):
-        try:
-            if cls.save_file.exists():
+        if not cls.loaded:
+            try:
                 with cls.save_file.open('rb') as f:
                     save_data = pickle.load(f)
                 cls.data_count, cls.data_time, cls.data_name, cls.last_day_msg_count, cls.last_day_msg_time = save_data
-            else:
+            except (ValidationError, FileNotFoundError):
                 cls.save()
-        except ValidationError:
-            cls.save()
         cls.loaded = True
 
     @classmethod
@@ -39,8 +37,7 @@ class Statistics(BaseModel):
 
     @classmethod
     def incoming_msg(cls, group_id: int, user_id: int, name: str):
-        if not cls.loaded:
-            cls.load()
+        cls.load()
         cls.init(group_id, user_id, name)
         cls.data_count[group_id][user_id] += 1
         cls.data_time[group_id].append(datetime.now())
