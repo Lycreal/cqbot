@@ -9,25 +9,25 @@ from bot import root_path
 
 
 class Statistics(BaseModel):
-    loaded: bool = False
+    not_loaded = True
     data_count: Dict[int, Dict[int, int]] = {}  # 计数用字典
     data_time: Dict[int, List[datetime]] = {}  # 计时用字典
     data_name: Dict[int, Dict[int, str]] = {}  # 保存名字的字典
     last_day_msg_count: Dict[int, str] = {}  # 昨日计数
     last_day_msg_time: Dict[int, str] = {}  # 昨日计时
 
-    save_file: pathlib.Path = pathlib.Path(root_path).joinpath('data').joinpath('statistics.dat')
+    save_file = pathlib.Path(root_path).joinpath('data').joinpath('statistics.dat')
 
     @classmethod
     def load(cls):
-        if not cls.loaded:
+        if cls.not_loaded:
             try:
                 with cls.save_file.open('rb') as f:
                     save_data = pickle.load(f)
                 cls.data_count, cls.data_time, cls.data_name, cls.last_day_msg_count, cls.last_day_msg_time = save_data
             except (ValidationError, FileNotFoundError):
                 cls.save()
-        cls.loaded = True
+        cls.not_loaded = False
 
     @classmethod
     def save(cls):
