@@ -1,4 +1,4 @@
-import json
+import pickle
 import pathlib
 from typing import Dict, List, Any
 from datetime import datetime
@@ -16,22 +16,26 @@ class Statistics:
     last_day_msg_time: Dict[int, str] = {}  # 昨日计时
 
     last_save_time = None
-    save_file = pathlib.Path(root_path).joinpath('data').joinpath('statistics.json')
+    save_file = pathlib.Path(root_path).joinpath('data').joinpath('statistics.dat')
 
     @classmethod
     def load(cls):
-        if cls.save_file.exists():
-            with cls.save_file.open('r', encoding='utf8') as f:
-                save_data = json.load(f)
-            cls.data_count, cls.data_time, cls.data_name, cls.last_day_msg_count, cls.last_day_msg_time = save_data
-        else:
+        try:
+            if cls.save_file.exists():
+                with cls.save_file.open('rb', encoding='utf8') as f:
+                    save_data = pickle.load(f)
+                cls.data_count, cls.data_time, cls.data_name, cls.last_day_msg_count, cls.last_day_msg_time = save_data
+            else:
+                cls.save()
+        except:
             cls.save()
+        cls.loaded = True
 
     @classmethod
     def save(cls):
         save_data = cls.data_count, cls.data_time, cls.data_name, cls.last_day_msg_count, cls.last_day_msg_time
-        with cls.save_file.open('w', encoding='utf8') as f:
-            json.dump(save_data, f, indent=2, ensure_ascii=False)
+        with cls.save_file.open('wb', encoding='utf8') as f:
+            pickle.dump(save_data, f)
 
     @classmethod
     def incoming_msg(cls, group_id: int, user_id: int, name: str):
