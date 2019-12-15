@@ -18,7 +18,7 @@ class NetEaseChannel(BaseChannel):
             self.title = room_info['title']
             hot_score = room_info['hot_score']
             self.live_status = '1' if hot_score > 0 else '0'
-        except IndexError as e:
+        except IndexError:
             script = html_element.xpath('//script[contains(text(),"var roomInfo")]/text()')[0]
             # room_info = re.search(r'var roomInfo(.*?);', html_s, re.S).group()
             live = re.search(r'isLive', script)

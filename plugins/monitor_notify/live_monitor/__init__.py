@@ -1,10 +1,10 @@
+import json
+from typing import List, Union, Tuple
+from config_bot import data_path
 from .general import BaseChannel
 from .youtube import YoutubeChannel
 from .bili import BiliChannel
 from .cc import NetEaseChannel
-import json
-import pathlib
-from typing import List, Union, Tuple
 
 __all__ = ['Monitor', 'BaseChannel', 'BiliChannel', 'YoutubeChannel', 'NetEaseChannel']
 
@@ -14,8 +14,6 @@ class Monitor:
         assert channel_type in ['bili', 'you', 'cc'], 'Fatal Error: wrong channel_type'
         self.channel_type = channel_type
 
-        from bot import root_path
-        data_path = pathlib.Path(root_path).joinpath('data')
         if not data_path.exists():
             data_path.mkdir()
         self.save_file = data_path.joinpath(f'{self.channel_type}.json')

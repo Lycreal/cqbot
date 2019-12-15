@@ -1,3 +1,4 @@
+from pathlib import Path
 from nonebot.default_config import *
 
 try:
@@ -23,3 +24,6 @@ APSCHEDULER_CONFIG = {
     },
     'timezone': 'Asia/Shanghai'
 }
+
+root_path: Path = Path(__file__).parent
+data_path: Path = root_path.joinpath('data')

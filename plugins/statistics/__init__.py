@@ -1,10 +1,9 @@
 import pickle
-import pathlib
 from typing import Dict, List, Any
 from datetime import datetime
 import nonebot
 from nonebot import on_command, CommandSession, on_natural_language, NLPSession
-from bot import root_path
+from config_bot import data_path
 
 
 class Statistics:
@@ -16,7 +15,7 @@ class Statistics:
     last_day_msg_time: Dict[int, str] = {}  # 昨日计时
 
     last_save_time = None
-    save_file = pathlib.Path(root_path).joinpath('data').joinpath('statistics.dat')
+    save_file = data_path.joinpath('statistics.dat')
 
     @classmethod
     def load(cls):
