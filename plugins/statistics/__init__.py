@@ -1,8 +1,9 @@
 import pickle
-from pydantic.dataclasses import dataclass
+import nonebot
+from dataclasses import field
 from typing import Dict, List, Any
 from datetime import datetime
-import nonebot
+from pydantic.dataclasses import dataclass
 from nonebot import on_command, CommandSession, on_natural_language, NLPSession
 from config_bot import data_path
 
@@ -10,11 +11,11 @@ from config_bot import data_path
 class Statistics:
     @dataclass
     class SaveData:
-        count: Dict[int, Dict[int, int]] = {}  # 计数用字典
-        time: Dict[int, List[datetime]] = {}  # 计时用字典
-        name: Dict[int, Dict[int, str]] = {}  # 保存名字的字典
-        last_day_msg_count: Dict[int, str] = {}  # 昨日计数
-        last_day_msg_time: Dict[int, str] = {}  # 昨日计时
+        count: Dict[int, Dict[int, int]] = field(default_factory=dict)  # 计数用字典
+        time: Dict[int, List[datetime]] = field(default_factory=dict)  # 计时用字典
+        name: Dict[int, Dict[int, str]] = field(default_factory=dict)  # 保存名字的字典
+        last_day_msg_count: Dict[int, str] = field(default_factory=dict)  # 昨日计数
+        last_day_msg_time: Dict[int, str] = field(default_factory=dict)  # 昨日计时
 
     loaded = False
     data = SaveData()
