@@ -1,6 +1,6 @@
-from plugins.monitor_notify.live_monitor import BaseChannel
 import json
 import requests
+from . import BaseChannel
 
 
 class BiliChannel(BaseChannel):

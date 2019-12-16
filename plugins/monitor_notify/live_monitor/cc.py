@@ -1,7 +1,7 @@
 import re
 from lxml import html
 import json
-from plugins.monitor_notify.live_monitor import BaseChannel
+from . import BaseChannel
 
 
 class NetEaseChannel(BaseChannel):

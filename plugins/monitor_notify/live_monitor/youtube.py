@@ -1,7 +1,7 @@
 import re
 import json
 from lxml.html import etree
-from plugins.monitor_notify.live_monitor import BaseChannel
+from . import BaseChannel
 
 
 class YoutubeChannel(BaseChannel):
