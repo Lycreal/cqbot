@@ -1,12 +1,10 @@
 import requests
-from requests.adapters import HTTPAdapter
 from datetime import datetime, timezone, timedelta
 from typing import List
 
 
 class BaseChannel:
     TIME_PRE = timedelta(minutes=5)
-    requests.Session().mount('https://', HTTPAdapter(max_retries=0))
 
     def __init__(self, cid: str, name: str):
         self.api_url: str = ''
