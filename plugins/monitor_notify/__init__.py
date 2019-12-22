@@ -1,5 +1,4 @@
 import nonebot
-import asyncio
 from utils_bot.msg_ops import send_to_groups
 from nonebot import CommandSession
 from .live_monitor import Monitor
@@ -13,38 +12,36 @@ command list: help, add, del, list
 '''
 monitors = {'bili': Monitor('bili'),
             'you': Monitor('you'),
-            'cc': Monitor('cc')}
+            'cc': Monitor('cc', debug=True)}
 
 [monitor.load() for monitor in monitors.values()]
 
-# [monitor_bili.add(cid, name, [GROUP_TST, GROUP_BTR, GROUP_KR]) for cid, name in channel_list_bili]
-# [monitor_you.add(cid, name, [GROUP_TST, GROUP_BTR]) for cid, name in channel_list_you]
-# [monitor_cc.add(cid, name, [GROUP_TST, GROUP_BTR]) for cid, name in channel_list_cc]
+
+# from .utils import *
+# from config_private import *
+#
+# [monitors['bili'].add(cid, name, [GROUP_TST, GROUP_BTR, GROUP_KR]) for cid, name in channel_list_bili]
+# [monitors['you'].add(cid, name, [GROUP_TST, GROUP_BTR]) for cid, name in channel_list_you]
+# [monitors['cc'].add(cid, name, [GROUP_TST, GROUP_BTR]) for cid, name in channel_list_cc]
 # [monitor.save() for monitor in monitors.values()]
 
-event_loop = asyncio.get_event_loop()
 
-
-@nonebot.scheduler.scheduled_job('interval', seconds=3)
+@nonebot.scheduler.scheduled_job('interval', seconds=2)
 async def monitor_bili_run():
     monitor = monitors['bili']
-    ret = event_loop.run_until_complete(monitor.run())
-    await send_to_groups(*ret)
+    await monitor.run(send_to_groups)
 
 
-@nonebot.scheduler.scheduled_job('interval', seconds=17)
+@nonebot.scheduler.scheduled_job('interval', seconds=15)
 async def monitor_you_run():
     monitor = monitors['you']
-    ret = event_loop.run_until_complete(monitor.run())
-    await send_to_groups(*ret)
+    await monitor.run(send_to_groups)
 
 
-@nonebot.scheduler.scheduled_job('interval', seconds=150)
+@nonebot.scheduler.scheduled_job('interval', seconds=60)
 async def monitor_cc_run():
-    from utils_bot.msg_ops import send_to_groups
     monitor = monitors['cc']
-    ret = event_loop.run_until_complete(monitor.run())
-    await send_to_groups(*ret)
+    await monitor.run(send_to_groups)
 
 
 @nonebot.on_command('monitor', only_to_me=False)

@@ -1,5 +1,5 @@
 import json
-from typing import List, Union, Tuple
+from typing import List, Union, Callable, Coroutine
 from config_bot import data_path
 from .general import BaseChannel
 from .youtube import YoutubeChannel
@@ -91,13 +91,11 @@ class Monitor:
         else:
             return None
 
-    async def run(self) -> Tuple[List, str]:
+    async def run(self, func: Callable[[List[str], str], Coroutine]):
         channel: BaseChannel = self.next()
         if channel and channel.sendto:
             if await channel.update() or self.DEBUG:
-                return channel.sendto, channel.notify()
-        else:
-            return [], ''
+                await func(channel.sendto, channel.notify())
 
     def __str__(self):
         msg = ''
