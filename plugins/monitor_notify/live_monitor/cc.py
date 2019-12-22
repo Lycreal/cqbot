@@ -1,6 +1,6 @@
 import re
-from lxml import html
 import json
+from lxml import html
 from . import BaseChannel
 
 

@@ -1,6 +1,6 @@
-import requests
 from datetime import datetime, timezone, timedelta
 from typing import List
+import aiohttp
 
 
 class BaseChannel:
@@ -23,19 +23,19 @@ class BaseChannel:
         self.api_url: str = ''
         self.live_url: str = ''
 
-    def update(self) -> bool:
+    async def update(self) -> bool:
         if self.live_status != '1':
-            self.get_status()
+            await self._get_status()
             if self.live_status == '1':
                 return True
         elif datetime.now(timezone(timedelta(hours=8))) - self.last_check >= self.TIME_PRE:
-            self.get_status()
+            await self._get_status()
         return False
 
-    def get_status(self):
-        resp = requests.get(self.api_url, timeout=10)
-        resp.encoding = 'uft-8'
-        html_s = resp.text
+    async def _get_status(self):
+        async with aiohttp.request('GET', self.api_url, timeout=aiohttp.ClientTimeout(10)) as session:
+            html_s = await session.text(encoding='utf8')
+
         self.resolve(html_s)
         if self.live_status == '1':
             self.last_check = datetime.now(timezone(timedelta(hours=8)))  # 当前时间

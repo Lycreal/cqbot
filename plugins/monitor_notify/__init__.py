@@ -1,4 +1,6 @@
 import nonebot
+import asyncio
+from utils_bot.msg_ops import send_to_groups
 from nonebot import CommandSession
 from .live_monitor import Monitor
 import re
@@ -15,32 +17,34 @@ monitors = {'bili': Monitor('bili'),
 
 [monitor.load() for monitor in monitors.values()]
 
-
 # [monitor_bili.add(cid, name, [GROUP_TST, GROUP_BTR, GROUP_KR]) for cid, name in channel_list_bili]
 # [monitor_you.add(cid, name, [GROUP_TST, GROUP_BTR]) for cid, name in channel_list_you]
 # [monitor_cc.add(cid, name, [GROUP_TST, GROUP_BTR]) for cid, name in channel_list_cc]
 # [monitor.save() for monitor in monitors.values()]
 
+event_loop = asyncio.get_event_loop()
+
 
 @nonebot.scheduler.scheduled_job('interval', seconds=3)
 async def monitor_bili_run():
-    from utils_bot.msg_ops import send_to_groups
     monitor = monitors['bili']
-    await send_to_groups(*monitor.run())
+    ret = event_loop.run_until_complete(monitor.run())
+    await send_to_groups(*ret)
 
 
 @nonebot.scheduler.scheduled_job('interval', seconds=17)
 async def monitor_you_run():
-    from utils_bot.msg_ops import send_to_groups
     monitor = monitors['you']
-    await send_to_groups(*monitor.run())
+    ret = event_loop.run_until_complete(monitor.run())
+    await send_to_groups(*ret)
 
 
 @nonebot.scheduler.scheduled_job('interval', seconds=150)
 async def monitor_cc_run():
     from utils_bot.msg_ops import send_to_groups
     monitor = monitors['cc']
-    await send_to_groups(*monitor.run())
+    ret = event_loop.run_until_complete(monitor.run())
+    await send_to_groups(*ret)
 
 
 @nonebot.on_command('monitor', only_to_me=False)

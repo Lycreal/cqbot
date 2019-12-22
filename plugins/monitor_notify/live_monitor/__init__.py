@@ -91,10 +91,11 @@ class Monitor:
         else:
             return None
 
-    def run(self) -> Tuple[List, str]:
+    async def run(self) -> Tuple[List, str]:
         channel: BaseChannel = self.next()
-        if channel and channel.sendto and (channel.update() or self.DEBUG):
-            return channel.sendto, channel.notify()
+        if channel and channel.sendto:
+            if await channel.update() or self.DEBUG:
+                return channel.sendto, channel.notify()
         else:
             return [], ''
 
