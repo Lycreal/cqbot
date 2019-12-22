@@ -12,7 +12,7 @@ command list: help, add, del, list
 '''
 monitors = {'bili': Monitor('bili'),
             'you': Monitor('you'),
-            'cc': Monitor('cc', debug=True)}
+            'cc': Monitor('cc')}
 
 [monitor.load() for monitor in monitors.values()]
 
