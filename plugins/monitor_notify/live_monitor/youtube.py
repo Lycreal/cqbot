@@ -1,16 +1,16 @@
 import re
 import json
-from lxml.html import etree
+import lxml.html
 from . import BaseChannel
 
 
 class YoutubeChannel(BaseChannel):
-    def get_url(self):
+    def set_url(self):
         self.api_url = f'https://www.youtube.com/channel/{self.cid}/live'
         self.live_url = self.api_url
 
     def resolve(self, html_s):
-        html: etree.Element = etree.HTML(html_s)
+        html: lxml.html.HtmlElement = lxml.html.fromstring(html_s)
         script = html.xpath('body/script[contains(text(),"RELATED_PLAYER_ARGS")]/text()')
         if not script:
             self.live_status = '0'

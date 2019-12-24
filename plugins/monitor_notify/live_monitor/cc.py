@@ -1,16 +1,16 @@
 import re
 import json
-from lxml import html
+import lxml.html
 from . import BaseChannel
 
 
 class NetEaseChannel(BaseChannel):
-    def get_url(self):
+    def set_url(self):
         self.live_url = f'https://cc.163.com/{self.cid}/'
         self.api_url = self.live_url
 
     def resolve(self, html_s):
-        html_element = html.fromstring(html_s)
+        html_element: lxml.html.HtmlElement = lxml.html.fromstring(html_s)
         try:
             script = html_element.xpath('//script[@id="__NEXT_DATA__"]/text()')[0]
             room_info = json.loads(script)['props']['pageProps']['roomInfoInitData']['live']

@@ -3,7 +3,7 @@ import nonebot
 from typing import Dict, List, Any
 from datetime import datetime
 from pydantic import BaseModel
-from nonebot import on_command, CommandSession, on_natural_language, NLPSession
+from nonebot import on_command, CommandSession, on_natural_language, NLPSession, permission
 from config_bot import data_path
 
 
@@ -107,7 +107,7 @@ class Statistics:
         return list_sort
 
 
-@on_natural_language('', only_to_me=False)
+@on_natural_language('', permission=permission.GROUP, only_to_me=False)
 async def record(session: NLPSession):
     group_id: int = session.ctx['group_id']
     sender: Dict[str, Any] = session.ctx['sender']

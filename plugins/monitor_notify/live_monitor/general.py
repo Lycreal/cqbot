@@ -1,9 +1,10 @@
 from datetime import datetime, timezone, timedelta
 from typing import List
 import aiohttp
+import abc
 
 
-class BaseChannel:
+class BaseChannel(abc.ABC):
     TIME_PRE = timedelta(minutes=5)
 
     def __init__(self, cid: str, name: str):
@@ -14,14 +15,16 @@ class BaseChannel:
         self.ch_name: str = ''  # 频道名，自动获取
         self.cid: str = cid
         self.name: str = name  # 频道名，手动录入
-        self.get_url()
+        self.set_url()
         self.last_check: datetime = datetime.now(timezone(timedelta(hours=8))) - self.TIME_PRE
 
         self.sendto: List[str] = []
 
-    def get_url(self):
-        self.api_url: str = ''
-        self.live_url: str = ''
+    @abc.abstractmethod
+    def set_url(self):
+        # self.api_url: str = ''
+        # self.live_url: str = ''
+        raise NotImplementedError
 
     async def update(self) -> bool:
         if self.live_status != '1':
@@ -29,7 +32,10 @@ class BaseChannel:
             if self.live_status == '1':
                 return True
         elif datetime.now(timezone(timedelta(hours=8))) - self.last_check >= self.TIME_PRE:
+            last_title = self.title
             await self._get_status()
+            if last_title != self.title:
+                return True
         return False
 
     async def _get_status(self):
@@ -40,11 +46,12 @@ class BaseChannel:
         if self.live_status == '1':
             self.last_check = datetime.now(timezone(timedelta(hours=8)))  # 当前时间
 
+    @abc.abstractmethod
     def resolve(self, string: str):
         #     live_status: str
         #     title: str
         #     must be updated
-        pass
+        raise NotImplementedError
 
     def notify(self) -> str:
         if self.live_status == '1':
