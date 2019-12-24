@@ -11,7 +11,7 @@ class BaseChannel(abc.ABC):
         self.api_url: str = ''
         self.live_url: str = ''
         self.live_status: str = '1'
-        self.title: str = ''
+        self.title: str = '<init>'
         self.ch_name: str = ''  # 频道名，自动获取
         self.cid: str = cid
         self.name: str = name  # 频道名，手动录入
@@ -28,17 +28,17 @@ class BaseChannel(abc.ABC):
 
     async def update(self) -> bool:
         if self.live_status != '1':
-            await self._get_status()
+            await self.__get_status()
             if self.live_status == '1':
                 return True
-        elif datetime.now(timezone(timedelta(hours=8))) - self.last_check >= self.TIME_PRE:
+        elif datetime.now(timezone(timedelta(hours=8))) - self.last_check >= self.TIME_PRE:  # 不在冷却时间内
             last_title = self.title
-            await self._get_status()
-            if last_title != self.title:
+            await self.__get_status()
+            if self.live_status == '1' and '<init>' != last_title != self.title:
                 return True
         return False
 
-    async def _get_status(self):
+    async def __get_status(self):
         async with aiohttp.request('GET', self.api_url, timeout=aiohttp.ClientTimeout(10)) as session:
             html_s = await session.text(encoding='utf8')
 
