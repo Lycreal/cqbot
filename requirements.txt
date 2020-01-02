@@ -1,4 +1,4 @@
-pydantic
 lxml
-requests
+# requests
 nonebot[scheduler]
+pydantic

@@ -26,7 +26,7 @@ monitors = {'bili': Monitor('bili'),
 # [monitor.save() for monitor in monitors.values()]
 
 
-@nonebot.scheduler.scheduled_job('interval', seconds=2)
+@nonebot.scheduler.scheduled_job('interval', seconds=1)
 async def monitor_bili_run():
     monitor = monitors['bili']
     await monitor.run(send_to_groups)

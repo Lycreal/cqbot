@@ -31,7 +31,8 @@ class BaseChannel(abc.ABC):
             await self.__get_status()
             if self.live_status == '1':
                 return True
-        elif datetime.now(timezone(timedelta(hours=8))) - self.last_check >= self.TIME_PRE:  # 不在冷却时间内
+        # elif datetime.now(timezone(timedelta(hours=8))) - self.last_check >= self.TIME_PRE:  # 不在冷却时间内
+        else:
             last_title = self.title
             await self.__get_status()
             if self.live_status == '1' and '<init>' != last_title != self.title:
