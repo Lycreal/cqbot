@@ -40,6 +40,8 @@ records = Records()
 
 @on_natural_language(None, permission=GROUP, only_to_me=False)
 async def _(session: NLPSession):
+    if session.ctx.message_type != 'group':
+        return
     groupId = session.ctx['group_id']
     msg = session.ctx['raw_message']
     word = records.simple_repeat(groupId, msg)

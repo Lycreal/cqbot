@@ -109,6 +109,8 @@ class Statistics:
 
 @on_natural_language('', permission=permission.GROUP, only_to_me=False)
 async def record(session: NLPSession):
+    if session.ctx.message_type != 'group':
+        return
     group_id: int = session.ctx['group_id']
     sender: Dict[str, Any] = session.ctx['sender']
 
