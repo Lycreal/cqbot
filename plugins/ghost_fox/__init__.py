@@ -63,7 +63,7 @@ async def add_ghost(session: CommandSession):
 
 @on_natural_language(None, permission=GROUP, only_to_me=False)
 async def _(session: NLPSession):
-    if session.ctx.message_type != 'group':
+    if session.ctx['message_type'] != 'group':
         return
     group_id = str(session.ctx['group_id'])
     if group_id in ghosts.keys():
