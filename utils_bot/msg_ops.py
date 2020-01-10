@@ -7,14 +7,14 @@ MY_NAMES = NICKNAME.union({'机器人', '复读机', 'Bot', 'bot'})
 
 async def send_to_superusers(msg: str):
     for eachId in SUPERUSERS:
-        await get_bot().send_private_msg_rate_limited(user_id=eachId, message=msg)
+        await get_bot().send_private_msg(user_id=eachId, message=msg)
 
 
 async def send_to_groups(groups: list, msg: str):
     logger.debug(str((groups, msg)))
     if msg:
         for groupId in groups:
-            await get_bot().send_group_msg_rate_limited(group_id=groupId, message=str(msg).strip())
+            await get_bot().send_group_msg(group_id=groupId, message=str(msg).strip())
 
 
 def msg_is_calling_me(msg: str) -> bool:
