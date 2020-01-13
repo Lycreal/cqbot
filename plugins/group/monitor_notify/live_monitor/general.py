@@ -40,7 +40,7 @@ class BaseChannel(abc.ABC):
         return False
 
     async def __get_status(self):
-        async with aiohttp.request('GET', self.api_url, timeout=aiohttp.ClientTimeout(10)) as session:
+        async with aiohttp.request('GET', self.api_url, timeout=aiohttp.ClientTimeout(15)) as session:
             html_s = await session.text(encoding='utf8')
 
         self.resolve(html_s)

@@ -19,9 +19,9 @@ class YoutubeChannel(BaseChannel):
         RELATED_PLAYER_ARGS = json.loads(json_s)
 
         json_s = RELATED_PLAYER_ARGS['watch_next_response']
-        watch_next_response = json.loads(json_s)
+        watch_next_response: dict = json.loads(json_s)
 
-        videoMetadataRenderer = \
+        videoMetadataRenderer: dict = \
             watch_next_response['contents']['twoColumnWatchNextResults']['results']['results']['contents'][0][
                 'itemSectionRenderer']['contents'][0]['videoMetadataRenderer']
         self.ch_name = videoMetadataRenderer['owner']['videoOwnerRenderer']['title']['runs'][0]['text']
@@ -29,8 +29,10 @@ class YoutubeChannel(BaseChannel):
             'shareVideoEndpoint']
         self.title = shareVideoEndpoint['videoTitle']
         self.live_url = shareVideoEndpoint['videoShareUrl']
-        if 'liveBadge' in list(videoMetadataRenderer['badges'][0].keys()) and \
-                videoMetadataRenderer['badges'][0]['liveBadge']['label']['simpleText'] == 'Live now':
-            self.live_status = '1'
-        else:
-            self.live_status = '0'
+
+        if 'badges' in videoMetadataRenderer.keys():
+            if 'liveBadge' in videoMetadataRenderer['badges'][0].keys():
+                if videoMetadataRenderer['badges'][0]['liveBadge']['label']['simpleText'] == 'Live now':
+                    self.live_status = '1'
+                    return
+        self.live_status = '0'
