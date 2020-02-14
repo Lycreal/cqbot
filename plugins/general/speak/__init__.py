@@ -11,7 +11,7 @@ class MsgFromText:
         text = text.strip()
         msg: Message = Message()
         for t in text.split():
-            if not msg:
+            if msg:
                 msg.append(MessageSegment.text(' '))
             msg.append(cls.build(t))
         return msg
