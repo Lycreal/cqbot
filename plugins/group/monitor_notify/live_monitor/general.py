@@ -2,6 +2,7 @@ from datetime import datetime, timezone, timedelta
 from typing import List
 import aiohttp
 import abc
+import difflib
 
 
 class BaseChannel(abc.ABC):
@@ -17,6 +18,7 @@ class BaseChannel(abc.ABC):
         self.name: str = name  # 频道名，手动录入
         self.set_url()
         self.last_check: datetime = datetime.now(timezone(timedelta(hours=8))) - self.TIME_PRE
+        self.last_title: str = '<init>'
 
         self.sendto: List[str] = []
 
@@ -27,25 +29,33 @@ class BaseChannel(abc.ABC):
         raise NotImplementedError
 
     async def update(self) -> bool:
-        if self.live_status != '1':
-            await self.__get_status()
-            if self.live_status == '1':
+        last_status = self.live_status
+        await self.__get_status()
+
+        if self.live_status == '1':
+            # 播报策略
+            status_changed = last_status != self.live_status
+            time_delta = datetime.now(timezone(timedelta(hours=8))) - self.last_check  # 距离上次检测到开播状态的时间
+            title_changed = '<init>' != self.last_title and \
+                            difflib.SequenceMatcher(None, self.last_title, self.title).quick_ratio() < 0.5  # 相似度较小
+
+            self.last_check = datetime.now(timezone(timedelta(hours=8)))  # 记录开播时间
+            self.last_title = self.title  # 记录开播标题
+
+            if title_changed:  # 标题变更
                 return True
-        # elif datetime.now(timezone(timedelta(hours=8))) - self.last_check >= self.TIME_PRE:  # 不在冷却时间内
+            elif status_changed and time_delta >= timedelta(hours=1):  # 新开播，距上次开播1小时以上
+                return True
+            else:
+                return False
         else:
-            last_title = self.title
-            await self.__get_status()
-            if self.live_status == '1' and '<init>' != last_title != self.title:
-                return True
-        return False
+            return False
 
     async def __get_status(self):
         async with aiohttp.request('GET', self.api_url, timeout=aiohttp.ClientTimeout(15)) as session:
             html_s = await session.text(encoding='utf8')
 
         self.resolve(html_s)
-        if self.live_status == '1':
-            self.last_check = datetime.now(timezone(timedelta(hours=8)))  # 当前时间
 
     @abc.abstractmethod
     def resolve(self, string: str):

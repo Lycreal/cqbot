@@ -32,7 +32,7 @@ async def monitor_bili_run():
     await monitor.run(send_to_groups)
 
 
-@nonebot.scheduler.scheduled_job('interval', seconds=15)
+@nonebot.scheduler.scheduled_job('interval', seconds=20)
 async def monitor_you_run():
     monitor = monitors['you']
     await monitor.run(send_to_groups)
