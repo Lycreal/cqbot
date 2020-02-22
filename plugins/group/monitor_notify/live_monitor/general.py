@@ -17,7 +17,7 @@ class BaseChannel(abc.ABC):
         self.cid: str = cid
         self.name: str = name  # 频道名，手动录入
         self.set_url()
-        self.last_check: datetime = datetime.now(timezone(timedelta(hours=8))) - self.TIME_PRE
+        self.last_check: datetime = datetime.now(timezone(timedelta(hours=8))) - timedelta(days=30)
         self.last_title: str = '<init>'
 
         self.sendto: List[str] = []
