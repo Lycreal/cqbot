@@ -33,16 +33,16 @@ async def _(session: NoticeSession):
 
 
 # notify superusers when bot gets kicked from a group
-@on_notice('group_decrease')
-async def _(session: NoticeSession):
-    if session.ctx["user_id"] != session.ctx["operator_id"]:
-        await send_to_superusers(
-            f'{session.ctx["user_id"]}被{session.ctx["operator_id"]}踢出了群{session.ctx["group_id"]}。')
-    else:
-        await send_to_superusers(
-            f'{session.ctx["user_id"]}离开了群{session.ctx["group_id"]}。')
-        await get_bot().send_group_msg(group_id=session.ctx["group_id"],
-                                       message=f'{session.ctx["user_id"]}离开了本群')
+# @on_notice('group_decrease')
+# async def _(session: NoticeSession):
+#     if session.ctx["user_id"] != session.ctx["operator_id"]:
+#         await send_to_superusers(
+#             f'{session.ctx["user_id"]}被{session.ctx["operator_id"]}踢出了群{session.ctx["group_id"]}。')
+#     else:
+#         await send_to_superusers(
+#             f'{session.ctx["user_id"]}离开了群{session.ctx["group_id"]}。')
+#         await get_bot().send_group_msg(group_id=session.ctx["group_id"],
+#                                        message=f'{session.ctx["user_id"]}离开了本群')
 
 
 # notify superusers when bot is set admin

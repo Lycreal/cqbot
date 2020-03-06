@@ -37,7 +37,7 @@ class BaseChannel(abc.ABC):
             status_changed = last_status != self.live_status
             time_delta = datetime.now(timezone(timedelta(hours=8))) - self.last_check  # 距离上次检测到开播状态的时间
             title_changed = '<init>' != self.last_title and \
-                            difflib.SequenceMatcher(None, self.last_title, self.title).quick_ratio() < 0.5  # 相似度较小
+                            difflib.SequenceMatcher(None, self.last_title, self.title).quick_ratio() < 0.7  # 相似度较小
 
             self.last_check = datetime.now(timezone(timedelta(hours=8)))  # 记录开播时间
             self.last_title = self.title  # 记录开播标题

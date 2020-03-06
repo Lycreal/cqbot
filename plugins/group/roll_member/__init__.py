@@ -17,7 +17,7 @@ class RollMember:
     group_member_list = []
 
     @classmethod
-    async def get(cls, group_id: str):
+    async def get(cls, group_id: int):
         now = datetime.now()
         if group_id != cls.last_group or now - cls.last_check > timedelta(minutes=5):
             cls.group_member_list = await cls.bot.get_group_member_list(group_id=group_id)
