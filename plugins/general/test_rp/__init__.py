@@ -17,16 +17,10 @@ class TestLuck:
 
     @staticmethod
     def return_luck_by_num(num: float) -> str:
-        # if 0.0 <= num < 0.1:
-        #     return '极坏'
-        # elif 0.1 <= num < 0.4:
-        #     return '坏'
-        # elif 0.4 <= num < 0.7:
-        #     return '一般'
-        # elif 0.7 <= num < 0.9:
-        #     return '好'
-        # else:
-        #     return '极好'
+        """
+        :param num:0-1的数字
+        :return:0-100的数字
+        """
         luck = math.sqrt(num)
         return str(round(luck * 100))
 

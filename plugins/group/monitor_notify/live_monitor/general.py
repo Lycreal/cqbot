@@ -3,6 +3,8 @@ from typing import List
 import aiohttp
 import abc
 import difflib
+import asyncio
+from nonebot.log import logger
 
 
 class BaseChannel(abc.ABC):
@@ -52,9 +54,12 @@ class BaseChannel(abc.ABC):
             return False
 
     async def __get_status(self):
-        async with aiohttp.request('GET', self.api_url, timeout=aiohttp.ClientTimeout(15)) as session:
-            html_s = await session.text(encoding='utf8')
-
+        try:
+            async with aiohttp.request('GET', self.api_url, timeout=aiohttp.ClientTimeout(5)) as session:
+                html_s = await session.text(encoding='utf8')
+        except asyncio.TimeoutError as e:
+            logger.error(f'Timeout Fetching Channel Status: "{self.name}"')
+            return
         self.resolve(html_s)
 
     @abc.abstractmethod

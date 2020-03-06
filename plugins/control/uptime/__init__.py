@@ -18,7 +18,7 @@ bot = get_bot()
 start_time = datetime.now()
 
 
-@on_command('status', only_to_me=False)
+@on_command('uptime', only_to_me=False)
 async def _(session: CommandSession):
     now = datetime.now()
     uptime: timedelta = now - start_time

@@ -6,6 +6,14 @@ from pydantic import BaseModel
 from nonebot import on_command, CommandSession, on_natural_language, NLPSession, permission
 from config_bot import data_path
 
+__plugin_name__ = '发言统计'
+__plugin_usage__ = r'''统计群员每天发言数和发言时段
+.stat [num] 今日发言数Top[num] 默认Top5
+.stat2 今日发言时段统计
+.stat3 昨日发言数Top5
+.stat4 昨日发言时段统计
+'''
+
 
 class Statistics:
     class SaveData(BaseModel):
