@@ -1,0 +1,14 @@
+[[source]]
+name = "pypi"
+url = "https://mirrors.tuna.tsinghua.edu.cn/pypi/web/simple/"
+verify_ssl = true
+
+[dev-packages]
+
+[packages]
+pydantic = "*"
+lxml = "*"
+nonebot = {extras = ["scheduler"],version = "*"}
+
+[requires]
+python_version = "3.8"
