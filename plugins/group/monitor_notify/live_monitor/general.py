@@ -55,9 +55,9 @@ class BaseChannel(abc.ABC):
 
     async def __get_status(self):
         try:
-            async with aiohttp.request('GET', self.api_url, timeout=aiohttp.ClientTimeout(5)) as session:
+            async with aiohttp.request('GET', self.api_url, timeout=aiohttp.ClientTimeout(15)) as session:
                 html_s = await session.text(encoding='utf8')
-        except asyncio.TimeoutError as e:
+        except asyncio.TimeoutError:
             logger.error(f'Timeout Fetching Channel Status: "{self.name}"')
             return
         self.resolve(html_s)
