@@ -9,4 +9,4 @@ from utils_bot.msg_ops import send_to_superusers
 @on_natural_language(permission=IS_PRIVATE)
 async def _(session: NLPSession):
     # if session.ctx['sub_type'] in ['group', 'discuss']:
-    await send_to_superusers(str(session.ctx))
+    await send_to_superusers(repr(session.ctx))
