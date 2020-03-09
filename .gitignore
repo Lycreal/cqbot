@@ -2,8 +2,11 @@
 ### Example user template template
 ### Example user template
 
-config_private.py
-data/
+/config_private.py
+/data/
+/.idea/
+/Pipfile.lock
+/plugins/debug/
 
 ### Python template
 # Byte-compiled / optimized / DLL files
@@ -199,6 +202,3 @@ fabric.properties
 
 # Android studio 3.1+ serialized cache file
 .idea/caches/build_file_checksums.ser
-
-/.idea/
-plugins/debug/
