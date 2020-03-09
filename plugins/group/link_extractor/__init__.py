@@ -1,8 +1,8 @@
 import re
 import html
 import json
+import asyncio
 import aiohttp
-import difflib
 import lxml.html
 import urllib.parse
 from typing import List, Dict, Tuple
@@ -22,38 +22,50 @@ async def _(session: NLPSession):
             # 提取分享标题
             content = json.loads(html.unescape(msg['data']['content']))
             title: str = content['detail_1']['desc']
-            # 根据标题进行搜索
-            videos = await search_bili_by_title(title)
-            match_title: List[str] = difflib.get_close_matches(title, [v[1] for v in videos], n=3, cutoff=1)
-            if not match_title:
-                match_title = difflib.get_close_matches(title, [v[1] for v in videos], n=3, cutoff=0.6)
-            match_vid = [v[0] for v in videos if v[1] in match_title]
+
+            url = content['detail_1'].get('qqdocurl')
+            if url:
+                # 直接提取av号
+                av_pattern = re.compile(r'www.bilibili.com/video/(av\d+)')
+                vid = av_pattern.search(url).group(1)
+            else:
+                # 根据标题进行搜索
+                vid = await search_bili_by_title(title)
+
             # 构建消息内容
             msg = title + '\n'
-            for vid in match_vid:
-                msg += f'https://b23.tv/av{vid}'
-            if len(match_vid) == 0:
-                msg += f'未找到视频地址（可能含有敏感词）'
-            if len(match_vid) >= 2 or title != match_title[0]:
-                msg += f'（视频地址为猜测）'
+            if vid:
+                msg += f'https://b23.tv/{vid}'
+            else:
+                msg += f'未找到视频地址'
             await session.send(msg)
 
 
-async def search_bili_by_title(title: str) -> List[Tuple[str, str]]:
+async def search_bili_by_title(title: str):
     """
     :param title:
     :return: [(av号,标题)]
     :rtype: List[Tuple[str, str]]
     """
-    search_url = f'https://search.bilibili.com/video?keyword={urllib.parse.quote(title)}'
-    async with aiohttp.request('GET', search_url) as resp:
-        text = await resp.text(encoding='utf8')
-        content: lxml.html.HtmlElement = lxml.html.fromstring(text)
+    # remove brackets
+    brackets_pattern = re.compile(r'[()\[\]{}（）【】]')
+    title_without_brackets = brackets_pattern.sub(' ', title).strip()
+    search_url = f'https://search.bilibili.com/video?keyword={urllib.parse.quote(title_without_brackets)}'
+    print(search_url)
+    try:
+        async with aiohttp.request('GET', search_url, timeout=aiohttp.client.ClientTimeout(10)) as resp:
+            text = await resp.text(encoding='utf8')
+            content: lxml.html.HtmlElement = lxml.html.fromstring(text)
+    except asyncio.TimeoutError:
+        return None
 
-    av_pattern = re.compile(r'www.bilibili.com/video/av(\d+)')
-    videos: List[Tuple[str, str]] = [
-        (av_pattern.search(video.xpath('./attribute::href')[0]).group(1),
-         video.xpath('./attribute::title')[0])
-        for video in content.xpath('//li[@class="video-item matrix"]/a[@class="img-anchor"]')
-    ]
-    return videos
+    av_pattern = re.compile(r'www.bilibili.com/video/(av\d+)')
+
+    for video in content.xpath('//li[@class="video-item matrix"]/a[@class="img-anchor"]'):
+        if title == ''.join(video.xpath('./attribute::title')):
+            vid = av_pattern.search(''.join(video.xpath('./attribute::href'))).group(1)
+            break
+    else:
+        vid = None
+    print(vid)
+    return vid
