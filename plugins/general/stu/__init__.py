@@ -1,5 +1,5 @@
+import asyncio
 import aiohttp.client
-import re
 import lxml.html
 from nonebot import on_command, CommandSession
 from nonebot.command.argfilter import extractors, validators, controllers
@@ -33,9 +33,12 @@ async def _(session: CommandSession):
 async def do_search(url: str):
     # saucenao
     s_url = f'https://saucenao.com/search.php?url={url}'
-    s_info, tmp_link = await get_saucenao_detail(s_url)
+
+    task = asyncio.create_task(shorten_img_url(url))
+    s_info = await get_saucenao_detail(s_url)
 
     if s_info and percent_to_int(s_info[0]['Similarity']) > 0.6:
+        task.cancel()
         msg = ''
         for k, v in s_info[0].items():
             if k != 'Content':
@@ -44,7 +47,7 @@ async def do_search(url: str):
                 msg += f'{v}\n'
         return msg.strip()
     else:
-        tmp_link = await shorten_img_url(tmp_link)
+        tmp_link = (await asyncio.gather(task))[0]
         msg = '未找到相似图片，其他搜图引擎：\n'
         msg += f'①https://iqdb.org/?url={tmp_link}\n'
         msg += f'②https://ascii2d.net/search/url/{tmp_link}\n'
@@ -70,12 +73,7 @@ async def get_saucenao_detail(s_url):
         }
         for r in html_e.xpath('//div[@class="result"]/table[@class="resulttable"]')
     ]
-    try_links = html_e.xpath('//div[@id="yourimageretrylinks"]/a[contains(attribute::href,"userdata")]/attribute::href')
-
-    pattern = re.compile(r'https://saucenao.com/userdata/\w+.jpg.png')
-    tmp_link = pattern.search(try_links[0]).group(0)
-
-    return results, tmp_link
+    return results
 
 
 # 百分数转为int
@@ -95,12 +93,3 @@ async def shorten_img_url(url: str):
     img_uri = html_e.xpath('//img[contains(attribute::src,"/thu/thu_")]/attribute::src')[0]
     img_url = f'https://iqdb.org{img_uri}'
     return img_url
-
-
-if __name__ == '__main__':
-    import asyncio
-
-    loop = asyncio.get_event_loop()
-    loop.run_until_complete(
-        shorten_img_url('https://i-f.pximg.net/img-original/img/2020/03/02/00/22/39/79835709_p0.jpg'))
-    loop.run_forever()
