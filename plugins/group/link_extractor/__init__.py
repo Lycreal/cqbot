@@ -33,7 +33,6 @@ async def _(session: NLPSession):
             # 构建消息内容
             msg = title
             for vid in match_vid:
-                # msg += f'\nhttps://www.bilibili.com/video/av{vid}'
                 msg += f'\nhttps://b23.tv/av{vid}'
             if len(match_vid) > 1 or title != match_title[0]:
                 msg += f'\n（视频地址为猜测）'
@@ -51,7 +50,7 @@ async def search_bili_by_title(title: str) -> List[Tuple[str, str]]:
         text = await resp.text(encoding='utf8')
         content: lxml.html.HtmlElement = lxml.html.fromstring(text)
 
-    av_pattern = re.compile('www.bilibili.com/video/av([0-9]+)')
+    av_pattern = re.compile(r'www.bilibili.com/video/av(\d+)')
     videos: List[Tuple[str, str]] = [
         (av_pattern.search(video.xpath('./attribute::href')[0]).group(1),
          video.xpath('./attribute::title')[0])
