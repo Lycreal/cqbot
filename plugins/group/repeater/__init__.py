@@ -4,9 +4,7 @@ from utils_bot.random_number import square_random
 import asyncio
 
 __plugin_name__ = '复读机'
-__plugin_usage__ = r'''feature: 复读
-人类的本质
-'''
+__plugin_usage__ = r'''复读三次自动复读'''
 
 
 class Record:

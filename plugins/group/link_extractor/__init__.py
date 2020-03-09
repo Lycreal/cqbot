@@ -9,7 +9,7 @@ from typing import List, Dict, Tuple
 from nonebot import on_natural_language, NLPSession
 
 __plugin_name__ = 'B站小程序解析'
-__plugin_usage__ = r'''解析B站小程序分享链接，显示视频标题并推测视频链接'''
+__plugin_usage__ = r'''自动解析B站小程序分享链接，显示视频标题并推测视频链接'''
 
 
 @on_natural_language(only_to_me=False)

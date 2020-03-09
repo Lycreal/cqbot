@@ -2,8 +2,8 @@ from nonebot import on_natural_language, NLPSession
 from nonebot.permission import IS_PRIVATE
 from utils_bot.msg_ops import send_to_superusers
 
-
-# 将收到的私聊信息转发给管理者
+__plugin_name__ = '消息上报(private)'
+__plugin_usage__ = r'''将收到的私聊信息转发给管理者'''
 
 
 @on_natural_language(permission=IS_PRIVATE)

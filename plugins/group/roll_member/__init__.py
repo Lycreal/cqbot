@@ -2,10 +2,9 @@ import random
 from datetime import datetime, timedelta
 from nonebot import get_bot, on_command, CommandSession
 
-__plugin_name__ = '随机群员'
-__plugin_usage__ = r'''feature: 随机群员
+__plugin_name__ = '随机点名'
+__plugin_usage__ = r'''返回一名随机群员的id
 [关键词] rollmember rollmem rm
-返回一名随机群员的id
 '''
 
 

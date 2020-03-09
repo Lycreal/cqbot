@@ -3,12 +3,9 @@ from nonebot import on_command, CommandSession, get_bot
 from nonebot.permission import *
 
 __plugin_name__ = '帮助'
-__plugin_usage__ = r'''feature: 帮助
-帮助        获取帮助
-(with params)
-[功能名]            获取特定功能的帮助
-(example)
-帮助 骰子
+__plugin_usage__ = r'''帮助
+.help  功能列表
+.help <名称>  特定功能帮助
 '''
 
 
@@ -24,9 +21,9 @@ async def _(session: CommandSession):
 
     arg = session.current_arg_text.strip().lower()
     if not arg:
-        text = '目前功能:\n{\n\t' + \
-               '\n\t'.join(p.name for p in plugins) + '\n}' + \
-               '例子：帮助 骰子'
+        text = '目前功能:\n\t' + \
+               '\n\t'.join(p.name for p in plugins) + '\n' + \
+               '对应功能说明(例)：.help 复读机'
         await session.send(text)
 
     else:

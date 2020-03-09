@@ -1,6 +1,11 @@
 from datetime import datetime, timedelta
 from nonebot import get_bot, on_command, CommandSession
 
+__plugin_name__ = '运行时间'
+__plugin_usage__ = r'''显示Bot启动后持续运行时间
+关键词: uptime
+'''
+
 
 def timedelta2str(td):
     mm, ss = divmod(td.seconds, 60)

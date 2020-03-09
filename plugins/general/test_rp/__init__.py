@@ -6,10 +6,9 @@ from nonebot import on_command, CommandSession
 
 # from nonebot.permission import *
 
-__plugin_name__ = '今日运气'
-__plugin_usage__ = f'''feature: 看看今天的运气~
-[关键词] 今日运气 今日人品 jrrp
-不为结果负责。
+__plugin_name__ = '今日人品'
+__plugin_usage__ = f'''测试今日人品
+[关键词] jrrp 今日人品 今日运气
 '''
 
 

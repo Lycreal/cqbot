@@ -2,7 +2,11 @@ import nonebot
 from nonebot import on_command, CommandSession, MessageSegment, Message
 from nonebot.permission import SUPERUSER
 
-bot: nonebot.NoneBot = nonebot.get_bot()
+__plugin_name__ = '控制发言(private)'
+__plugin_usage__ = r'''在指定群聊发言
+关键词: speak say echo
+例: .speak [group_id] <message>
+'''
 
 
 class MsgFromText:
@@ -30,7 +34,7 @@ async def speak(session: CommandSession):
     group = session.get('group')
     word = session.get('word')
     msg = MsgFromText.msg_from_text(word)
-    await bot.send_group_msg(group_id=group, message=msg)
+    await nonebot.get_bot().send_group_msg(group_id=group, message=msg)
 
 
 @speak.args_parser

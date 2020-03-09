@@ -5,10 +5,10 @@ from .live_monitor import Monitor
 import re
 
 __plugin_name__ = '直播监控'
-__plugin_usage__ = r'''feature: 直播监控
+__plugin_usage__ = r'''直播监控
 关键词：monitor [command]
 command list: help, add, del, list
-例：monitor help
+例：.monitor help add
 '''
 monitors = {'bili': Monitor('bili'),
             'you': Monitor('you'),
