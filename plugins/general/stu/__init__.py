@@ -44,6 +44,7 @@ async def do_search(url: str):
                 msg += f'{v}\n'
         return msg.strip()
     else:
+        tmp_link = await shorten_img_url(tmp_link)
         msg = '未找到相似图片，其他搜图引擎：\n'
         msg += f'①https://iqdb.org/?url={tmp_link}\n'
         msg += f'②https://ascii2d.net/search/url/{tmp_link}\n'
@@ -85,9 +86,21 @@ def percent_to_int(string):
         return float(string)
 
 
+async def shorten_img_url(url: str):
+    i_url = f'https://iqdb.org/?url={url}'
+    async with aiohttp.client.request('GET', i_url) as resp:
+        text = await resp.text(encoding='utf8')
+
+    html_e: lxml.html.HtmlElement = lxml.html.fromstring(text)
+    img_uri = html_e.xpath('//img[contains(attribute::src,"/thu/thu_")]/attribute::src')[0]
+    img_url = f'https://iqdb.org{img_uri}'
+    return img_url
+
+
 if __name__ == '__main__':
     import asyncio
 
     loop = asyncio.get_event_loop()
-    loop.run_until_complete(do_search('https://i-f.pximg.net/img-original/img/2020/03/02/00/22/39/79835709_p0.jpg'))
+    loop.run_until_complete(
+        shorten_img_url('https://i-f.pximg.net/img-original/img/2020/03/02/00/22/39/79835709_p0.jpg'))
     loop.run_forever()

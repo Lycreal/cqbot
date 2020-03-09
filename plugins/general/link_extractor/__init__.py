@@ -44,14 +44,14 @@ async def _(session: NLPSession):
 async def search_bili_by_title(title: str):
     """
     :param title:
-    :return: [(av号,标题)]
+    :return: av号
     :rtype: List[Tuple[str, str]]
     """
     # remove brackets
     brackets_pattern = re.compile(r'[()\[\]{}（）【】]')
     title_without_brackets = brackets_pattern.sub(' ', title).strip()
     search_url = f'https://search.bilibili.com/video?keyword={urllib.parse.quote(title_without_brackets)}'
-    print(search_url)
+
     try:
         async with aiohttp.request('GET', search_url, timeout=aiohttp.client.ClientTimeout(10)) as resp:
             text = await resp.text(encoding='utf8')
