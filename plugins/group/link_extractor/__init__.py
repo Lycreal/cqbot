@@ -32,7 +32,7 @@ async def _(session: NLPSession):
             if not match_title:
                 return
 
-            match_vid = [v[0] for v in videos if v[1] == match_title]
+            match_vid = [v[0] for v in videos if v[1] in match_title]
             for vid in match_vid:
                 msg += f'\nhttps://www.bilibili.com/video/av{vid}'
             if len(match_vid) >= 1 or title != match_title[0]:
