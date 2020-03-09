@@ -27,7 +27,7 @@ async def search_pic(session: CommandSession):
 async def _(session: CommandSession):
     image_urls = extractors.extract_image_urls(session.ctx['message'])
     if image_urls:
-        session.state['img_url'] = image_urls[0]
+        session.state['img_url'] = image_urls
 
 
 async def do_search(url: str):

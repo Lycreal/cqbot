@@ -27,15 +27,15 @@ async def _(session: NLPSession):
             match_title: List[str] = difflib.get_close_matches(title, [v[1] for v in videos], n=3, cutoff=1)
             if not match_title:
                 match_title = difflib.get_close_matches(title, [v[1] for v in videos], n=3, cutoff=0.6)
-            if not match_title:
-                return
             match_vid = [v[0] for v in videos if v[1] in match_title]
             # 构建消息内容
-            msg = title
+            msg = title + '\n'
             for vid in match_vid:
-                msg += f'\nhttps://b23.tv/av{vid}'
-            if len(match_vid) > 1 or title != match_title[0]:
-                msg += f'\n（视频地址为猜测）'
+                msg += f'https://b23.tv/av{vid}'
+            if len(match_vid) == 0:
+                msg += f'未找到视频地址（可能含有敏感词）'
+            if len(match_vid) >= 2 or title != match_title[0]:
+                msg += f'（视频地址为猜测）'
             await session.send(msg)
 
 
