@@ -19,24 +19,24 @@ async def _(session: NLPSession):
 
     for msg in msg_list:
         if msg['type'] == 'rich' and html.unescape(msg['data'].get('title')) == '[QQ小程序]哔哩哔哩':
+            # 提取分享标题
             content = json.loads(html.unescape(msg['data']['content']))
             title: str = content['detail_1']['desc']
-
+            # 根据标题进行搜索
             videos = await search_bili_by_title(title)
-
-            # 构建消息内容
-            msg = title
             match_title: List[str] = difflib.get_close_matches(title, [v[1] for v in videos], n=3, cutoff=1)
             if not match_title:
                 match_title = difflib.get_close_matches(title, [v[1] for v in videos], n=3, cutoff=0.6)
             if not match_title:
                 return
-
             match_vid = [v[0] for v in videos if v[1] in match_title]
+            # 构建消息内容
+            msg = title
             for vid in match_vid:
-                msg += f'\nhttps://www.bilibili.com/video/av{vid}'
+                # msg += f'\nhttps://www.bilibili.com/video/av{vid}'
+                msg += f'\nhttps://b23.tv/av{vid}'
             if len(match_vid) > 1 or title != match_title[0]:
-                msg += f'\n（视频地址为推测）'
+                msg += f'\n（视频地址为猜测）'
             await session.send(msg)
 
 
