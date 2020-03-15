@@ -22,7 +22,7 @@ class BaseChannel(abc.ABC):
         self.last_check: datetime = datetime.now(timezone(timedelta(hours=8))) - timedelta(days=30)
         self.last_title: str = '<init>'
 
-        self.sendto: List[str] = []
+        self.targets: List[str] = []
 
     @abc.abstractmethod
     def set_url(self):

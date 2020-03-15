@@ -1,7 +1,7 @@
 import nonebot
-from utils_bot.msg_ops import send_to_groups
 from nonebot import CommandSession
 from .live_monitor import Monitor
+from .buffer import buffer
 import re
 
 __plugin_name__ = '直播监控'
@@ -29,19 +29,19 @@ monitors = {'bili': Monitor('bili'),
 @nonebot.scheduler.scheduled_job('interval', seconds=1.5)
 async def monitor_bili_run():
     monitor = monitors['bili']
-    await monitor.run(send_to_groups)
+    await monitor.run(buffer.input)
 
 
 @nonebot.scheduler.scheduled_job('interval', seconds=20)
 async def monitor_you_run():
     monitor = monitors['you']
-    await monitor.run(send_to_groups)
+    await monitor.run(buffer.input)
 
 
 @nonebot.scheduler.scheduled_job('interval', seconds=60)
 async def monitor_cc_run():
     monitor = monitors['cc']
-    await monitor.run(send_to_groups)
+    await monitor.run(buffer.input)
 
 
 @nonebot.on_command('monitor', only_to_me=False)
@@ -79,13 +79,13 @@ async def add_(session: CommandSession, *argv: str):
         channel_name = argv[2] if len(argv) >= 3 else ''
         if url.find('bilibili') != -1:
             channel_type = 'bili'
-            channel_id = url.split('/')[-1].split('?')[0]
+            channel_id = re.search(r'live.bilibili.com/(\d+)', url)[1]
         elif url.find('youtube.com') != -1:
             channel_type = 'you'
-            channel_id = re.search(r'(UC[\w-]{22})', url)[0]
+            channel_id = re.search(r'UC[\w-]{22}', url)[0]
         elif url.find('cc.163.com') != -1:
             channel_type = 'cc'
-            channel_id = url.split('/')[-1]
+            channel_id = re.search(r'cc.163.com/(\d+)', url)[1]
         else:
             await help_(session)
             return
@@ -121,7 +121,7 @@ async def list_(session: CommandSession, *argv: str):
     for monitor in monitors.values():
         msg = ''
         for ch in monitor.channel_list:
-            if group in ch.sendto:
+            if group in ch.targets:
                 name = ch.name if ch.name else ch.ch_name
                 if sub == '':
                     msg += f'{name}:{ch.live_status}\n'
