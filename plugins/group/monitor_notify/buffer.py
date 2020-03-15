@@ -19,8 +19,7 @@ class MessageBuffer:
             self.buffer[target].append(msg)
             # 设置时刻
             now = datetime.now()
-            self.clock.setdefault(target, [now, now])
-            self.clock[target][1] = now
+            self.clock.setdefault(target, [now, now])[1] = now
 
     async def send(self, target: str):
         # 发送消息并清空缓冲区
@@ -34,7 +33,7 @@ class MessageBuffer:
         self.clock.pop(target)
 
     async def check(self):
-        for target, msg_array in self.buffer.items():
+        for target, msg_array in list(self.buffer.items()):
             count = len(msg_array)
             first_clock, last_clock = self.clock[target]
             all_waited = datetime.now() - first_clock
