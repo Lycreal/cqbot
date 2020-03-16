@@ -26,9 +26,9 @@ class MessageBuffer:
         # target_type, target_body = target[:1], target[1:]
         target_type, target_body = 'g', target
         if target_type == 'g':
-            await nonebot.get_bot().send_group_msg(group_id=int(target_body), message='\n'.join(self.buffer[target]))
-        # elif target_type == 'p':
-        #     await nonebot.get_bot().send_private_msg(user_id=int(target_body), message='\n'.join(self.buffer[target]))
+            await nonebot.get_bot().send_group_msg(group_id=int(target_body), message='\n\n'.join(self.buffer[target]))
+        elif target_type == 'p':
+            await nonebot.get_bot().send_private_msg(user_id=int(target_body), message='\n\n'.join(self.buffer[target]))
         self.buffer.pop(target)
         self.clock.pop(target)
 
@@ -39,7 +39,7 @@ class MessageBuffer:
             all_waited = datetime.now() - first_clock
             last_waited = datetime.now() - last_clock
 
-            if count >= 6 or last_waited >= timedelta(seconds=20) or all_waited >= timedelta(seconds=60):
+            if count >= 4 or last_waited >= timedelta(seconds=20) or all_waited >= timedelta(seconds=60):
                 await self.send(target)
 
 
