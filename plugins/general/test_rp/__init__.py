@@ -9,6 +9,8 @@ from nonebot import on_command, CommandSession
 __plugin_name__ = '今日人品'
 __plugin_usage__ = f'''测试今日人品
 [关键词] jrrp 今日人品 今日运气
+例：
+.jrrp
 '''
 
 

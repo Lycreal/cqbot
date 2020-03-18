@@ -5,8 +5,11 @@ from nonebot import on_command, CommandSession
 from nonebot.command.argfilter import extractors, validators, controllers
 
 __plugin_name__ = '搜图'
-__plugin_usage__ = r'''搜图 关键词：stu st
+__plugin_usage__ = r'''搜索P站图片 关键词：stu st
 输入命令后发送要搜索的图片
+例：
+.st <图片> （有空格）
+.st （发送命令后发送图片）
 '''
 
 
@@ -20,7 +23,7 @@ async def search_pic(session: CommandSession):
             validators.not_empty('请发送图片')
         ]
     )[0]
-    await session.send(await do_search(img_url))
+    await session.send(await do_search(img_url), at_sender=True)
 
 
 @search_pic.args_parser

@@ -87,7 +87,7 @@ async def add_(session: CommandSession, *argv: str):
             channel_type = 'cc'
             channel_id = re.search(r'cc.163.com/(\d+)', url)[1]
         else:
-            await help_(session)
+            await session.send('不支持的直播间地址', at_sender=True)
             return
     else:
         await help_(session)
@@ -142,16 +142,17 @@ async def help_(session: CommandSession, *argv: str):
     if not argv:
         argv = ['']
     if argv[0] == 'add':
-        msg += 'monitor add [type] [cid] [name]\n'
-        msg += '[type]:频道类型,备选值:bili,you,cc\n'
-        msg += '[cid]:频道id,对于bilibili指直播间号\n'
-        msg += '[name]:频道名\n'
-        msg += '频道名若不填写，将自动获取'
+        msg += 'monitor add <type> <cid> [name]\n'
+        msg += 'monitor add <url> [name]\n'
+        msg += '<url>:直播间地址\n'
+        msg += '<type>:频道类型,备选值:bili,you,cc\n'
+        msg += '<cid>:频道id,对于bilibili指直播间号\n'
+        msg += '[name]:频道名,可省略\n'
     elif argv[0] == 'del':
-        msg += 'monitor del [type] [cid]\n'
-        msg += '[type]:频道类型\n'
-        msg += '[cid]:频道id\n'
-        msg += '可使用monitor list all查看所有频道'
+        msg += 'monitor del <type> <cid>\n'
+        msg += '<type>:频道类型\n'
+        msg += '<cid>:频道id\n'
+        msg += '注:可使用monitor list all查看频道id'
     elif argv[0] == 'list':
         msg += 'monitor list 查看频道及直播状态\n'
         msg += 'monitor list on 查看正在直播的频道\n'
