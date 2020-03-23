@@ -11,6 +11,8 @@ from nonebot import on_natural_language, NLPSession
 __plugin_name__ = 'B站小程序解析'
 __plugin_usage__ = r'''自动解析B站小程序分享链接，显示视频标题并推测视频链接'''
 
+av_pattern = re.compile(r'www.bilibili.com/video/(av\d+|BV\w+)')
+
 
 @on_natural_language(only_to_me=False)
 async def _(session: NLPSession):
@@ -26,7 +28,6 @@ async def _(session: NLPSession):
             url = content['detail_1'].get('qqdocurl')
             if url:
                 # 直接提取av号
-                av_pattern = re.compile(r'www.bilibili.com/video/(av\d+)')
                 vid = av_pattern.search(url).group(1)
             else:
                 # 根据标题进行搜索
@@ -59,13 +60,10 @@ async def search_bili_by_title(title: str):
     except asyncio.TimeoutError:
         return None
 
-    av_pattern = re.compile(r'www.bilibili.com/video/(av\d+)')
-
     for video in content.xpath('//li[@class="video-item matrix"]/a[@class="img-anchor"]'):
         if title == ''.join(video.xpath('./attribute::title')):
             vid = av_pattern.search(''.join(video.xpath('./attribute::href'))).group(1)
             break
     else:
         vid = None
-    print(vid)
     return vid
