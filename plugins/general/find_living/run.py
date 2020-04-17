@@ -25,7 +25,7 @@ class Room:
         self.online = online
 
 
-def params(page, page_size=50):
+def params(page, page_size=99):
     return {
         'area_id': 199,
         'page_size': page_size,
@@ -34,7 +34,7 @@ def params(page, page_size=50):
     }
 
 
-async def do_search_once(page):
+async def do_search_once(page: int):
     async with aiohttp.request('GET', API_URL, params=params(page)) as f:
         data_json = await f.json(encoding='utf8')
     count = data_json['data']['count']
@@ -45,8 +45,12 @@ async def do_search_once(page):
 
 async def do_search():
     room_list, count = await do_search_once(0)
-    for i in range(1, math.ceil(count / 50)):
-        room_list += ((await do_search_once(i))[0])
+
+    tasks = [do_search_once(i) for i in range(1, math.ceil(count / 99))]
+    [room_list.extend(r[0]) for r in await asyncio.gather(*tasks)]
+    # for task in asyncio.as_completed(tasks):
+    #     room_list += (await task)[0]
+
     return '\n'.join([f'{r.uname}: {r.title}' for r in room_list if re.search(r'[bB].*限', r.title)])
 
 
