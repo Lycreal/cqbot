@@ -44,10 +44,10 @@ class BaseChannel(abc.ABC):
             self.last_check = datetime.now(timezone(timedelta(hours=8)))  # 记录开播时间
             self.last_title = self.title  # 记录开播标题
 
-            if title_changed:  # 标题变更
+            if status_changed and time_delta >= timedelta(hours=1):  # 新开播，距上次开播1小时以上
                 return True
-            elif status_changed and time_delta >= timedelta(hours=1):  # 新开播，距上次开播1小时以上
-                return True
+            # elif title_changed:  # 标题变更
+            #     return True
             else:
                 return False
         else:
