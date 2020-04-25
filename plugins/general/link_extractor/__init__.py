@@ -5,7 +5,7 @@ import asyncio
 import aiohttp
 import lxml.html
 import urllib.parse
-from typing import List, Dict, Tuple
+from typing import List, Dict, Optional
 from nonebot import on_natural_language, NLPSession
 
 __plugin_name__ = 'B站小程序解析'
@@ -26,10 +26,12 @@ async def _(session: NLPSession):
             content = json.loads(html.unescape(msg['data']['content']))
             title: str = content['detail_1']['desc']
 
-            url = content['detail_1'].get('qqdocurl')
-            if url:
-                # 直接提取链接
+            url = content['detail_1'].get('qqdocurl', '')
+
+            if url_pattern.search(url):  # 直接提取链接
                 vid = url_pattern.search(url).group(1)
+            elif av_pattern.search(url):
+                vid = av_pattern.search(url).group(1)
             else:
                 # 根据标题进行搜索
                 vid = await search_bili_by_title(title)
@@ -43,11 +45,11 @@ async def _(session: NLPSession):
             await session.send(msg)
 
 
-async def search_bili_by_title(title: str):
+async def search_bili_by_title(title: str) -> Optional[str]:
     """
     :param title:
     :return: av号
-    :rtype: List[Tuple[str, str]]
+    :rtype: Optional[str]
     """
     # remove brackets
     brackets_pattern = re.compile(r'[()\[\]{}（）【】]')
