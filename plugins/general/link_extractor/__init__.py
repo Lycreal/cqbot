@@ -11,8 +11,8 @@ from nonebot import on_natural_language, NLPSession
 __plugin_name__ = 'B站小程序解析'
 __plugin_usage__ = r'''自动解析B站小程序分享链接，显示视频标题并推测视频链接'''
 
-url_pattern = re.compile(r'www.bilibili.com/video/(av\d+|BV\w+)')
-av_pattern = re.compile(r'b23.tv/(\w+)')
+av_pattern = re.compile(r'www.bilibili.com/video/(av\d+|BV\w+)')
+url_pattern = re.compile(r'b23.tv/(\w+)')
 
 
 @on_natural_language(only_to_me=False)
