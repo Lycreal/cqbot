@@ -11,7 +11,8 @@ from nonebot import on_natural_language, NLPSession
 __plugin_name__ = 'B站小程序解析'
 __plugin_usage__ = r'''自动解析B站小程序分享链接，显示视频标题并推测视频链接'''
 
-av_pattern = re.compile(r'www.bilibili.com/video/(av\d+|BV\w+)')
+url_pattern = re.compile(r'www.bilibili.com/video/(av\d+|BV\w+)')
+av_pattern = re.compile(r'b23.tv/(\w+)')
 
 
 @on_natural_language(only_to_me=False)
@@ -27,8 +28,8 @@ async def _(session: NLPSession):
 
             url = content['detail_1'].get('qqdocurl')
             if url:
-                # 直接提取av号
-                vid = av_pattern.search(url).group(1)
+                # 直接提取链接
+                vid = url_pattern.search(url).group(1)
             else:
                 # 根据标题进行搜索
                 vid = await search_bili_by_title(title)
