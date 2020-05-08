@@ -11,12 +11,22 @@ from nonebot import on_natural_language, NLPSession
 __plugin_name__ = 'B站小程序解析'
 __plugin_usage__ = r'''自动解析B站小程序分享链接，显示视频标题并推测视频链接'''
 
-av_pattern = re.compile(r'www.bilibili.com/video/(av\d+|BV\w+)')
-url_pattern = re.compile(r'b23.tv/(\w+)')
-
 
 @on_natural_language(only_to_me=False)
 async def _(session: NLPSession):
+    def shorten(_url: str) -> str:
+        url_patterns = (
+            re.compile(r'/(av\d+|BV\w+)'),
+            re.compile(r'/(ep\d+)'),
+            re.compile(r'b23.tv/(\w+)'),
+        )
+        for p in url_patterns:
+            vid = p.search(_url)
+            if vid:
+                _url = f'https://b23.tv/{vid[1]}'
+                break
+        return _url
+
     ctx: dict = session.ctx
     msg_list: List[Dict] = ctx.get('message')
 
@@ -25,30 +35,24 @@ async def _(session: NLPSession):
             # 提取分享标题
             content = json.loads(html.unescape(msg['data']['content']))
             title: str = content['detail_1']['desc']
+            msg = title + '\n'
 
             url = content['detail_1'].get('qqdocurl', '')
+            if not url:
+                url = await search_bili_by_title(title)
 
-            if url_pattern.search(url):  # 直接提取链接
-                vid = url_pattern.search(url).group(1)
-            elif av_pattern.search(url):
-                vid = av_pattern.search(url).group(1)
+            if url:
+                msg += shorten(url)
             else:
-                # 根据标题进行搜索
-                vid = await search_bili_by_title(title)
+                msg += '未找到视频地址'
 
-            # 构建消息内容
-            msg = title + '\n'
-            if vid:
-                msg += f'https://b23.tv/{vid}'
-            else:
-                msg += f'未找到视频地址'
             await session.send(msg)
 
 
 async def search_bili_by_title(title: str) -> Optional[str]:
     """
     :param title:
-    :return: av号
+    :return: url
     :rtype: Optional[str]
     """
     # remove brackets
@@ -65,8 +69,8 @@ async def search_bili_by_title(title: str) -> Optional[str]:
 
     for video in content.xpath('//li[@class="video-item matrix"]/a[@class="img-anchor"]'):
         if title == ''.join(video.xpath('./attribute::title')):
-            vid = av_pattern.search(''.join(video.xpath('./attribute::href'))).group(1)
+            url = ''.join(video.xpath('./attribute::href'))
             break
     else:
-        vid = None
-    return vid
+        url = None
+    return url
