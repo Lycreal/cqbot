@@ -9,7 +9,7 @@ __plugin_usage__ = r'''帮助
 '''
 
 
-@on_command('帮助', aliases=['help', '功能'], only_to_me=False, permission=SUPERUSER | GROUP_MEMBER)
+@on_command('帮助', aliases=['help', '功能'], only_to_me=False)
 async def _(session: CommandSession):
     # get list of all plugins
     if session.ctx['user_id'] in get_bot().config.SUPERUSERS \
