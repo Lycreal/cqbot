@@ -1,10 +1,7 @@
 from pathlib import Path
 from nonebot.default_config import *
 
-try:
-    from config_private import SUPERUSERS
-except ImportError:
-    pass
+SUPERUSERS = {123456}
 
 NICKNAME = {'机器人', '复读机', 'bot', 'Bot'}
 COMMAND_START = {'.', '。', '!', '！'}

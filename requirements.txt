@@ -1,3 +1,4 @@
 lxml
+aiohttp
 nonebot[scheduler]
 pydantic
