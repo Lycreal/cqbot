@@ -15,7 +15,6 @@ QQ机器人-直播开播提醒
 总列表为每个群聊的监控列表的并集。对总列表中的直播间页面/API进行轮询，经判断为开播信号则发送至对应的监控了该直播间的群聊。
 
 ### 部署方法
-参考[使用Docker Compose部署](https://nonebot.cqp.moe/advanced/deployment.html#%E4%BD%BF%E7%94%A8-docker-compose-%E4%B8%8E-%E9%85%B7q-%E5%90%8C%E6%97%B6%E9%83%A8%E7%BD%B2)
 
 ```shell script
 # 首先保证酷Q能够正常运行
@@ -26,6 +25,7 @@ cd qbot
 docker-compose up -d
 ```
 
+更多说明参考[Docker Compose官方文档](https://docs.docker.com/compose/reference/overview/)
 
 ### 使用方法
 命令以`.`开头，如`.help`、`.monitor`。具体帮助可部署成功后私聊bot进行查询。
@@ -54,11 +54,13 @@ docker-compose up -d
 直播开播提醒功能位于`plugins/group/monitor_notify`。此外还有一些其他自用插件，可自行移至`plugins/disabled`禁用。
 
 ### TODO
-- 私聊开播提醒
-- 在私聊中编辑群聊监控列表
-- 一次添加/删除多个直播间监控
-- 删除监控支持输入url
-- 目前配置中储存的频道名称为所有群聊共用，将在后续版本分离
+- ~~私聊开播提醒~~
+- ~~在私聊中编辑群聊监控列表~~
+- ~~一次添加/删除多个直播间监控~~
+- ~~删除监控支持输入url~~
+- ~~目前配置中储存的频道名称为所有群聊共用，将在后续版本分离~~
+
+代码太乱了暂时不想继续开发了
 
 ## License
 [MIT LICENSE](LICENSE)
