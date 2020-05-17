@@ -21,7 +21,6 @@ QQ机器人-直播开播提醒
 git clone https://github.com/Lycreal/qbot.git
 cd qbot
 # 修改docker-compose.yml中酷Q的路径和QQ号
-# 修改config_bot.py中的SUPERUSERS
 docker-compose up -d
 ```
 
