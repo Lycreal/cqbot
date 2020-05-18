@@ -1,6 +1,6 @@
 QQ机器人-直播开播提醒
 -------------
-个人自用QQ机器人，主要用于在群聊中提醒直播开播，支持BiliBili，Youtube，网易CC。对于不同群聊分别保存配置。
+开播提醒QQ机器人，基于 [酷Q](https://cqp.cc) 和 [nonebot](https://github.com/nonebot/nonebot) ，主要用于在群聊中提醒直播开播，支持BiliBili，Youtube，网易CC。对于不同群聊分别保存配置。
 
 #### 效果展示
 ![](images/1.jpg)
@@ -17,14 +17,21 @@ QQ机器人-直播开播提醒
 ### 部署方法
 
 ```shell script
-# 首先保证酷Q能够正常运行
 git clone https://github.com/Lycreal/qbot.git
 cd qbot
-# 修改docker-compose.yml中酷Q的路径和QQ号
+
+# 修改docker-compose.yml中的QQ号
+vim docker-compose.yml
+
 docker-compose up -d
+# 用浏览器访问 http://127.0.0.1:9000 登录酷Q （仅首次需要）
 ```
 
-更多说明参考[Docker Compose官方文档](https://docs.docker.com/compose/reference/overview/)
+[cqhttp镜像文档](https://cqhttp.cc/docs/4.15/#/Docker)
+
+[nonebot项目](https://github.com/nonebot/nonebot)
+
+[Docker Compose命令行文档](https://docs.docker.com/compose/reference/overview/)
 
 ### 使用方法
 命令以`.`开头，如`.help`、`.monitor`。具体帮助可部署成功后私聊bot进行查询。
@@ -50,7 +57,7 @@ docker-compose up -d
 ```
 
 ### 注意事项
-直播开播提醒功能位于`plugins/group/monitor_notify`。此外还有一些其他自用插件，可自行移至`plugins/disabled`禁用。
+直播提醒插件位于`plugins/group/monitor_notify`。此外还有一些自用插件，可移至`plugins/disabled`禁用。
 
 ### TODO
 - ~~私聊开播提醒~~

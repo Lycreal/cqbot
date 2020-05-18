@@ -3,25 +3,27 @@ services:
   cqhttp:
     image: richardchien/cqhttp:latest
     volumes:
-      - "/path/to/coolq:/home/user/coolq" # 自行调整
+      - "./coolq:/home/user/coolq" # 自行调整(可选)
     environment:
-      - COOLQ_ACCOUNT=123456 # 自行调整
+      - COOLQ_ACCOUNT=123456 # 自行调整（自动登录必须）
       - FORCE_ENV=true
       - CQHTTP_USE_HTTP=false
       - CQHTTP_USE_WS=false
       - CQHTTP_USE_WS_REVERSE=true
-      - CQHTTP_WS_REVERSE_API_URL=ws://nonebot:8080/ws/api/
-      - CQHTTP_WS_REVERSE_EVENT_URL=ws://nonebot:8080/ws/event/
+      - CQHTTP_WS_REVERSE_API_URL=ws://qbot:8080/ws/api/
+      - CQHTTP_WS_REVERSE_EVENT_URL=ws://qbot:8080/ws/event/
       - CQHTTP_WS_REVERSE_RECONNECT_INTERVAL=5000
       - CQHTTP_ENABLE_HEARTBEAT=true
       - CQHTTP_HEARTBEAT_INTERVAL=15000
       - CQHTTP_WS_REVERSE_RECONNECT_ON_CODE_1000=true
     expose:
       - "9000"
+    ports:
+      - "127.0.0.1:9000:9000" # 按需设置
     depends_on:
-      - nonebot
+      - qbot
 
-  nonebot:
+  qbot:
     build:
       context: .
     expose:
