@@ -66,7 +66,7 @@ docker-compose up -d
 - ~~删除监控支持输入url~~
 - ~~目前配置中储存的频道名称为所有群聊共用，将在后续版本分离~~
 
-代码太乱了暂时不想继续开发了
+由于 酷Q Air 不支持发送图片，计划将本项目移植到 [Mirai](https://github.com/mamoe/mirai)，并增加新动态提醒功能。本项目不再进行 bug 修复以外的开发。
 
 ## License
 [MIT LICENSE](LICENSE)
