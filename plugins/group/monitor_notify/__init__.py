@@ -17,15 +17,6 @@ monitors = {'bili': Monitor('bili'),
 [monitor.load() for monitor in monitors.values()]
 
 
-# from .utils import *
-# from config_private import *
-#
-# [monitors['bili'].add(cid, name, [GROUP_TST, GROUP_BTR, GROUP_KR]) for cid, name in channel_list_bili]
-# [monitors['you'].add(cid, name, [GROUP_TST, GROUP_BTR]) for cid, name in channel_list_you]
-# [monitors['cc'].add(cid, name, [GROUP_TST, GROUP_BTR]) for cid, name in channel_list_cc]
-# [monitor.save() for monitor in monitors.values()]
-
-
 @nonebot.scheduler.scheduled_job('interval', seconds=3)
 async def monitor_bili_run():
     monitor = monitors['bili']

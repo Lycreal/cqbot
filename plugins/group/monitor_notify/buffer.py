@@ -29,8 +29,6 @@ class MessageBuffer:
             await nonebot.get_bot().send_group_msg(group_id=int(target_body), message='\n\n'.join(self.buffer[target]))
         elif target_type == 'p':
             await nonebot.get_bot().send_private_msg(user_id=int(target_body), message='\n\n'.join(self.buffer[target]))
-        self.buffer.pop(target)
-        self.clock.pop(target)
 
     async def check(self):
         for target, msg_array in list(self.buffer.items()):
@@ -40,7 +38,11 @@ class MessageBuffer:
             last_waited = datetime.now() - last_clock
 
             if count >= 4 or last_waited >= timedelta(seconds=20) or all_waited >= timedelta(seconds=60):
-                await self.send(target)
+                try:
+                    await self.send(target)
+                finally:
+                    self.buffer.pop(target)
+                    self.clock.pop(target)
 
 
 buffer = MessageBuffer()

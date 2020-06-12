@@ -59,14 +59,10 @@ docker-compose up -d
 ### 注意事项
 直播提醒插件位于`plugins/group/monitor_notify`。此外还有一些自用插件，可移至`plugins/disabled`禁用。
 
-### TODO
-- ~~私聊开播提醒~~
-- ~~在私聊中编辑群聊监控列表~~
-- ~~一次添加/删除多个直播间监控~~
-- ~~删除监控支持输入url~~
-- ~~目前配置中储存的频道名称为所有群聊共用，将在后续版本分离~~
+### 开发计划
 
-由于 酷Q Air 不支持发送图片，计划将本项目移植到 [Mirai](https://github.com/mamoe/mirai)，并增加新动态提醒功能。本项目不再进行 bug 修复以外的开发。
+将 `live_monitor` 分离出来，作为独立的模块调用。
+
 
 ## License
 [MIT LICENSE](LICENSE)
