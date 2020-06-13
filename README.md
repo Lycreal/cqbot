@@ -2,6 +2,9 @@ QQ机器人-直播开播提醒
 -------------
 开播提醒QQ机器人，基于 [酷Q](https://cqp.cc) 和 [nonebot](https://github.com/nonebot/nonebot) ，主要用于在群聊中提醒直播开播，支持BiliBili，Youtube，网易CC。对于不同群聊分别保存配置。
 
+**已移植至 [mirai版](https://github.com/Lycreal/mirai_bot/tree/master/plugins/live_monitor) ，本项目仅作存档。**
+
+
 #### 效果展示
 ![](images/1.jpg)
 ### 特性
@@ -58,11 +61,6 @@ docker-compose up -d
 
 ### 注意事项
 直播提醒插件位于`plugins/group/monitor_notify`。此外还有一些自用插件，可移至`plugins/disabled`禁用。
-
-### 开发计划
-
-将 `live_monitor` 分离出来，作为独立的模块调用。
-
 
 ## License
 [MIT LICENSE](LICENSE)
