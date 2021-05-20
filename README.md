@@ -3,7 +3,9 @@
 [![CI](https://github.com/Lycreal/Yabot/actions/workflows/ci.yml/badge.svg)](https://github.com/Lycreal/Yabot/actions/workflows/ci.yml)
 [![Python Version](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org)
 [![NoneBot Version](https://img.shields.io/badge/nonebot-2.0.0a13-red.svg)](https://github.com/nonebot/nonebot2)
-![GitHub](https://img.shields.io/github/license/Lycreal/cqbot)
+![license](https://img.shields.io/github/license/Lycreal/cqbot)
+[![CI](https://github.com/Lycreal/Yabot/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/Lycreal/Yabot/actions/workflows/ci.yml)
+[![codecov](https://codecov.io/gh/Lycreal/Yabot/branch/main/graph/badge.svg?token=Ib6XnM7ohy)](https://codecov.io/gh/Lycreal/Yabot)
 
 Yet Another Chatting Bot
 
@@ -43,3 +45,5 @@ git clone https://github.com/Lycreal/cqbot.git
 ## 开源许可证
 
 [MIT LICENSE](LICENSE)
+
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FLycreal%2FYabot.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2FLycreal%2FYabot?ref=badge_large)
