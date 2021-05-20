@@ -2,7 +2,9 @@
 
 [![Python Version](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org)
 [![NoneBot Version](https://img.shields.io/badge/nonebot-2.0.0a13-red.svg)](https://github.com/nonebot/nonebot2)
-![GitHub](https://img.shields.io/github/license/Lycreal/cqbot)
+![license](https://img.shields.io/github/license/Lycreal/cqbot)
+[![CI](https://github.com/Lycreal/Yabot/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/Lycreal/Yabot/actions/workflows/ci.yml)
+[![codecov](https://codecov.io/gh/Lycreal/Yabot/branch/main/graph/badge.svg?token=Ib6XnM7ohy)](https://codecov.io/gh/Lycreal/Yabot)
 
 Yet Another Chatting Bot
 
