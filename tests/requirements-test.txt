@@ -19,6 +19,5 @@ pillow~=8.2.0
 
 # for test
 pytest
-pytest-asyncio
 pytest-cov
 uvicorn
