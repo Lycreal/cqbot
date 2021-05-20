@@ -42,3 +42,5 @@ git clone https://github.com/Lycreal/cqbot.git
 ## 开源许可证
 
 [MIT LICENSE](LICENSE)
+
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FLycreal%2FYabot.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2FLycreal%2FYabot?ref=badge_large)
