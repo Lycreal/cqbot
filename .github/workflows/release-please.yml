@@ -13,5 +13,5 @@ jobs:
     steps:
       - uses: GoogleCloudPlatform/release-please-action@v2
         with:
-          release-type: node
+          release-type: python
           package-name: release-please-action
