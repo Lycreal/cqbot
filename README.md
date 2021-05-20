@@ -1,6 +1,5 @@
 # Yabot
 
-[![CI](https://github.com/Lycreal/Yabot/actions/workflows/ci.yml/badge.svg)](https://github.com/Lycreal/Yabot/actions/workflows/ci.yml)
 [![Python Version](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org)
 [![NoneBot Version](https://img.shields.io/badge/nonebot-2.0.0a13-red.svg)](https://github.com/nonebot/nonebot2)
 ![license](https://img.shields.io/github/license/Lycreal/cqbot)
