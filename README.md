@@ -4,7 +4,7 @@
 [![NoneBot Version](https://img.shields.io/badge/nonebot-2.0.0a13-red.svg)](https://github.com/nonebot/nonebot2)
 [![license](https://img.shields.io/github/license/Lycreal/cqbot)](license)
 [![CI](https://github.com/Lycreal/cqbot/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/Lycreal/cqbot/actions/workflows/ci.yml)
-[![codecov](https://codecov.io/gh/Lycreal/cqbot/branch/master/graph/badge.svg?token=GJI7VJRK0G)](https://codecov.io/gh/Lycreal/cqbot)
+[![codecov](https://codecov.io/gh/Lycreal/cqbot/branch/main/graph/badge.svg?token=GJI7VJRK0G)](https://codecov.io/gh/Lycreal/cqbot)
 
 ## 简介
 
