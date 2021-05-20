@@ -1,0 +1,24 @@
+# nontbot
+nonebot2~=2.0.0a13
+nonebot-adapter-cqhttp~=2.0.0a13
+
+# nonebot-adapter-gocq
+
+# nonebot-plugin-apscheduler
+# nonebot-plugin-status
+# nonebot-plugin-test
+
+# nonebot-plugin-manager
+
+pydantic~=1.8.1
+lxml~=4.6.3
+httpx~=0.17.1
+
+# pillow
+pillow~=8.2.0
+
+# for test
+pytest
+pytest-asyncio
+pytest-cov
+uvicorn
