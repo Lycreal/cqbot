@@ -22,3 +22,4 @@ pytest
 pytest-cov
 uvicorn
 pytest-timeout
+requests

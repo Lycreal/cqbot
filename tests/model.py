@@ -15,7 +15,7 @@ from message import self_id
 class UvicornTestServer(uvicorn.Server):
     _serve_task: asyncio.Task
 
-    def __init__(self, app, host='localhost', port=8080):
+    def __init__(self, app, host='127.0.0.1', port=13695):
         self._startup_done = asyncio.Event()
         super().__init__(config=uvicorn.Config(app, host=host, port=port))
 
@@ -31,31 +31,3 @@ class UvicornTestServer(uvicorn.Server):
     async def down(self) -> None:
         self.should_exit = True
         await self._serve_task
-
-
-@pytest.fixture(scope='session')
-def event_loop():
-    nonebot.init()
-    app: FastAPI = nonebot.get_asgi()
-    driver = nonebot.get_driver()
-    driver.register_adapter("cqhttp", Bot)
-
-    nonebot.load_plugins('src/plugins')
-
-    server = UvicornTestServer(app)
-
-    loop = asyncio.get_event_loop()
-    loop.run_until_complete(server.up())
-    yield loop
-    loop.run_until_complete(server.down())
-    loop.close()
-
-
-@pytest.fixture
-def websocket(event_loop):
-    headers = {'X-Self-ID': str(self_id)}
-    url = 'ws://127.0.0.1:8080/cqhttp/ws'
-    client: websockets.WebSocketClientProtocol = event_loop.run_until_complete(
-        websockets.connect(url, extra_headers=headers, loop=event_loop))
-    yield client
-    event_loop.run_until_complete(client.close())
