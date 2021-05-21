@@ -21,3 +21,4 @@ pillow~=8.2.0
 pytest
 pytest-cov
 uvicorn
+pytest-timeout
