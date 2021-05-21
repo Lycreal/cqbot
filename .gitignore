@@ -3,6 +3,8 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+userdata/
+
 # Unit test / coverage reports
 htmlcov/
 .tox/

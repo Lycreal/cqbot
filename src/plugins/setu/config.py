@@ -5,7 +5,7 @@ import nonebot
 class Config(BaseSettings):
     debug: bool = False
     setu_maximum: int = 3
-    data_path: str = "data"
+    data_path: str = "userdata"
     setu_apikey: str = ""
     setu_proxy: str = None
     setu_r18: int = 0
