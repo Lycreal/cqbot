@@ -41,13 +41,14 @@ jobs:
           key: ${{ runner.os }}-poetry-${{ hashFiles('pyproject.toml') }}
           restore-keys: |
             ${{ runner.os }}-poetry-
+
       - name: "Install dependencies"
         if: steps.poetry-cache.outputs.cache-hit != 'true'
         run: |
           poetry install
 
       - name: "Test with pytest"
-        run: python -m pytest --cov=src --cov-report=xml tests
+        run: poetry run pytest --cov=./src --cov-report=xml ./tests
 
       - name: "Upload coverage to Codecov"
         uses: codecov/codecov-action@v1
