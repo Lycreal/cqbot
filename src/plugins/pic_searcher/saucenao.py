@@ -22,6 +22,10 @@ class SaucenaoResult(BaseModel):
         )
 
 
+class SauceNAOError(Exception):
+    pass
+
+
 async def get_saucenao_detail(img_url: str) -> List[SaucenaoResult]:
     s_url = f'https://saucenao.com/search.php?url={img_url}'
 
@@ -33,6 +37,11 @@ async def get_saucenao_detail(img_url: str) -> List[SaucenaoResult]:
             f.write(content)
 
     html_e: lxml.html.HtmlElement = lxml.html.fromstring(content)
+
+    if 'Error' in ''.join(html_e.xpath('//title/text()')):
+        text = ''.join(html_e.xpath('//body/text()')).strip()
+        raise SauceNAOError(text)
+
     results = [
         SaucenaoResult(
             Similarity=''.join(r.xpath('.//div[@class="resultsimilarityinfo"]/text()')),

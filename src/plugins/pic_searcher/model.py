@@ -1,6 +1,6 @@
 import urllib.parse
 
-from .saucenao import get_saucenao_detail
+from .saucenao import get_saucenao_detail, SauceNAOError
 
 
 class PicSearcher:
@@ -18,23 +18,25 @@ class PicSearcher:
 
     @classmethod
     async def do_search_saucenao(cls, img_url: str) -> str:
-        results = await get_saucenao_detail(img_url)
+        try:
+            results = await get_saucenao_detail(img_url)
 
-        for result in [result for result in results if cls.float(result.Similarity) > 0.9]:
-            if cls.check_pixiv_url(result.URL):
-                break
-        else:
-            if results and cls.float(results[0].Similarity) > 0.6:
-                result = results[0]
+            for result in [result for result in results if cls.float(result.Similarity) > 0.9]:
+                if cls.check_pixiv_url(result.URL):
+                    break
             else:
-                result = None
+                if results and cls.float(results[0].Similarity) > 0.6:
+                    result = results[0]
+                else:
+                    result = None
 
-        if result:
-            result.URL = cls.shorten_pixiv_url(result.URL)
-            reply = str(result)
-        else:
-            reply = '未找到相似图片\n'
-
+            if result:
+                result.URL = cls.shorten_pixiv_url(result.URL)
+                reply = str(result)
+            else:
+                reply = '未找到相似图片\n'
+        except SauceNAOError as e:
+            reply = str(e)
         return reply.strip()
 
     @staticmethod

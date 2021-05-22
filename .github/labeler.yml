@@ -1,0 +1,18 @@
+# https://github.com/actions/labeler
+
+plugin:
+  - 'src/plugins/**/*'
+
+test:
+  - 'tests/**/*'
+
+legal:
+  - 'LICENSE*'
+  - 'NOTICES*'
+
+doc:
+  - 'README.md'
+  - 'CHANGELOG.md'
+
+workflow:
+  - '.github/**/*'

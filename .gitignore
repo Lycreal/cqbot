@@ -3,6 +3,11 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+userdata/
+
+# poetry
+poetry.lock
+
 # Unit test / coverage reports
 htmlcov/
 .tox/
