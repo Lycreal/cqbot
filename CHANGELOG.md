@@ -1,5 +1,20 @@
 # Changelog
 
+### [0.1.1](https://www.github.com/Lycreal/cqbot/compare/v0.1.0...v0.1.1) (2021-05-22)
+
+
+### Bug Fixes
+
+* handle Saucenao Error ([6e700dd](https://www.github.com/Lycreal/cqbot/commit/6e700ddb6e7b5ec025b08d7875d199630cccbd0c))
+* release-please ([d7af8b8](https://www.github.com/Lycreal/cqbot/commit/d7af8b8d424e9cab1e01d840fb83e578c25629e1))
+
+
+### Documentation
+
+* add CodeFactor badge ([806aedc](https://www.github.com/Lycreal/cqbot/commit/806aedcd03474f26f06dc3d672adb2234ca471c1))
+* fix codecov link ([e3c3f96](https://www.github.com/Lycreal/cqbot/commit/e3c3f9647bf355fc6d3af9ec91d528433cdf5b89))
+* fix LICENSE link ([b63c98c](https://www.github.com/Lycreal/cqbot/commit/b63c98c0b228caf7323839e275ee4875760c3c22))
+
 ## 0.1.0 (2021-05-20)
 
 
