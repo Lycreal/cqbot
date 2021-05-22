@@ -30,6 +30,6 @@ class PictureSource(BaseModel, abc.ABC):
     @staticmethod
     async def get_content(url: str) -> bytes:
         async with httpx.AsyncClient(timeout=plugin_config.cats_api_timeout) as client:  # type: httpx.AsyncClient
-            response = await client.get(url, timeout=10)  # type: httpx.Response
+            response = await client.get(url)  # type: httpx.Response
             content: bytes = await response.aread()
         return content

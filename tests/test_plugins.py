@@ -4,7 +4,7 @@ from .message import generate_private_message, generate_group_message
 from .utils import websocket
 
 
-@pytest.mark.timeout(20)
+@pytest.mark.timeout(40)
 def test_cat(websocket):
     websocket.send_json(generate_group_message('猫猫'))
     respond = websocket.receive_json()
