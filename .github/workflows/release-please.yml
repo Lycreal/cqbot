@@ -14,4 +14,3 @@ jobs:
       - uses: GoogleCloudPlatform/release-please-action@v2
         with:
           release-type: python
-          package-name: release-please-action
