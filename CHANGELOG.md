@@ -1,5 +1,12 @@
 # Changelog
 
+### [0.1.2](https://www.github.com/Lycreal/cqbot/compare/v0.1.1...v0.1.2) (2021-05-22)
+
+
+### Bug Fixes
+
+* cats reply ([18e0a5c](https://www.github.com/Lycreal/cqbot/commit/18e0a5c14ecf1c496188722c236090c64d26b4f3))
+
 ### [0.1.1](https://www.github.com/Lycreal/cqbot/compare/v0.1.0...v0.1.1) (2021-05-22)
 
 
