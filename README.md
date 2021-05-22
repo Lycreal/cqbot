@@ -3,6 +3,7 @@
 [![Python Version](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org)
 [![NoneBot Version](https://img.shields.io/badge/nonebot-2.0.0a13-red.svg)](https://github.com/nonebot/nonebot2)
 [![license](https://img.shields.io/github/license/Lycreal/cqbot)](LICENSE)
+[![CodeFactor](https://www.codefactor.io/repository/github/lycreal/cqbot/badge)](https://www.codefactor.io/repository/github/lycreal/cqbot)
 [![CI](https://github.com/Lycreal/cqbot/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/Lycreal/cqbot/actions/workflows/ci.yml)
 [![codecov](https://codecov.io/gh/Lycreal/cqbot/branch/main/graph/badge.svg?token=GJI7VJRK0G)](https://codecov.io/gh/Lycreal/cqbot)
 
