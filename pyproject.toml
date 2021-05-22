@@ -1,0 +1,30 @@
+[tool.poetry]
+name = "cqbot"
+version = "0.1.0"
+description = "just a chatting bot"
+authors = ["Lycreal"]
+license = "MIT"
+
+readme = 'README.md'  # Markdown files are supported
+
+repository = "https://github.com/Lycreal/cqbot"
+
+[tool.poetry.dependencies]
+python = "^3.8"
+nonebot2 = "^2.0.0a13"
+nonebot-adapter-cqhttp = "^2.0.0a13"
+pydantic = "^1.8.1"
+lxml = "^4.6.3"
+httpx = "^0.17.1"
+pillow = "^8.2.0"
+
+[tool.poetry.dev-dependencies]
+pytest = "^6.2.4"
+pytest-cov = "^2.12.0"
+pytest-timeout = "^1.4.2"
+starlette = "^0.13.6"
+requests = "^2.25.1"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

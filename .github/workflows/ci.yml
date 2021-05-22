@@ -30,27 +30,25 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
 
-      - name: "Get pip cache dir"
-        id: pip-cache-dir
-        run: |
-          echo "::set-output name=dir::$(pip cache dir)"
+      - name: "Setup poetry"
+        uses: Gr1N/setup-poetry@v4
 
-      - name: "pip cache"
-        id: pip-cache
+      - name: "poetry cache"
+        id: poetry-cache
         uses: actions/cache@v2
         with:
-          path: ${{ steps.pip-cache-dir.outputs.dir }}
-          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements-test.txt') }}
+          path: ~/.cache/pypoetry/virtualenvs
+          key: ${{ runner.os }}-poetry-${{ hashFiles('pyproject.toml') }}
           restore-keys: |
-            ${{ runner.os }}-pip-
+            ${{ runner.os }}-poetry-
 
       - name: "Install dependencies"
+        if: steps.poetry-cache.outputs.cache-hit != 'true'
         run: |
-          python -m pip install --upgrade pip
-          pip install -r tests/requirements-test.txt
+          poetry install
 
       - name: "Test with pytest"
-        run: pytest --cov=src --cov-report=xml tests
+        run: poetry run pytest --cov=./src --cov-report=xml ./tests
 
       - name: "Upload coverage to Codecov"
         uses: codecov/codecov-action@v1
