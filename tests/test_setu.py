@@ -1,7 +1,6 @@
 import pytest
 
 from .message import generate_private_message, generate_group_message
-from .utils import websocket
 
 
 @pytest.mark.timeout(30)
