@@ -8,18 +8,26 @@ on:
       - 'main'
       - 'dev'
       - 'feature/*'
+      - 'workflow/*'
+    paths-ignore:
+      - 'docs/**'
+      - '*.md'
   pull_request:
+    paths-ignore:
+      - 'docs/**'
+      - '*.md'
   release:
-    types: [published]
+    types: [ published ]
 
 jobs:
   test:
-    name: Test
-    runs-on: ubuntu-latest
+    name: ${{ matrix.os }} / ${{ matrix.python-version }}
+    runs-on: ${{ matrix.os }}
 
     strategy:
       matrix:
-        python-version: ['3.8']
+        os: [ 'ubuntu-latest', 'windows-latest', 'macos-latest' ]
+        python-version: [ '3.8' ]
 
     steps:
       - name: "Checkout"
@@ -30,25 +38,24 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
 
-      - name: "Setup poetry"
-        uses: Gr1N/setup-poetry@v4
+      - name: "Setup poetry and get cache dir"
+        id: poetry-cache-dir
+        run: |
+          pip install poetry
+          echo "::set-output name=dir::$(poetry config cache-dir)"
 
-      - name: "poetry cache"
+      - name: "Setup cache"
         id: poetry-cache
         uses: actions/cache@v2
         with:
-          path: ~/.cache/pypoetry/virtualenvs
-          key: ${{ runner.os }}-poetry-${{ hashFiles('pyproject.toml') }}
-          restore-keys: |
-            ${{ runner.os }}-poetry-
+          path: ${{ steps.poetry-cache-dir.outputs.dir }}
+          key: ${{ runner.os }}-${{ matrix.python-version }}-poetry-${{ hashFiles('pyproject.toml') }}
 
       - name: "Install dependencies"
-        if: steps.poetry-cache.outputs.cache-hit != 'true'
-        run: |
-          poetry install
+        run: poetry install
 
       - name: "Test with pytest"
-        run: poetry run pytest
+        run: poetry run python -m pytest
 
       - name: "Upload coverage to Codecov"
         uses: codecov/codecov-action@v1
