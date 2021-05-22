@@ -20,3 +20,5 @@ async def _(bot: Bot, state: T_State, matcher: Matcher) -> None:
         await matcher.send("请求超时", at_sender=True)
     except NetworkError:
         await matcher.send("网络错误", at_sender=True)
+    except Exception as e:
+        await matcher.send(f"未知错误: {e}", at_sender=True)
