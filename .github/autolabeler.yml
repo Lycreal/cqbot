@@ -1,6 +1,0 @@
-# https://github.com/apps/probot-autolabeler
-
-doc: ['/README.md', '/docs']
-plugin: ['/src/plugins']
-legal: ['LICENSE*', 'NOTICES*']
-config: .github
