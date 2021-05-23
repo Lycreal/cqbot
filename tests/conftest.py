@@ -3,12 +3,9 @@
 import nonebot
 import pytest
 from nonebot.adapters.cqhttp import Bot
-from starlette.testclient import TestClient, WebSocketTestSession
+from starlette.testclient import TestClient, WebSocketTestSession, Message
 
 from .message import NewNumber
-from .monkeypatch import PatchWebSocketTestSession
-
-PatchWebSocketTestSession.patch()
 
 
 @pytest.fixture(scope="session")
@@ -24,11 +21,16 @@ def client():
 
 
 @pytest.fixture(scope="function")
-def websocket(client) -> WebSocketTestSession:
+def websocket(client, monkeypatch) -> WebSocketTestSession:
+    def mock_receive(self) -> Message:
+        message = self._send_queue.get(timeout=30)
+        if isinstance(message, BaseException):
+            raise message
+        return message
+
+    monkeypatch.setattr(WebSocketTestSession, 'receive', mock_receive)
+
     self_id = NewNumber.self_id()
-    with client.websocket_connect(
-            url='/cqhttp/ws',
-            headers={'X-Self-ID': str(self_id)}
-    ) as websocket:  # type: WebSocketTestSession
+    with client.websocket_connect(url='/cqhttp/ws', headers={'X-Self-ID': str(self_id)}) as websocket:
         websocket.__setattr__('self_id', self_id)
         yield websocket
