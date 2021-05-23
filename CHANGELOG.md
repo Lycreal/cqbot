@@ -1,5 +1,12 @@
 # Changelog
 
+### [0.1.3](https://www.github.com/Lycreal/cqbot/compare/v0.1.2...v0.1.3) (2021-05-23)
+
+
+### Documentation
+
+* use poetry ([3da26e6](https://www.github.com/Lycreal/cqbot/commit/3da26e65856d54195f4f3f1605b963d2e8a61f99))
+
 ### [0.1.2](https://www.github.com/Lycreal/cqbot/compare/v0.1.1...v0.1.2) (2021-05-22)
 
 
