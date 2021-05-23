@@ -1,12 +1,14 @@
 # https://docs.pytest.org/en/6.2.x/writing_plugins.html#conftest-py-local-per-directory-plugins
 
 import nonebot
-from nonebot.adapters.cqhttp import Bot
-
 import pytest
+from nonebot.adapters.cqhttp import Bot
 from starlette.testclient import TestClient, WebSocketTestSession
 
 from .message import NewNumber
+from .monkeypatch import PatchWebSocketTestSession
+
+PatchWebSocketTestSession.patch()
 
 
 @pytest.fixture(scope="session")
