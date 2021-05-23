@@ -43,7 +43,7 @@ class SetuResp(BaseModel):
         }
         async with httpx.AsyncClient(timeout=10) as client:  # type: httpx.AsyncClient
             response = await client.get(api_url, params=params)
-            content = response.content
+            content = await response.aread()
         resp: SetuResp = SetuResp.parse_raw(content)
         resp.save()
         return resp

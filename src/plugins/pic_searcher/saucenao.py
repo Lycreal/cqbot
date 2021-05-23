@@ -30,7 +30,7 @@ async def get_saucenao_detail(img_url: str) -> List[SaucenaoResult]:
     s_url = f'https://saucenao.com/search.php?url={img_url}'
 
     async with httpx.AsyncClient(timeout=10) as client:  # type: httpx.AsyncClient
-        resp = await client.request('GET', s_url)
+        resp = await client.get(s_url)
         content: bytes = await resp.aread()
     if DEBUG:
         with open('debug/saucenao.html', 'wb') as f:

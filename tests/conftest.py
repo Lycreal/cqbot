@@ -1,10 +1,9 @@
 # https://docs.pytest.org/en/6.2.x/writing_plugins.html#conftest-py-local-per-directory-plugins
 
 import nonebot
-from nonebot.adapters.cqhttp import Bot
-
 import pytest
-from starlette.testclient import TestClient, WebSocketTestSession
+from nonebot.adapters.cqhttp import Bot
+from starlette.testclient import TestClient, WebSocketTestSession, Message
 
 from .message import NewNumber
 
@@ -14,7 +13,9 @@ def client():
     nonebot.init()
     driver = nonebot.get_driver()
     driver.register_adapter("cqhttp", Bot)
+    driver.config.command_start = {'/', '!', ''}
     nonebot.load_plugins('src/plugins')
+
     app = nonebot.get_asgi()
 
     client = TestClient(app)
@@ -22,11 +23,16 @@ def client():
 
 
 @pytest.fixture(scope="function")
-def websocket(client) -> WebSocketTestSession:
+def websocket(client, monkeypatch) -> WebSocketTestSession:
+    def mock_receive(self) -> Message:
+        message = self._send_queue.get(timeout=10)
+        if isinstance(message, BaseException):
+            raise message
+        return message
+
+    monkeypatch.setattr(WebSocketTestSession, 'receive', mock_receive)
+
     self_id = NewNumber.self_id()
-    with client.websocket_connect(
-            url='/cqhttp/ws',
-            headers={'X-Self-ID': str(self_id)}
-    ) as websocket:  # type: WebSocketTestSession
+    with client.websocket_connect(url='/cqhttp/ws', headers={'X-Self-ID': str(self_id)}) as websocket:
         websocket.__setattr__('self_id', self_id)
         yield websocket
