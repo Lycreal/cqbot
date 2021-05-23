@@ -21,16 +21,13 @@ git clone https://github.com/Lycreal/cqbot.git
 
 ### 2. 创建 python 虚拟环境
 
-可以使用 [virtualenv], [venv], [conda] 等
+使用 [poetry] :
 
-在虚拟环境中执行 `pip install -r requirements.txt` 安装依赖
+```shell
+poetry install
+```
 
-
-[virtualenv]:https://github.com/pypa/virtualenv
-
-[venv]:https://docs.python.org/3/library/venv.html
-
-[conda]:https://conda.io
+[poetry]:https://python-poetry.org/
 
 ### 3. 设置环境变量
 
