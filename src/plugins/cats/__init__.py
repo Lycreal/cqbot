@@ -21,4 +21,6 @@ async def _(bot: Bot, state: T_State, matcher: Matcher) -> None:
     except NetworkError:
         await matcher.send("网络错误", at_sender=True)
     except Exception as e:
-        await matcher.send(f"未知错误: {e}", at_sender=True)
+        import traceback
+        msg = '\n'.join(traceback.format_exception_only(type(e), e)).strip()
+        await matcher.send(msg, at_sender=True)
