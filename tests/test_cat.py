@@ -26,7 +26,6 @@ class MockResponse:
             raise
 
 
-@pytest.mark.xfail(environ.get('CI') == 'true', reason='fail for github actions, reason unknown', raises=Empty)
 def test_cat(websocket, monkeypatch):
     async def mock_get(self, url):
         return MockResponse(url)
