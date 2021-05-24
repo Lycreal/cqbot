@@ -1,13 +1,16 @@
 import json
-import asyncio
-import httpx
+from io import BytesIO
 from pathlib import Path
-from typing import List, Set
-from pydantic import BaseModel, ValidationError
-from urllib.parse import urlparse
 from typing import Any
-from .exceptions import ImageLoadError, ImageSizeError
+from typing import List, Set
+from urllib.parse import urlparse
+
+import PIL.Image
+import httpx
+from pydantic import BaseModel, ValidationError
+
 from .config import plugin_config
+from .exceptions import ImageLoadError
 
 data_path = plugin_config.data_path
 setu_apikey = plugin_config.setu_apikey
@@ -47,25 +50,18 @@ class SetuData(BaseModel):
         """保存至文件"""
         SetuDatabase.save(self)
 
-    async def get(self, check_size: bool = False) -> bytes:
+    async def get(self) -> bytes:
         """从网络获取图像"""
         headers = {'Referer': 'https://www.pixiv.net/'} if 'i.pximg.net' in self.url else {}
         async with httpx.AsyncClient(headers=headers, timeout=10) as client:  # type: httpx.AsyncClient
             response: httpx.Response = await client.get(self.url)
             img_bytes: bytes = await response.aread()
-        # if check_size:
-        #     try:
-        #         import PIL.Image
-        #         from io import BytesIO
-        #         img: PIL.Image.Image = PIL.Image.open(BytesIO(initial_bytes=img_bytes))
-        #         if img.size != (self.width, self.height):
-        #             raise ImageSizeError(f'expected {(self.width, self.height)} but got {img.size}')
-        #     except ImportError:
-        #         pass
-        #     except ImageLoadError:
-        #         raise
-        #     except Exception:
-        #         raise ImageLoadError(f'Image load fail {str(img_bytes[:20])}...')
+            try:
+                img = PIL.Image.Image = PIL.Image.open(BytesIO(img_bytes))
+                # if img.size != (self.width, self.height):
+                #     raise ImageSizeError(f'expected {(self.width, self.height)} but got {img.size}')
+            except Exception:
+                raise ImageLoadError(f'Image load fail {str(img_bytes[:20])}...')
         return img_bytes
 
 
