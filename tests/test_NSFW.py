@@ -57,3 +57,37 @@ def test_NSFW(websocket, monkeypatch):
 
     text = ''.join(message['data']['text'] for message in respond['params']['message'] if message['type'] == 'text')
     assert '0.' in text
+
+
+def test_auto_recall(websocket, monkeypatch):
+    async def mock_get(self, url, params=None):
+        return MockResponse(url)
+
+    with monkeypatch.context() as m:
+        m.setattr('httpx.AsyncClient.get', mock_get)
+        websocket.send_json({
+            "time": 1621927543,
+            "self_id": websocket.self_id,
+            "post_type": "message_sent",
+            "message_type": "group",
+            "group_id": 305175005,
+            "message": [
+                {
+                    "data": {
+                        "url": "http://pixiv.cat/86398208.png"
+                    },
+                    "type": "image"
+                }
+            ],
+            "anonymous": None,
+            "message_seq": 11665,
+            "font": 0,
+            "raw_message": "[CQ:image,url=http://pixiv.cat/86398208.png]",
+            "sub_type": "normal",
+            "user_id": websocket.self_id,
+            "sender": {
+            },
+            "message_id": 2055500411
+        })
+        respond = websocket.receive_json()
+        assert respond['action'] == 'delete_msg'
