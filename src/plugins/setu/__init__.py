@@ -1,26 +1,28 @@
-# ====================== Nonebot ======================
-from nonebot import Bot, on_message, on_command
-from nonebot.adapters import Event
-from nonebot.adapters.cqhttp import MessageEvent, Message, MessageSegment
-from nonebot.permission import SUPERUSER
-from nonebot.typing import T_State
-from .config import plugin_config
-# ====================== Nonebot ======================
-
+import asyncio
 import random
 import re
 from base64 import b64encode
 
-from .model import SetuData, SetuDatabase
+from nonebot import Bot, on_message, on_command
+from nonebot.adapters import Event
+from nonebot.adapters.cqhttp import MessageEvent, Message, MessageSegment
+from nonebot.plugin import require
+from nonebot.typing import T_State
+
+from .config import plugin_config
 from .datasource import SetuResp
-from .utils import CoolDown, shuzi2number
 from .exceptions import TimeoutException
+from .model import SetuData, SetuDatabase
+from .utils import CoolDown, shuzi2number
 
 setu_maximum = plugin_config.setu_maximum
 
 cd = CoolDown(app='setu', td=20)
 
 LAST_QUOTA: int = 300
+
+NSFW_check = require('NSFW_check')
+check_and_recall = NSFW_check.check_and_recall
 
 
 async def setu_rule(bot: Bot, event: Event, state: T_State) -> bool:
@@ -93,11 +95,14 @@ async def sendSetu(bot: Bot, event: MessageEvent, state: T_State) -> None:
         try:
             image_bytes = await data.get()
             file = f"base64://{b64encode(image_bytes).decode()}"
-            await bot.send(
+            ret = await bot.send(
                 event,
                 Message([MessageSegment.text(prefix), MessageSegment.image(file)]),
                 at_sender=True
             )
+            message_id = ret['data'].get('message_id')
+            asyncio.create_task(check_and_recall(bot, message_id, image_bytes))
+
             cd.update(event.sender.user_id)
         except TimeoutException:
             num_timeout += 1

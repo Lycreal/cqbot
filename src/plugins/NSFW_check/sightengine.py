@@ -1,19 +1,25 @@
-from typing import Dict, Any
-from urllib.parse import quote
+from io import BytesIO
+from typing import Dict, Any, Union
 
 import httpx
 
 from .model import NSFWChecker
 
 
-# https://sightengine.com/docs/nsfw-detection-model
+# https://sightengine.com/docs/reference#nudity-detection
 class SightEngineClient(NSFWChecker):
     api_user: str
     api_secret: str
     threshold: float = 0.5
     api_url: str = 'https://api.sightengine.com/1.0/check.json'
 
-    async def call_api(self, image_url: str) -> Dict[str, Any]:
+    async def call_api(self, image: Union[str, bytes]) -> Dict[str, Any]:
+        if isinstance(image, str):
+            return await self.call_api_get(image)
+        else:
+            return await self.call_api_post(image)
+
+    async def call_api_get(self, image_url: str) -> Dict[str, Any]:
         params = {
             'models': 'nudity',
             'api_user': self.api_user,
@@ -25,9 +31,21 @@ class SightEngineClient(NSFWChecker):
             respond: Dict[str, Any] = resp.json()
         return respond
 
-    async def resolve_result(self, body: Dict[str, Any]) -> float:
+    async def call_api_post(self, image_bytes: bytes) -> Dict[str, Any]:
+        data = {
+            'models': 'nudity',
+            'api_user': self.api_user,
+            'api_secret': self.api_secret
+        }
+        files = {'media': BytesIO(image_bytes)}
+        async with httpx.AsyncClient(timeout=10) as client:  # type: httpx.AsyncClient
+            resp = await client.post(self.api_url, data=data, files=files)
+            respond: Dict[str, Any] = resp.json()
+        return respond
+
+    async def resolve_result(self, body: Dict[str, Any]) -> Dict[str, Any]:
         if body['status'] == 'success':
-            safe: float = body['nudity']['safe']
+            nudity: Dict[str, float] = body['nudity']
         else:
-            safe = body['error']['message']
-        return safe
+            nudity = body['error']['message']
+        return nudity

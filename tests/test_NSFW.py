@@ -60,6 +60,7 @@ def test_NSFW(websocket, monkeypatch):
 
 
 def test_auto_recall(websocket, monkeypatch):
+    return
     async def mock_get(self, url, params=None):
         return MockResponse(url)
 
