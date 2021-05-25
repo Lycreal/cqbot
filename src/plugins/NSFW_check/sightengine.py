@@ -22,7 +22,7 @@ class SightEngineClient(NSFWChecker):
         }
         async with httpx.AsyncClient(timeout=10) as client:  # type: httpx.AsyncClient
             resp = await client.get(self.api_url, params=params)
-            respond: Dict[str, Any] = await resp.json()
+            respond: Dict[str, Any] = resp.json()
         return respond
 
     async def resolve_result(self, body: Dict[str, Any]) -> float:

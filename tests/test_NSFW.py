@@ -9,7 +9,7 @@ class MockResponse:
     def __init__(self, url):
         self.url = url
 
-    async def json(self):
+    def json(self):
         if "api.sightengine.com" in self.url:
             return {
                 "status": "success",
