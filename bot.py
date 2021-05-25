@@ -6,9 +6,7 @@ nonebot.init()
 driver = nonebot.get_driver()
 driver.register_adapter("cqhttp", Bot)
 
-nonebot.load_plugin("src.plugins.pic_searcher")
-nonebot.load_plugin("src.plugins.cats")
-nonebot.load_plugin("src.plugins.setu")
+nonebot.load_plugins('src/plugins')
 
 app = nonebot.get_asgi()
 
