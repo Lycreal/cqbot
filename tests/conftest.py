@@ -26,7 +26,7 @@ def client():
 @pytest.fixture(scope="function")
 def websocket(client, monkeypatch) -> WebSocketTestSession:
     def mock_receive(self) -> Message:
-        message = self._send_queue.get(timeout=10)
+        message = self._send_queue.get(timeout=20)
         if isinstance(message, BaseException):
             raise message
         return message
