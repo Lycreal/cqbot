@@ -1,18 +1,17 @@
 from nonebot import Bot
-from nonebot.plugin import on_command
 from nonebot.adapters import Event
 from nonebot.adapters.cqhttp.event import MessageEvent
-from nonebot.typing import T_State
 from nonebot.permission import SUPERUSER
+from nonebot.plugin import on_command
+from nonebot.typing import T_State
 
-from .model import AccessToken, AntiPorn
 from .config import plugin_config
+from .sightengine import SightEngineClient
 
-anti_porn = AntiPorn(access_token=AccessToken(
-    api_key=plugin_config.baidu_api_key,
-    secret_key=plugin_config.baidu_secret_key,
-    access_token=plugin_config.baidu_access_token
-))
+NSFW_checker = SightEngineClient(
+    api_user=plugin_config.sightengine_api_user,
+    api_secret=plugin_config.sightengine_api_secret
+)
 
 check_pic = on_command('检查', permission=SUPERUSER)
 
@@ -24,5 +23,5 @@ async def _(bot: Bot, event: Event, state: T_State) -> None:
 
         if state['img_urls']:
             img_url = state['img_urls'][0]
-            reply = await anti_porn.check_image(img_url)
-            await bot.send(event, reply)
+            safe = await NSFW_checker.check_image(img_url)
+            await bot.send(event, f'safe: {safe}')

@@ -5,9 +5,6 @@ __pycache__/
 
 userdata/
 
-# poetry
-poetry.lock
-
 # Unit test / coverage reports
 htmlcov/
 .tox/

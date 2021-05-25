@@ -28,7 +28,6 @@ mypy = "^0.812"
 [tool.pytest.ini_options]
 # https://docs.pytest.org/en/6.2.x/reference.html#configuration-options
 minversion = "6.0"
-addopts = "--cov=./src --cov-report=xml"
 testpaths = [
     "tests"
 ]

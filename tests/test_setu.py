@@ -2,6 +2,12 @@ import base64
 
 from .message import generate_group_message
 
+class MockResponse:
+    image_base64 = ''.join("""
+    Qk1mAAAAAAAAADYAAAAoAAAABAAAAAQAAAABABgAAAAAAA
+    AAAADEDgAAxA4AAAAAAAAAAAAAJBzsJBzsJBzsJBzsJBzs
+    APL/APL/JBzsJBzsAPL/APL/JBzsJBzsJBzsJBzsJBzs
+    """.split())
 
 class MockResponse:
     image_base64 = ''.join("""
