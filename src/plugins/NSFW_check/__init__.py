@@ -10,6 +10,7 @@ from nonebot.typing import T_State
 from .config import plugin_config
 from .rule import contain_image
 from .sightengine import SightEngineClient
+from datetime import datetime, timedelta
 
 NSFW_checker = SightEngineClient(
     api_user=plugin_config.sightengine_api_user,
@@ -21,7 +22,7 @@ auto_recall = on("message_sent", rule=contain_image)
 
 
 @check_pic.handle()
-async def _(bot: Bot, event: Event, state: T_State) -> None:
+async def check_pic_handler(bot: Bot, event: Event, state: T_State) -> None:
     if isinstance(event, MessageEvent) and event.reply:
         state['img_urls'] = [msg.data['url'] for msg in event.reply.message if msg.type == 'image']
 
@@ -32,9 +33,12 @@ async def _(bot: Bot, event: Event, state: T_State) -> None:
 
 
 @auto_recall.handle()
-async def _(bot: Bot, event: Event, state: T_State) -> None:
+async def auto_recall_handler(bot: Bot, event: Event, state: T_State) -> None:
     img_url = state['img_urls'][0]
+    time_sent = datetime.now()
     safe = await NSFW_checker.check_image(img_url)
-    if safe < 0.5:  # threshold
-        await sleep(10)
+    if isinstance(safe, float) and safe < 0.5:  # threshold
+        time_to_sleep = time_sent + timedelta(seconds=10) - datetime.now()
+        if time_to_sleep.total_seconds() > 0:
+            await sleep(time_to_sleep.total_seconds())
         await bot.call_api('delete_msg', message_id=event.message_id)
