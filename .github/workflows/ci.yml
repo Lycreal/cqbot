@@ -38,24 +38,31 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
 
-      - name: "Setup poetry and get cache dir"
-        id: poetry-cache-dir
+      - name: "Get pip cache dir"
+        id: pip-cache-dir
         run: |
-          pip install poetry
-          echo "::set-output name=dir::$(poetry config cache-dir)"
+          echo "::set-output name=dir::$(pip cache dir)"
 
       - name: "Setup cache"
         id: poetry-cache
         uses: actions/cache@v2
         with:
-          path: ${{ steps.poetry-cache-dir.outputs.dir }}
-          key: ${{ runner.os }}-${{ matrix.python-version }}-poetry-${{ hashFiles('pyproject.toml') }}
+          path: |
+            ${{ steps.pip-cache-dir.outputs.name }}
+            .venv
+          key: ${{ runner.os }}-${{ matrix.python-version }}-poetry-${{ hashFiles('**/poetry.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-${{ matrix.python-version }}-poetry-
 
       - name: "Install dependencies"
-        run: poetry install
+        if: steps.poetry-cache.outputs.cache-hit != 'true'
+        run: |
+          pip install poetry
+          poetry config virtualenvs.in-project true
+          poetry install
 
       - name: "Test with pytest"
-        run: poetry run python -m pytest
+        run: poetry run pytest
 
       - name: "Upload coverage to Codecov"
         uses: codecov/codecov-action@v1
