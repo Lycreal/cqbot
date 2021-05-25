@@ -3,10 +3,8 @@ from pydantic import BaseSettings
 
 
 class Config(BaseSettings):
-    # plugin custom config
-    baidu_api_key: str = None
-    baidu_secret_key: str = None
-    baidu_access_token: str = None
+    sightengine_api_user: str = ''
+    sightengine_api_secret: str = ''
 
     class Config:
         extra = "ignore"

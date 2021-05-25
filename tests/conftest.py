@@ -13,6 +13,7 @@ def client():
     nonebot.init()
     driver = nonebot.get_driver()
     driver.register_adapter("cqhttp", Bot)
+    driver.config.superusers = ['222222']
     driver.config.command_start = {'/', '!', ''}
     nonebot.load_plugins('src/plugins')
 
