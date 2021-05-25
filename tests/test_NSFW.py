@@ -56,4 +56,4 @@ def test_NSFW(websocket, monkeypatch):
         respond = websocket.receive_json()
 
     text = ''.join(message['data']['text'] for message in respond['params']['message'] if message['type'] == 'text')
-    assert '0.06' in text
+    assert '0.' in text

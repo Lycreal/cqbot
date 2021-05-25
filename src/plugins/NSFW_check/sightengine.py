@@ -18,7 +18,7 @@ class SightEngineClient(NSFWChecker):
             'models': 'nudity',
             'api_user': self.api_user,
             'api_secret': self.api_secret,
-            'url': quote(image_url)
+            'url': image_url
         }
         async with httpx.AsyncClient(timeout=10) as client:  # type: httpx.AsyncClient
             resp = await client.get(self.api_url, params=params)
@@ -26,5 +26,8 @@ class SightEngineClient(NSFWChecker):
         return respond
 
     async def resolve_result(self, body: Dict[str, Any]) -> float:
-        safe: float = body['nudity']['safe']
+        if body['status'] == 'success':
+            safe: float = body['nudity']['safe']
+        else:
+            safe = body['error']['message']
         return safe
