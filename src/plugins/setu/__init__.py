@@ -3,7 +3,7 @@ import random
 import re
 from base64 import b64encode
 
-from nonebot import Bot, on_message, on_command
+from nonebot import Bot, on_message, on_command, logger
 from nonebot.adapters import Event
 from nonebot.adapters.cqhttp import MessageEvent, Message, MessageSegment
 from nonebot.plugin import require
@@ -95,18 +95,23 @@ async def sendSetu(bot: Bot, event: MessageEvent, state: T_State) -> None:
         try:
             image_bytes = await data.get()
             file = f"base64://{b64encode(image_bytes).decode()}"
+            logger.info(f'发送色图: {data.url}')
             ret = await bot.send(
                 event,
                 Message([MessageSegment.text(prefix), MessageSegment.image(file)]),
                 at_sender=True
             )
-            message_id = ret['data'].get('message_id')
+            message_id = ret['message_id']
             asyncio.create_task(check_and_recall(bot, message_id, image_bytes))
 
             cd.update(event.sender.user_id)
-        except TimeoutException:
+        except TimeoutException as e:
+            import traceback
+            logger.error('\n'.join(traceback.format_exception(type(e), e, e.__traceback__)))
             num_timeout += 1
-        except Exception:
+        except Exception as e:
+            import traceback
+            logger.error('\n'.join(traceback.format_exception(type(e), e, e.__traceback__)))
             num_exception += 1
 
     # 报告结果
