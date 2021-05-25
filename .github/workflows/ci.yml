@@ -50,7 +50,7 @@ jobs:
           path: |
             ${{ steps.pip-cache-dir.outputs.dir }}
             .venv
-          key: ${{ runner.os }}-${{ matrix.python-version }}-poetry-${{ hashFiles('**/poetry.lock, **/ci.yml') }}
+          key: ${{ runner.os }}-${{ matrix.python-version }}-poetry-${{ hashFiles('**/poetry.lock') }}
           restore-keys: |
             ${{ runner.os }}-${{ matrix.python-version }}-poetry-
 
