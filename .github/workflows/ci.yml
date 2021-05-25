@@ -49,7 +49,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: |
-            ${{ steps.pip-cache-dir.outputs.name }}
+            ${{ steps.pip-cache-dir.outputs.dir }}
             .venv
           key: ${{ runner.os }}-${{ matrix.python-version }}-poetry-${{ hashFiles('**/poetry.lock') }}
           restore-keys: |
