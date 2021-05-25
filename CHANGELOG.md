@@ -1,5 +1,22 @@
 # Changelog
 
+## [0.2.0](https://www.github.com/Lycreal/cqbot/compare/v0.1.2...v0.2.0) (2021-05-25)
+
+
+### Features
+
+* NSFW check ([2300c01](https://www.github.com/Lycreal/cqbot/commit/2300c0106aabb30da2cdbe8689ad9da044dbad8d))
+
+
+### Bug Fixes
+
+* setu add image validation ([11ab63c](https://www.github.com/Lycreal/cqbot/commit/11ab63ca4dd5bf6a7aaf04e5e23b28d49e5125c0))
+
+
+### Documentation
+
+* use poetry ([3da26e6](https://www.github.com/Lycreal/cqbot/commit/3da26e65856d54195f4f3f1605b963d2e8a61f99))
+
 ### [0.1.2](https://www.github.com/Lycreal/cqbot/compare/v0.1.1...v0.1.2) (2021-05-22)
 
 
