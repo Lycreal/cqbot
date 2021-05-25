@@ -41,6 +41,7 @@ jobs:
       - name: "Get pip cache dir"
         id: pip-cache-dir
         run: |
+          pip install -U pip
           echo "::set-output name=dir::$(pip cache dir)"
 
       - name: "Setup cache"
@@ -55,7 +56,7 @@ jobs:
             ${{ runner.os }}-${{ matrix.python-version }}-poetry-
 
       - name: "Install dependencies"
-        if: steps.poetry-cache.outputs.cache-hit != 'true'
+#        if: steps.poetry-cache.outputs.cache-hit != 'true'
         run: |
           pip install poetry
           poetry config virtualenvs.in-project true
