@@ -1,5 +1,7 @@
+import json
 from io import BytesIO
 from typing import Dict, Any, Union
+from typing import Tuple
 
 import httpx
 
@@ -43,9 +45,12 @@ class SightEngineClient(NSFWChecker):
             respond: Dict[str, Any] = resp.json()
         return respond
 
-    async def resolve_result(self, body: Dict[str, Any]) -> Dict[str, Any]:
+    async def resolve_result(self, body: Dict[str, Any]) -> Tuple[int, str]:
         if body['status'] == 'success':
             nudity: Dict[str, float] = body['nudity']
+            description = json.dumps(nudity)
+            level = 1 if nudity['safe'] < self.threshold else 0
         else:
-            nudity = body['error']['message']
-        return nudity
+            description = body['error']['message']
+            level = 0
+        return level, description

@@ -1,35 +1,10 @@
 from typing import Optional
 
+import pytest
 from nonebot.adapters.cqhttp import Bot
 
 from .message import generate_group_message
-
-
-class MockResponse:
-    def __init__(self, url):
-        self.url = url
-
-    def json(self):
-        if "api.sightengine.com" in self.url:
-            return {
-                "status": "success",
-                "request": {
-                    "id": "req_9HisoSsOFwi2r4wtcrWv6",
-                    "timestamp": 1621912096.273972,
-                    "operations": 1
-                },
-                "nudity": {
-                    "raw": 0.55,
-                    "safe": 0.06,
-                    "partial": 0.38
-                },
-                "media": {
-                    "id": "med_9Hise8F0KrlCvgwVTjJv4",
-                    "uri": "https://pixiv.cat/89910126.png"
-                }
-            }
-        else:
-            raise
+from .utils import MockResponse
 
 
 def test_NSFW(websocket, monkeypatch):
@@ -59,8 +34,8 @@ def test_NSFW(websocket, monkeypatch):
     assert '0.' in text
 
 
+@pytest.mark.skip
 def test_auto_recall(websocket, monkeypatch):
-    return
     async def mock_get(self, url, params=None):
         return MockResponse(url)
 
@@ -87,6 +62,7 @@ def test_auto_recall(websocket, monkeypatch):
             "sub_type": "normal",
             "user_id": websocket.self_id,
             "sender": {
+                'user_id': websocket.self_id
             },
             "message_id": 2055500411
         })

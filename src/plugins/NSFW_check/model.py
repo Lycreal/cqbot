@@ -1,11 +1,14 @@
 import abc
-from typing import Dict, Any, Union
+from typing import Dict, Any, Union, Tuple
 
 from pydantic import BaseModel
 
 
 class NSFWChecker(BaseModel):
-    async def check_image(self, image: Union[str, bytes]) -> Dict[str, Any]:
+    async def check_image(self, image: Union[str, bytes]) -> Tuple[int, str]:
+        """
+        :return: level (0:safe, 1:adult), description (str)
+        """
         response = await self.call_api(image)
         result = await self.resolve_result(response)
         return result
@@ -15,5 +18,8 @@ class NSFWChecker(BaseModel):
         return NotImplemented
 
     @abc.abstractmethod
-    async def resolve_result(self, body: Dict[str, Any]) -> Dict[str, Any]:
+    async def resolve_result(self, body: Dict[str, Any]) -> Tuple[int, str]:
+        """
+        :return: level (0:safe, 1:adult), description (str)
+        """
         return NotImplemented

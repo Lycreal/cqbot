@@ -1,24 +1,17 @@
 # https://docs.pytest.org/en/6.2.x/writing_plugins.html#conftest-py-local-per-directory-plugins
+import os
 
-import nonebot
 import pytest
-from nonebot.adapters.cqhttp import Bot
 from starlette.testclient import TestClient, WebSocketTestSession, Message
 
 from .message import NewNumber
 
+os.environ['moderatecontent_apikey'] = 'abc'
+
 
 @pytest.fixture(scope="session")
 def client():
-    nonebot.init()
-    driver = nonebot.get_driver()
-    driver.register_adapter("cqhttp", Bot)
-    driver.config.superusers = ['222222']
-    driver.config.command_start = {'/', '!', ''}
-    nonebot.load_plugins('src/plugins')
-
-    app = nonebot.get_asgi()
-
+    from bot import app
     client = TestClient(app)
     return client
 

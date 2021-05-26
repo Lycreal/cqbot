@@ -102,7 +102,7 @@ async def sendSetu(bot: Bot, event: MessageEvent, state: T_State) -> None:
                 at_sender=True
             )
             message_id = ret['message_id']
-            asyncio.create_task(check_and_recall(bot, message_id, image_bytes))
+            asyncio.create_task(check_and_recall(bot, message_id))
 
             cd.update(event.sender.user_id)
         except TimeoutException as e:

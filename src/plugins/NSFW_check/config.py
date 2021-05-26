@@ -6,6 +6,8 @@ class Config(BaseSettings):
     sightengine_api_user: str = ''
     sightengine_api_secret: str = ''
 
+    moderatecontent_apikey: str = ''
+
     class Config:
         extra = "ignore"
 
