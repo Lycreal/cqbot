@@ -1,29 +1,6 @@
-import base64
-from os import environ
-from queue import Empty
-
-import pytest
-
 from .message import generate_group_message
 
-
-class MockResponse:
-    image_base64 = ''.join("""
-    Qk1mAAAAAAAAADYAAAAoAAAABAAAAAQAAAABABgAAAAAAA
-    AAAADEDgAAxA4AAAAAAAAAAAAAJBzsJBzsJBzsJBzsJBzs
-    APL/APL/JBzsJBzsAPL/APL/JBzsJBzsJBzsJBzsJBzs
-    """.split())
-
-    def __init__(self, url):
-        self.url = url
-
-    async def aread(self):
-        if self.url == "https://api.thecatapi.com/v1/images/search":
-            return '[{"url": "https://fakeurl/pic.bmp"}]'
-        elif self.url == "https://fakeurl/pic.bmp":
-            return base64.b64decode(self.image_base64)
-        else:
-            raise
+from .utils import MockResponse
 
 
 def test_cat(websocket, monkeypatch):
