@@ -6,6 +6,8 @@ from starlette.testclient import TestClient, WebSocketTestSession, Message
 
 from .message import NewNumber
 
+os.environ['COMMAND_START'] = '["/", ""]'
+os.environ['SUPERUSERS'] = "[222222]"
 os.environ['moderatecontent_apikey'] = 'abc'
 
 

@@ -2,6 +2,7 @@ from .message import generate_group_message
 
 from .utils import MockResponse
 
+
 def test_cat(websocket, monkeypatch):
     async def mock_get(self, url):
         return MockResponse(url)
