@@ -218,6 +218,18 @@ httpx = ">=0.17.0,<0.18.0"
 nonebot2 = ">=2.0.0-alpha.13,<3.0.0"
 
 [[package]]
+name = "nonebot-plugin-manager"
+version = "0.4.0"
+description = "Nonebot Plugin Manager base on import hook"
+category = "main"
+optional = false
+python-versions = ">=3.7.3,<4.0.0"
+
+[package.dependencies]
+nonebot-adapter-cqhttp = ">=2.0.0a11,<3.0.0"
+nonebot2 = ">=2.0.0-alpha.11,<3.0.0"
+
+[[package]]
 name = "nonebot2"
 version = "2.0.0a13"
 description = "An asynchronous python bot framework."
@@ -523,7 +535,7 @@ dev = ["pytest (>=4.6.2)", "black (>=19.3b0)"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "42569e5abfcab99c7fd508908afb10f027c2b38def9a6fa5b496f6d5dc0ae107"
+content-hash = "f75cfa5e5728397c9cc8350c83b2ac9e6d4aa46ace3643edb8713d485cfe9a71"
 
 [metadata.files]
 atomicwrites = [
@@ -728,6 +740,10 @@ mypy-extensions = [
 nonebot-adapter-cqhttp = [
     {file = "nonebot-adapter-cqhttp-2.0.0a13.tar.gz", hash = "sha256:906891c318d394d358331c15ed6d8b1a6a4df75d9ceb43a2d0115ebfb204b5d2"},
     {file = "nonebot_adapter_cqhttp-2.0.0a13-py3-none-any.whl", hash = "sha256:17ec3217cdd884c0b76d72cfd994b8cc877d4c7140993c6e7a83f9c562729091"},
+]
+nonebot-plugin-manager = [
+    {file = "nonebot_plugin_manager-0.4.0-py3-none-any.whl", hash = "sha256:b2d7eebe35e22202fd759f3693ed86d02de5b308ad6b804e39686f42cf3aa2a5"},
+    {file = "nonebot_plugin_manager-0.4.0.tar.gz", hash = "sha256:fcd8357a62cc7a066a73dcdb34958b09fb535e069f62481cd3050e0b89785ebd"},
 ]
 nonebot2 = [
     {file = "nonebot2-2.0.0a13-py3-none-any.whl", hash = "sha256:08422f31e42a705270a0c0dd5704febc9c929f4e7b9e94146c56faf926733536"},
