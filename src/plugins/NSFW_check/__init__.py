@@ -4,6 +4,7 @@ from typing import Union
 
 from nonebot import Bot
 from nonebot import export
+from nonebot import logger
 from nonebot.adapters import Event
 from nonebot.adapters.cqhttp import Message, MessageEvent
 from nonebot.permission import SUPERUSER
@@ -48,6 +49,7 @@ async def auto_recall_handler(bot: Bot, event: Event, state: T_State) -> None:
     img_url = state['img_urls'][0]
     time_sent = datetime.now()
     level, description = await NSFW_checker.check_image(img_url)
+    logger.info(f'NSFW检查：{level}, {description}')
     if level == 1:  # threshold
         time_to_sleep = time_sent + timedelta(seconds=10) - datetime.now()
         await asyncio.sleep(time_to_sleep.total_seconds())
@@ -66,6 +68,7 @@ async def check_and_recall(bot: Bot, message_id: int, delay: float = 10, image: 
         image_urls = [msg.data['url'] for msg in Message(msg['message']) if msg.type == 'image']
         image = image_urls[0]
     level, description = await NSFW_checker.check_image(image)
+    logger.info(f'NSFW检查：{level}, {description}')
 
     if level == 1:
         time_to_sleep = time_sent + timedelta(seconds=delay) - datetime.now()
