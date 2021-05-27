@@ -1,9 +1,10 @@
 import abc
+from io import BytesIO
+
+import PIL.Image
+import httpx
 from pydantic import BaseModel
 
-import httpx
-import PIL.Image
-from io import BytesIO
 from .config import plugin_config
 
 
