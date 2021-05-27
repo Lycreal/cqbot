@@ -39,7 +39,7 @@ class SetuResp(BaseModel):
             "keyword": keyword,
             "num": 10,
             "proxy": setu_proxy,
-            "size1200": 'false'
+            "size1200": 'true'
         }
         async with httpx.AsyncClient(timeout=10) as client:  # type: httpx.AsyncClient
             response = await client.get(api_url, params=params)

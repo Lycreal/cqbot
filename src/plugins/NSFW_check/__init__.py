@@ -56,6 +56,9 @@ async def auto_recall_handler(bot: Bot, event: Event, state: T_State) -> None:
 
 @export()
 async def check_and_recall(bot: Bot, message_id: int, delay: float = 10, image: Union[str, bytes, None] = None) -> None:
+    if NSFW_checker is None:
+        return
+
     time_sent = datetime.now()
 
     if image is None:
