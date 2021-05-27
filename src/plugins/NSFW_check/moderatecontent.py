@@ -23,7 +23,7 @@ class ModerateContentClient(NSFWChecker):
             'url': image_url
         }
         headers = {'Referer': 'https://www.pixiv.net/'} if 'i.pximg.net' in image_url else {}
-        async with httpx.AsyncClient(timeout=10) as client:  # type: httpx.AsyncClient
+        async with httpx.AsyncClient(timeout=20) as client:  # type: httpx.AsyncClient
             resp = await client.get(self.api_url, params=params, headers=headers)
             respond: Dict[str, Any] = resp.json()
         return respond
