@@ -5,7 +5,7 @@ from base64 import b64encode
 
 from nonebot import Bot, on_message, on_command, logger
 from nonebot.adapters import Event
-from nonebot.adapters.cqhttp import MessageEvent, Message, MessageSegment
+from nonebot.adapters.cqhttp import MessageEvent, Message, MessageSegment, GroupMessageEvent
 from nonebot.plugin import require
 from nonebot.typing import T_State
 
@@ -101,8 +101,9 @@ async def sendSetu(bot: Bot, event: MessageEvent, state: T_State) -> None:
                 Message([MessageSegment.text(prefix), MessageSegment.image(file)]),
                 at_sender=True
             )
-            message_id = ret['message_id']
-            asyncio.create_task(check_and_recall(bot, message_id, image=image_bytes))
+            if isinstance(event, GroupMessageEvent):
+                message_id = ret['message_id']
+                asyncio.create_task(check_and_recall(bot, message_id, image=image_bytes))
 
             cd.update(event.sender.user_id)
         except TimeoutException as e:
