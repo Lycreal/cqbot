@@ -13,7 +13,7 @@ from .config import plugin_config
 from .datasource import SetuResp
 from .exceptions import TimeoutException
 from .model import SetuData, SetuDatabase
-from .utils import CoolDown, shuzi2number
+from .utils import CoolDown, shuzi2number, shuffle
 
 setu_maximum = plugin_config.setu_maximum
 
@@ -94,6 +94,10 @@ async def sendSetu(bot: Bot, event: MessageEvent, state: T_State) -> None:
 
         try:
             image_bytes = await data.get()
+
+            if isinstance(event, GroupMessageEvent):
+                image_bytes = shuffle(image_bytes)
+
             file = f"base64://{b64encode(image_bytes).decode()}"
             logger.info(f'发送色图: {data.url}')
             ret = await bot.send(
@@ -101,6 +105,7 @@ async def sendSetu(bot: Bot, event: MessageEvent, state: T_State) -> None:
                 Message([MessageSegment.text(prefix), MessageSegment.image(file)]),
                 at_sender=True
             )
+
             if isinstance(event, GroupMessageEvent):
                 message_id = ret['message_id']
                 asyncio.create_task(check_and_recall(bot, message_id, image=image_bytes))
