@@ -1,5 +1,5 @@
-from pydantic import BaseSettings
 import nonebot
+from pydantic import BaseSettings
 
 
 class Config(BaseSettings):

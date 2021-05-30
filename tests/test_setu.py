@@ -25,9 +25,6 @@ def test_setu(websocket, monkeypatch):
             }
         }
 
-    async def mock_sleep(*args, **kwargs):
-        pass
-
     with monkeypatch.context() as m:
         m.setattr('httpx.AsyncClient.get', mock_get)
         m.setattr('httpx.AsyncClient.post', mock_post)
@@ -38,7 +35,7 @@ def test_setu(websocket, monkeypatch):
         respond = websocket.receive_json()
 
         print(''.join(message['data']['text'] for message in respond['params']['message'] if message['type'] == 'text'))
-        assert any(message['type'] == 'image' for message in respond['params']['message'])
+        assert any(message['type'] != 'image' for message in respond['params']['message'])
         websocket.send_json(
             {
                 'status': 'ok',

@@ -1,10 +1,11 @@
+from base64 import b64encode
+
 from nonebot import Bot, on_command
 from nonebot.adapters.cqhttp import Event, MessageSegment
 from nonebot.typing import T_State
 
-from base64 import b64encode
-from .exceptions import TimeoutException, NetworkError
 from .datasource import CatPicture
+from .exceptions import TimeoutException, NetworkError
 
 cats = on_command('猫猫', state={'source': CatPicture})
 

@@ -13,10 +13,11 @@ repository = "https://github.com/Lycreal/cqbot"
 python = "^3.8"
 nonebot2 = "^2.0.0a13"
 nonebot-adapter-cqhttp = "^2.0.0a13"
+nonebot_plugin_manager = "^0.4.0"
 pydantic = "^1.8.1"
 lxml = "^4.6.3"
 httpx = "^0.17.1"
-pillow = "^8.2.0"
+opencv-python-headless = "^4.5.2"
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.2.4"

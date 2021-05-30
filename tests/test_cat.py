@@ -13,7 +13,8 @@ def test_cat(websocket, monkeypatch):
         respond = websocket.receive_json()
 
     assert respond['action'] in ['send_msg', 'send_private_msg', 'send_group_msg']
-    assert any(
-        message['data']['file'] == f'base64://{MockResponse.image_base64}'
+
+    assert f'base64://{MockResponse.image_base64.decode()}' == [
+        message['data']['file']
         for message in respond['params']['message'] if message['type'] == 'image'
-    )
+    ][0]

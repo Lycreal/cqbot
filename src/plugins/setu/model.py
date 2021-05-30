@@ -1,16 +1,13 @@
 import json
-from io import BytesIO
 from pathlib import Path
 from typing import Any
 from typing import List, Set
 from urllib.parse import urlparse
 
-import PIL.Image
 import httpx
 from pydantic import BaseModel, ValidationError
 
 from .config import plugin_config
-from .exceptions import ImageLoadError
 
 data_path = plugin_config.data_path
 setu_apikey = plugin_config.setu_apikey
@@ -56,12 +53,6 @@ class SetuData(BaseModel):
         async with httpx.AsyncClient(headers=headers, timeout=10) as client:  # type: httpx.AsyncClient
             response: httpx.Response = await client.get(self.url)
             img_bytes: bytes = await response.aread()
-            try:
-                img = PIL.Image.Image = PIL.Image.open(BytesIO(img_bytes))
-                # if img.size != (self.width, self.height):
-                #     raise ImageSizeError(f'expected {(self.width, self.height)} but got {img.size}')
-            except Exception:
-                raise ImageLoadError(f'Image load fail {str(img_bytes[:20])}...')
         return img_bytes
 
 
