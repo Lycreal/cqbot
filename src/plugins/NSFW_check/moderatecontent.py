@@ -1,4 +1,5 @@
 import json
+from io import BytesIO
 from typing import Dict, Any, Union, Tuple
 
 import httpx
@@ -22,13 +23,20 @@ class ModerateContentClient(NSFWChecker):
             'key': self.api_key,
             'url': image_url.replace('://i.pximg.net', '://i.pixiv.cat', 1)
         }
-        async with httpx.AsyncClient(timeout=60) as client:  # type: httpx.AsyncClient
+        async with httpx.AsyncClient(timeout=30) as client:  # type: httpx.AsyncClient
             resp = await client.get(self.api_url, params=params)
             respond: Dict[str, Any] = resp.json()
         return respond
 
     async def call_api_post(self, image_bytes: bytes) -> Dict[str, Any]:
-        return NotImplemented
+        data = {
+            'key': self.api_key
+        }
+        files = {'media': BytesIO(image_bytes)}
+        async with httpx.AsyncClient(timeout=30) as client:  # type: httpx.AsyncClient
+            resp = await client.post(self.api_url, data=data, files=files)
+            respond: Dict[str, Any] = resp.json()
+        return respond
 
     async def resolve_result(self, response: Dict[str, Any]) -> Tuple[int, str]:
         error_code = response.get('error_code')

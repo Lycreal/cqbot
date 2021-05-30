@@ -28,7 +28,7 @@ class SightEngineClient(NSFWChecker):
             'api_secret': self.api_secret,
             'url': image_url.replace('://i.pximg.net', '://i.pixiv.cat', 1)
         }
-        async with httpx.AsyncClient(timeout=60) as client:  # type: httpx.AsyncClient
+        async with httpx.AsyncClient(timeout=30) as client:  # type: httpx.AsyncClient
             resp = await client.get(self.api_url, params=params)
             respond: Dict[str, Any] = resp.json()
         return respond
@@ -40,7 +40,7 @@ class SightEngineClient(NSFWChecker):
             'api_secret': self.api_secret
         }
         files = {'media': BytesIO(image_bytes)}
-        async with httpx.AsyncClient(timeout=10) as client:  # type: httpx.AsyncClient
+        async with httpx.AsyncClient(timeout=30) as client:  # type: httpx.AsyncClient
             resp = await client.post(self.api_url, data=data, files=files)
             respond: Dict[str, Any] = resp.json()
         return respond

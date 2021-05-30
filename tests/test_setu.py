@@ -25,9 +25,6 @@ def test_setu(websocket, monkeypatch):
             }
         }
 
-    async def mock_sleep(*args, **kwargs):
-        pass
-
     with monkeypatch.context() as m:
         m.setattr('httpx.AsyncClient.get', mock_get)
         m.setattr('httpx.AsyncClient.post', mock_post)
