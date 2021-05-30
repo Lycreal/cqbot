@@ -50,14 +50,15 @@ async def auto_recall_handler(bot: Bot, event: Event, state: T_State) -> None:
     time_sent = datetime.now()
     level, description = await NSFW_checker.check_image(img_url)
     logger.info(f'NSFW检查：{level}, {description}')
-    if level == 1:  # threshold
+    if level == 1:  # adult
         time_to_sleep = time_sent + timedelta(seconds=10) - datetime.now()
         await asyncio.sleep(time_to_sleep.total_seconds())
         await bot.call_api('delete_msg', message_id=event.message_id)
 
 
 @export()
-async def check_and_recall(bot: Bot, message_id: int, delay: float = 10, image: Union[str, bytes, None] = None) -> None:
+async def check_and_recall(bot: Bot, message_id: int, image: Union[str, bytes, None] = None, delay: float = 10,
+                           recall_by_default: bool = True) -> None:
     if NSFW_checker is None:
         return
 
@@ -67,10 +68,13 @@ async def check_and_recall(bot: Bot, message_id: int, delay: float = 10, image: 
         msg = await bot.get_msg(message_id=message_id)
         image_urls = [msg.data['url'] for msg in Message(msg['message']) if msg.type == 'image']
         image = image_urls[0]
-    level, description = await NSFW_checker.check_image(image)
-    logger.info(f'NSFW检查：{level}, {description}')
 
-    if level == 1:
-        time_to_sleep = time_sent + timedelta(seconds=delay) - datetime.now()
-        await asyncio.sleep(time_to_sleep.total_seconds())
-        await bot.call_api('delete_msg', message_id=message_id)
+    level = int(recall_by_default)
+    try:
+        level, description = await NSFW_checker.check_image(image)
+        logger.info(f'NSFW检查：{level}, {description}')
+    finally:
+        if level == 1:
+            time_to_sleep = time_sent + timedelta(seconds=delay) - datetime.now()
+            await asyncio.sleep(time_to_sleep.total_seconds())
+            await bot.call_api('delete_msg', message_id=message_id)

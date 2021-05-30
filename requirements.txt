@@ -4,4 +4,4 @@ nonebot-plugin-manager
 pydantic ~= 1.8.1
 lxml ~= 4.6.3
 httpx ~= 0.17.1
-pillow ~= 8.2.0
+opencv-python-headless ~= 4.5.2

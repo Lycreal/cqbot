@@ -1,7 +1,5 @@
 import abc
-from io import BytesIO
 
-import PIL.Image
 import httpx
 from pydantic import BaseModel
 
@@ -19,7 +17,6 @@ class PictureSource(BaseModel, abc.ABC):
         content_with_url = await cls.get_content(cls.api_url())
         image_url = await cls.resolve(content_with_url)
         image_bytes = await cls.get_content(image_url)
-        PIL.Image.open(BytesIO(image_bytes))
         return image_bytes
 
     @classmethod

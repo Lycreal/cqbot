@@ -1,9 +1,9 @@
 import typing as T
 from datetime import datetime, timedelta
-from io import BytesIO
 from random import randint
 
-import PIL.Image
+import cv2
+import numpy as np
 from pydantic import BaseModel
 
 
@@ -22,14 +22,12 @@ def shuzi2number(shuzi: T.Optional[str]) -> int:
 
 
 def shuffle(image_bytes: bytes) -> bytes:
-    image: PIL.Image.Image = PIL.Image.open(BytesIO(image_bytes))
-    pixels = image.load()
-    i, j = image.size
-    pixels[0, 0] = randint(0, 255)
-    pixels[i, 0] = randint(0, 255)
-    pixels[0, j] = randint(0, 255)
-    pixels[i, j] = randint(0, 255)
-    return image.tobytes()
+    image = cv2.imdecode(np.asarray(bytearray(image_bytes)), cv2.IMREAD_COLOR)
+    image[0, 0] = randint(0, 255)
+    image[0, -1] = randint(0, 255)
+    image[-1, 0] = randint(0, 255)
+    image[-1, -1] = randint(0, 255)
+    return cv2.imencode('.png', image)[1]
 
 
 class CoolDown(BaseModel):
