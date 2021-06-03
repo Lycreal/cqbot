@@ -1,5 +1,29 @@
 # Changelog
 
+### [0.2.1](https://www.github.com/Lycreal/cqbot/compare/v0.2.0...v0.2.1) (2021-06-03)
+
+
+### ⚠ BREAKING CHANGES
+
+* change datapath to `data`
+
+### Features
+
+* auto recall NSFW images ([#18](https://www.github.com/Lycreal/cqbot/issues/18)) ([cb26683](https://www.github.com/Lycreal/cqbot/commit/cb266834bb74ae20a053732550acb4bec782d959))
+
+
+### Bug Fixes
+
+* a lot of changes ([#19](https://www.github.com/Lycreal/cqbot/issues/19)) ([1529722](https://www.github.com/Lycreal/cqbot/commit/152972240e63f2a3ef34b0325165e1aba8280bf8))
+* NSFW async func ([8c40833](https://www.github.com/Lycreal/cqbot/commit/8c40833293cb9ff53f4fbf627d5f5ac3d0539393))
+* NSFW check ([e0b2de1](https://www.github.com/Lycreal/cqbot/commit/e0b2de1e702c6fbf58499745c6fbe5cc3ccb001c))
+
+
+### Miscellaneous Chores
+
+* change datapath to `data` ([3958dd7](https://www.github.com/Lycreal/cqbot/commit/3958dd7d8914ab563049919131ef73ee58ce8e8a))
+* release 0.2.1 ([9f7a446](https://www.github.com/Lycreal/cqbot/commit/9f7a4463b53cc974dd82a9b29ed321f2a3b80fc5))
+
 ## [0.2.0](https://www.github.com/Lycreal/cqbot/compare/v0.1.2...v0.2.0) (2021-05-25)
 
 
