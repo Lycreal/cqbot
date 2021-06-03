@@ -1,7 +1,7 @@
-nonebot2
-nonebot-adapter-cqhttp
-nonebot-plugin-manager
-pydantic ~= 1.8.1
-lxml ~= 4.6.3
-httpx ~= 0.17.1
-opencv-python-headless ~= 4.5.2
+nonebot2~=2.0.0a13.post1
+nonebot-adapter-cqhttp~=2.0.0a13
+nonebot-plugin-manager~=0.4.0
+pydantic~=1.8.1
+lxml~=4.6.3
+httpx~=0.17.1
+opencv-python-headless~=4.5.2
