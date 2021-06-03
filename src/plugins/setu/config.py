@@ -1,11 +1,11 @@
-from pydantic import BaseSettings
 import nonebot
+from pydantic import BaseSettings
 
 
 class Config(BaseSettings):
     debug: bool = False
     setu_maximum: int = 3
-    data_path: str = "userdata"
+    data_path: str = "data"
     setu_apikey: str = ""
     setu_proxy: str = None
     setu_r18: int = 0

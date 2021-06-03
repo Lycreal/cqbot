@@ -1,17 +1,5 @@
 from .message import generate_private_message, generate_group_message
-
-
-class MockResponse:
-    def __init__(self, url):
-        self.url = url
-
-    async def aread(self):
-        if 'saucenao.com' in self.url:
-            with open('tests/Sauce Found.htm', 'rb') as f:
-                return f.read()
-        else:
-            raise
-
+from .utils import MockResponse
 
 def test_search_pic(websocket, monkeypatch):
     async def mock_get(self, url):

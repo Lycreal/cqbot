@@ -1,19 +1,16 @@
 import json
 from io import BytesIO
-from typing import Dict, Any, Union
-from typing import Tuple
+from typing import Dict, Any, Union, Tuple
 
 import httpx
 
 from .model import NSFWChecker
 
 
-# https://sightengine.com/docs/reference#nudity-detection
-class SightEngineClient(NSFWChecker):
-    api_user: str
-    api_secret: str
-    threshold: float = 0.5
-    api_url: str = 'https://api.sightengine.com/1.0/check.json'
+# https://moderatecontent.com/documentation/anime
+class ModerateContentClient(NSFWChecker):
+    api_key: str
+    api_url: str = 'https://api.moderatecontent.com/anime/'
 
     async def call_api(self, image: Union[str, bytes]) -> Dict[str, Any]:
         if isinstance(image, str):
@@ -23,9 +20,7 @@ class SightEngineClient(NSFWChecker):
 
     async def call_api_get(self, image_url: str) -> Dict[str, Any]:
         params = {
-            'models': 'nudity',
-            'api_user': self.api_user,
-            'api_secret': self.api_secret,
+            'key': self.api_key,
             'url': image_url.replace('://i.pximg.net', '://i.pixiv.cat', 1)
         }
         async with httpx.AsyncClient(timeout=30) as client:  # type: httpx.AsyncClient
@@ -35,9 +30,7 @@ class SightEngineClient(NSFWChecker):
 
     async def call_api_post(self, image_bytes: bytes) -> Dict[str, Any]:
         data = {
-            'models': 'nudity',
-            'api_user': self.api_user,
-            'api_secret': self.api_secret
+            'key': self.api_key
         }
         files = {'media': BytesIO(image_bytes)}
         async with httpx.AsyncClient(timeout=30) as client:  # type: httpx.AsyncClient
@@ -45,12 +38,16 @@ class SightEngineClient(NSFWChecker):
             respond: Dict[str, Any] = resp.json()
         return respond
 
-    async def resolve_result(self, body: Dict[str, Any]) -> Tuple[int, str]:
-        if body['status'] == 'success':
-            nudity: Dict[str, float] = body['nudity']
-            description = json.dumps(nudity)
-            level = 1 if nudity['safe'] < self.threshold else 0
+    async def resolve_result(self, response: Dict[str, Any]) -> Tuple[int, str]:
+        error_code = response.get('error_code')
+        if error_code != 0:
+            return 0, response.get('error')
+
+        predictions = response.get('predictions')
+        rating_label = response.get('rating_label')
+
+        if rating_label == 'adult':
+            level = 1
         else:
-            description = body['error']['message']
             level = 0
-        return level, description
+        return level, json.dumps(predictions)

@@ -1,26 +1,28 @@
-# ====================== Nonebot ======================
-from nonebot import Bot, on_message, on_command
-from nonebot.adapters import Event
-from nonebot.adapters.cqhttp import MessageEvent, Message, MessageSegment
-from nonebot.permission import SUPERUSER
-from nonebot.typing import T_State
-from .config import plugin_config
-# ====================== Nonebot ======================
-
+import asyncio
 import random
 import re
 from base64 import b64encode
 
-from .model import SetuData, SetuDatabase
+from nonebot import Bot, on_message, on_command, logger
+from nonebot.adapters import Event
+from nonebot.adapters.cqhttp import MessageEvent, Message, MessageSegment, GroupMessageEvent
+from nonebot.plugin import require
+from nonebot.typing import T_State
+
+from .config import plugin_config
 from .datasource import SetuResp
-from .utils import CoolDown, shuzi2number
 from .exceptions import TimeoutException
+from .model import SetuData, SetuDatabase
+from .utils import CoolDown, shuzi2number, shuffle
 
 setu_maximum = plugin_config.setu_maximum
 
 cd = CoolDown(app='setu', td=20)
 
 LAST_QUOTA: int = 300
+
+NSFW_check = require('NSFW_check')
+check_and_recall = NSFW_check.check_and_recall
 
 
 async def setu_rule(bot: Bot, event: Event, state: T_State) -> bool:
@@ -92,16 +94,30 @@ async def sendSetu(bot: Bot, event: MessageEvent, state: T_State) -> None:
 
         try:
             image_bytes = await data.get()
+
+            if isinstance(event, GroupMessageEvent):
+                image_bytes = shuffle(image_bytes)
+
             file = f"base64://{b64encode(image_bytes).decode()}"
-            await bot.send(
+            logger.info(f'发送色图: {data.url}')
+            ret = await bot.send(
                 event,
                 Message([MessageSegment.text(prefix), MessageSegment.image(file)]),
                 at_sender=True
             )
+
+            if isinstance(event, GroupMessageEvent):
+                message_id = ret['message_id']
+                asyncio.create_task(check_and_recall(bot, message_id, image=image_bytes))
+
             cd.update(event.sender.user_id)
-        except TimeoutException:
+        except TimeoutException as e:
+            import traceback
+            logger.error('\n'.join(traceback.format_exception(type(e), e, e.__traceback__)))
             num_timeout += 1
-        except Exception:
+        except Exception as e:
+            import traceback
+            logger.error('\n'.join(traceback.format_exception(type(e), e, e.__traceback__)))
             num_exception += 1
 
     # 报告结果
