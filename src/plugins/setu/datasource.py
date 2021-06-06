@@ -8,6 +8,7 @@ from .model import SetuData, SetuDatabase
 
 setu_proxy = plugin_config.setu_proxy
 setu_r18 = plugin_config.setu_r18
+blacklist = plugin_config.setu_blacklist
 
 
 class SetuResp(BaseModel):
@@ -18,6 +19,9 @@ class SetuResp(BaseModel):
 
     def save(self) -> None:
         SetuDatabase.save(*self.data)
+
+    def get_data(self) -> List[SetuData]:
+        return [data for data in self.data if len(blacklist.intersection(data.tags)) == 0]
 
     @staticmethod
     async def get(keyword: str = '') -> "SetuResp":

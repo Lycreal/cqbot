@@ -63,11 +63,15 @@ async def sendSetu(bot: Bot, event: MessageEvent, state: T_State) -> None:
     """发送data_array"""
     resp: SetuResp = state['setu_resp']
 
+    data_array = resp.get_data()
+    if not data_array:
+        resp.code = -2  # blacklist keywords
+        resp.msg = '没有符合条件的色图'
+
     if resp.code != 0:
         await bot.send(event, resp.msg)
         return
 
-    data_array = resp.data
     number = min(state['number_of_setu'], len(data_array))
 
     async def send(setu_data_: SetuData) -> None:

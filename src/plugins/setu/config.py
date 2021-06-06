@@ -1,3 +1,5 @@
+from typing import List, Set
+
 import nonebot
 from pydantic import BaseSettings
 
@@ -9,6 +11,7 @@ class Config(BaseSettings):
     setu_r18: int = 0
     setu_check_size: bool = False
     setu_share_cd: bool = False
+    setu_blacklist: Set[str] = {'R-18'}
 
     class Config:
         extra = "ignore"
