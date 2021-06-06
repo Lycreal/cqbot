@@ -27,7 +27,8 @@ def shuffle(image_bytes: bytes) -> bytes:
     image[0, -1] = randint(0, 255)
     image[-1, 0] = randint(0, 255)
     image[-1, -1] = randint(0, 255)
-    return cv2.imencode('.jpg', image)[1]
+    img_encode = cv2.imencode('.jpg', image)[1]
+    return bytes(img_encode)
 
 
 class CoolDown(BaseModel):
