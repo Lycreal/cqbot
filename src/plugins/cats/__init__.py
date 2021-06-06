@@ -1,13 +1,25 @@
 from base64 import b64encode
 
-from nonebot import Bot, on_command
+from nonebot import Bot, on_message
+from nonebot.rule import Rule
 from nonebot.adapters.cqhttp import Event, MessageSegment
 from nonebot.typing import T_State
 
 from .datasource import CatPicture
 from .exceptions import TimeoutException, NetworkError
 
-cats = on_command('猫猫', state={'source': CatPicture})
+
+def full_match(keyword: str) -> Rule:
+    async def _checker(bot: Bot, event: Event, state: T_State) -> bool:
+        if event.get_plaintext().strip() == keyword:
+            return True
+        else:
+            return False
+
+    return Rule(_checker)
+
+
+cats = on_message(full_match('猫猫'), state={'source': CatPicture})
 
 
 @cats.handle()
