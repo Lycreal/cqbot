@@ -8,7 +8,7 @@ from .utils import MockResponse
 
 
 def test_NSFW(websocket, monkeypatch):
-    async def mock_get(self, url, params=None):
+    async def mock_get(self, url, *args, **kwargs):
         return MockResponse(url)
 
     async def mock_get_msg(self, *, message_id: int, self_id: Optional[int] = ...):
@@ -25,6 +25,7 @@ def test_NSFW(websocket, monkeypatch):
 
     with monkeypatch.context() as m:
         m.setattr('httpx.AsyncClient.get', mock_get)
+        m.setattr('httpx.AsyncClient.post', mock_get)
         Bot.get_msg = mock_get_msg
 
         websocket.send_json(generate_group_message(websocket.self_id, '[CQ:reply,id=123123] 检查'))
