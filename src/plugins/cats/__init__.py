@@ -27,7 +27,7 @@ async def cats_handler(bot: Bot, event: Event, state: T_State) -> None:
     try:
         image_bytes = await state['source'].get_image()
         file = f"base64://{b64encode(image_bytes).decode()}"
-        await bot.send(event, MessageSegment.image(file), at_sender=True)
+        await bot.send(event, MessageSegment.image(file))
     except TimeoutException:
         await bot.send(event, "请求超时", at_sender=True)
     except NetworkError:
