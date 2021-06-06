@@ -41,7 +41,7 @@ async def check_pic_handler(bot: Bot, event: Event, state: T_State) -> None:
         if state['img_urls']:
             img_url = state['img_urls'][0]
             level, description = await NSFW_checker.check_image(img_url)
-            await bot.send(event, description)
+            await bot.send(event, f'{level}, {description}')
 
 
 @auto_recall.handle()
