@@ -5,3 +5,4 @@ pydantic~=1.8.1
 lxml~=4.6.3
 httpx~=0.17.1
 opencv-python-headless~=4.5.2
+numpy~=1.20.3
