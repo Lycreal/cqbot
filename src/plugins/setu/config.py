@@ -3,10 +3,8 @@ from pydantic import BaseSettings
 
 
 class Config(BaseSettings):
-    debug: bool = False
-    setu_maximum: int = 3
+    setu_maximum: int = 3  # 警告: 不宜过大
     data_path: str = "data"
-    setu_apikey: str = ""
     setu_proxy: str = None
     setu_r18: int = 0
     setu_check_size: bool = False

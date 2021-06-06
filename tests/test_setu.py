@@ -35,7 +35,7 @@ def test_setu(websocket, monkeypatch):
         respond = websocket.receive_json()
 
         print(''.join(message['data']['text'] for message in respond['params']['message'] if message['type'] == 'text'))
-        assert any(message['type'] != 'image' for message in respond['params']['message'])
+        assert all(message['type'] == 'image' for message in respond['params']['message'])
         websocket.send_json(
             {
                 'status': 'ok',
