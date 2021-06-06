@@ -1,6 +1,7 @@
 import abc
 from typing import Dict, Any, Union, Tuple
 
+import httpx
 from pydantic import BaseModel
 
 
@@ -9,6 +10,13 @@ class NSFWChecker(BaseModel):
         """
         :return: level (0:safe, 1:adult), description (str)
         """
+
+        # always use POST method
+        if isinstance(image, str):
+            async with httpx.AsyncClient(timeout=30) as client:  # type: httpx.AsyncClient
+                resp = await client.get(image)
+                image: bytes = await resp.aread()
+
         response = await self.call_api(image)
         result = await self.resolve_result(response)
         return result
