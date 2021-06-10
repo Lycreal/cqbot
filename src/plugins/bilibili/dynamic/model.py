@@ -80,6 +80,10 @@ class Database(BaseModel):
     @validate_arguments
     def show(cls, groups: T.Set[int] = None, users: T.Set[int] = None) -> T.List[str]:
         db: Database = cls.load()
+        if not groups:
+            groups = set()
+        if not users:
+            users = set()
         ret = [saved_target.name for saved_target in db.__root__
                if groups & saved_target.groups or users & saved_target.users]
         return ret
