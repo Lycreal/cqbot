@@ -15,7 +15,8 @@ from .model import Target, Database
 async def first_receive(bot: Bot, event: Event, state: T_State) -> None:
     msg: str = event.get_plaintext()
     uid_list: List[str] = re.compile(r'space.bilibili.com/(\d+)').findall(msg)
-    state['uid_list'] = uid_list
+    if uid_list:
+        state['uid_list'] = uid_list
 
     if isinstance(event, GroupMessageEvent):
         identifier = {'groups': {event.group_id}}
@@ -24,13 +25,21 @@ async def first_receive(bot: Bot, event: Event, state: T_State) -> None:
     state['identifier'] = identifier
 
 
-dynamic_monitor = CommandGroup('动态监控', handlers=[first_receive], priority=10)
-dynamic_monitor_add = dynamic_monitor.command('添加', aliases={'增加'}, priority=2)
-dynamic_monitor_del = dynamic_monitor.command('删除', aliases={'移除'}, priority=3)
+dynamic_monitor = on_command(('动态监控',), priority=10)
+dynamic_monitor_add = on_command(('动态监控', '添加'), handlers=[first_receive], priority=2)
+dynamic_monitor_del = on_command(('动态监控', '移除'), handlers=[first_receive], priority=3)
+dynamic_monitor_show = on_command(('动态监控', '列表'), handlers=[first_receive], priority=4)
 
-dynamic_monitor_show = dynamic_monitor.command('列表', priority=4)
-# dynamic_monitor_show = on_command(('动态监控', '列表'), handlers=[first_receive], priority=4)
 
+@dynamic_monitor.handle()
+async def print_help(bot: Bot, event: Event, state: T_State) -> None:
+    msg = '\n'.join([
+        '使用说明:',
+        '动态监控添加 <url1> ...',
+        '动态监控移除 <url1> ...',
+        '动态监控列表'
+    ])
+    await bot.send(event, message=msg)
 
 
 @dynamic_monitor_add.got('uid_list', prompt='请输入动态地址', args_parser=first_receive)
