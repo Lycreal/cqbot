@@ -10,6 +10,5 @@ class Config(BaseSettings):
         extra = "ignore"
 
 
-nonebot.init()
 global_config = nonebot.get_driver().config
 plugin_config = Config(**global_config.dict())
