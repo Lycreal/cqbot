@@ -14,21 +14,21 @@ python = "^3.8"
 nonebot2 = "^2.0.0a13.post1"
 nonebot-adapter-cqhttp = "^2.0.0a13"
 nonebot_plugin_manager = "^0.4.0"
+nonebot-plugin-apscheduler = "^0.1.2"
 pydantic = "^1.8.1"
 lxml = "^4.6.3"
 httpx = "^0.17.1"
 opencv-python-headless = "^4.5.2"
 numpy = "^1.20.3"
-nonebot-plugin-apscheduler = "^0.1.2"
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.2.4"
 pytest-cov = "^2.12.0"
+pytest-asyncio = "^0.15.1"
 starlette = "^0.13.6"
 requests = "^2.25.1"
 mypy = "^0.901"
 nonebot-plugin-test = "^0.2.0"
-pytest-asyncio = "^0.15.1"
 
 [tool.pytest.ini_options]
 # https://docs.pytest.org/en/6.2.x/reference.html#configuration-options
