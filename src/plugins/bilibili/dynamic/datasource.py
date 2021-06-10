@@ -7,7 +7,7 @@ import httpx
 # {uid:dynamic_id}
 LAST: T.Dict[str, int] = {}
 
-Resp = namedtuple('Resp', 'msg imgs dynamic_id')
+Resp = namedtuple('Resp', 'name msg imgs dynamic_id')
 
 
 async def getDynamicStatus(uid: str, debug: int = 0) -> T.Optional[Resp]:
@@ -55,7 +55,7 @@ class CardData(dict):
         c_type = self['desc']['type']
 
         msg, imgs = self.resolve_card(self['card'], name, c_type)
-        return Resp(msg, imgs, self['desc']['dynamic_id'])
+        return Resp(name, msg, imgs, self['desc']['dynamic_id'])
 
     @staticmethod
     def resolve_card(card: dict, name: str, c_type: int) -> T.Tuple[str, T.List[str]]:

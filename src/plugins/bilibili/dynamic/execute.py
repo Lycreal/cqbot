@@ -16,14 +16,16 @@ scheduler: "AsyncIOScheduler" = require("nonebot_plugin_apscheduler").scheduler
 @scheduler.scheduled_job("interval", seconds=20, id="bili_dynamic")
 async def execute() -> None:
     bot = list(get_bots().values())[0]
-    targets = Database.load().__root__
+    db = Database.load()
+    targets = db.__root__
     if not targets:
         return
     for target in targets:
         if target.groups or target.users:
             try:
-                resp = await getDynamicStatus(target.uid, debug=1)
+                resp = await getDynamicStatus(target.uid)
                 if resp:
+                    target.name = resp.name
                     footer = f"\n\n动态地址: https://t.bilibili.com/{resp.dynamic_id}"
                     logger.info(f'{target.name}动态更新：https://t.bilibili.com/{resp.dynamic_id}')
 
@@ -40,3 +42,4 @@ async def execute() -> None:
                 logger.error(f'动态检查出错：{target.name} {e}')
                 logger.error(traceback.format_exc())
                 continue
+    db.save_to_file()
