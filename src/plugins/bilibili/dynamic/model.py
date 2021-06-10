@@ -2,7 +2,7 @@ import json
 import typing as T
 from pathlib import Path
 
-from pydantic import BaseModel, ValidationError, validator, validate_arguments
+from pydantic import BaseModel, ValidationError, validator
 
 from .config import plugin_config
 
@@ -77,7 +77,6 @@ class Database(BaseModel):
         return cls.update(*data_array, remove=True)
 
     @classmethod
-    @validate_arguments
     def show(cls, groups: T.Set[int] = None, users: T.Set[int] = None) -> T.List[str]:
         db: Database = cls.load()
         if not groups:
