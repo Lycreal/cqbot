@@ -1,4 +1,38 @@
 [[package]]
+name = "aiofiles"
+version = "0.6.0"
+description = "File support for asyncio."
+category = "dev"
+optional = false
+python-versions = "*"
+
+[[package]]
+name = "apscheduler"
+version = "3.7.0"
+description = "In-process task scheduler with Cron-like capabilities"
+category = "main"
+optional = false
+python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*, <4"
+
+[package.dependencies]
+pytz = "*"
+six = ">=1.4.0"
+tzlocal = ">=2.0,<3.0"
+
+[package.extras]
+asyncio = ["trollius"]
+doc = ["sphinx", "sphinx-rtd-theme"]
+gevent = ["gevent"]
+mongodb = ["pymongo (>=3.0)"]
+redis = ["redis (>=3.0)"]
+rethinkdb = ["rethinkdb (>=2.4.0)"]
+sqlalchemy = ["sqlalchemy (>=0.8)"]
+testing = ["pytest (<6)", "pytest-cov", "pytest-tornado5", "mock", "pytest-asyncio (<0.6)", "pytest-asyncio"]
+tornado = ["tornado (>=4.3)"]
+twisted = ["twisted"]
+zookeeper = ["kazoo"]
+
+[[package]]
 name = "atomicwrites"
 version = "1.4.0"
 description = "Atomic file writes."
@@ -215,6 +249,18 @@ httpx = ">=0.17.0,<0.18.0"
 nonebot2 = ">=2.0.0-alpha.13,<3.0.0"
 
 [[package]]
+name = "nonebot-plugin-apscheduler"
+version = "0.1.2"
+description = "APScheduler Support for NoneBot2"
+category = "main"
+optional = false
+python-versions = ">=3.7,<4.0"
+
+[package.dependencies]
+apscheduler = ">=3.7.0,<4.0.0"
+nonebot2 = ">=2.0.0-alpha.8,<3.0.0"
+
+[[package]]
 name = "nonebot-plugin-manager"
 version = "0.4.0"
 description = "Nonebot Plugin Manager base on import hook"
@@ -225,6 +271,19 @@ python-versions = ">=3.7.3,<4.0.0"
 [package.dependencies]
 nonebot-adapter-cqhttp = ">=2.0.0a11,<3.0.0"
 nonebot2 = ">=2.0.0-alpha.11,<3.0.0"
+
+[[package]]
+name = "nonebot-plugin-test"
+version = "0.2.0"
+description = "Test frontend for nonebot v2+"
+category = "dev"
+optional = false
+python-versions = ">=3.7,<4.0"
+
+[package.dependencies]
+aiofiles = ">=0.6.0,<0.7.0"
+nonebot2 = ">=2.0.0-alpha.9,<3.0.0"
+python-socketio = ">=4.6.1,<5.0.0"
 
 [[package]]
 name = "nonebot2"
@@ -256,7 +315,7 @@ python-versions = ">=3.7"
 
 [[package]]
 name = "opencv-python-headless"
-version = "4.5.2.52"
+version = "4.5.2.54"
 description = "Wrapper package for OpenCV python bindings."
 category = "main"
 optional = false
@@ -349,6 +408,20 @@ toml = "*"
 testing = ["argcomplete", "hypothesis (>=3.56)", "mock", "nose", "requests", "xmlschema"]
 
 [[package]]
+name = "pytest-asyncio"
+version = "0.15.1"
+description = "Pytest support for asyncio."
+category = "dev"
+optional = false
+python-versions = ">= 3.6"
+
+[package.dependencies]
+pytest = ">=5.4.0"
+
+[package.extras]
+testing = ["coverage", "hypothesis (>=5.7.1)"]
+
+[[package]]
 name = "pytest-cov"
 version = "2.12.1"
 description = "Pytest plugin for measuring coverage."
@@ -374,6 +447,45 @@ python-versions = "*"
 
 [package.extras]
 cli = ["click (>=5.0)"]
+
+[[package]]
+name = "python-engineio"
+version = "3.14.2"
+description = "Engine.IO server"
+category = "dev"
+optional = false
+python-versions = "*"
+
+[package.dependencies]
+six = ">=1.9.0"
+
+[package.extras]
+asyncio_client = ["aiohttp (>=3.4)"]
+client = ["requests (>=2.21.0)", "websocket-client (>=0.54.0)"]
+
+[[package]]
+name = "python-socketio"
+version = "4.6.1"
+description = "Socket.IO server"
+category = "dev"
+optional = false
+python-versions = "*"
+
+[package.dependencies]
+python-engineio = ">=3.13.0,<4"
+six = ">=1.9.0"
+
+[package.extras]
+asyncio_client = ["aiohttp (>=3.4)", "websockets (>=7.0)"]
+client = ["requests (>=2.21.0)", "websocket-client (>=0.54.0)"]
+
+[[package]]
+name = "pytz"
+version = "2021.1"
+description = "World timezone definitions, modern and historical"
+category = "main"
+optional = false
+python-versions = "*"
 
 [[package]]
 name = "pyyaml"
@@ -414,6 +526,14 @@ idna = {version = "*", optional = true, markers = "extra == \"idna2008\""}
 
 [package.extras]
 idna2008 = ["idna"]
+
+[[package]]
+name = "six"
+version = "1.16.0"
+description = "Python 2 and 3 compatibility utilities"
+category = "main"
+optional = false
+python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*"
 
 [[package]]
 name = "sniffio"
@@ -465,6 +585,17 @@ description = "Backported and Experimental Type Hints for Python 3.5+"
 category = "main"
 optional = false
 python-versions = "*"
+
+[[package]]
+name = "tzlocal"
+version = "2.1"
+description = "tzinfo object for the local timezone"
+category = "main"
+optional = false
+python-versions = "*"
+
+[package.dependencies]
+pytz = "*"
 
 [[package]]
 name = "urllib3"
@@ -544,9 +675,17 @@ dev = ["pytest (>=4.6.2)", "black (>=19.3b0)"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "10f6cdf2e0734546af547d23215e504e66775092687ed7645f1d59e2ffb64832"
+content-hash = "344ed991fb6b100ef6d42ec48ff0a8a3f49a648a7287572e69764388d76a3f27"
 
 [metadata.files]
+aiofiles = [
+    {file = "aiofiles-0.6.0-py3-none-any.whl", hash = "sha256:bd3019af67f83b739f8e4053c6c0512a7f545b9a8d91aaeab55e6e0f9d123c27"},
+    {file = "aiofiles-0.6.0.tar.gz", hash = "sha256:e0281b157d3d5d59d803e3f4557dcc9a3dff28a4dd4829a9ff478adae50ca092"},
+]
+apscheduler = [
+    {file = "APScheduler-3.7.0-py2.py3-none-any.whl", hash = "sha256:c06cc796d5bb9eb3c4f77727f6223476eb67749e7eea074d1587550702a7fbe3"},
+    {file = "APScheduler-3.7.0.tar.gz", hash = "sha256:1cab7f2521e107d07127b042155b632b7a1cd5e02c34be5a28ff62f77c900c6a"},
+]
 atomicwrites = [
     {file = "atomicwrites-1.4.0-py2.py3-none-any.whl", hash = "sha256:6d1784dea7c0c8d4a5172b6c620f40b6e4cbfdf96d783691f2e1302a7b88e197"},
     {file = "atomicwrites-1.4.0.tar.gz", hash = "sha256:ae70396ad1a434f9c7046fd2dd196fc04b12f9e91ffb859164193be8b6168a7a"},
@@ -750,9 +889,17 @@ nonebot-adapter-cqhttp = [
     {file = "nonebot-adapter-cqhttp-2.0.0a13.tar.gz", hash = "sha256:906891c318d394d358331c15ed6d8b1a6a4df75d9ceb43a2d0115ebfb204b5d2"},
     {file = "nonebot_adapter_cqhttp-2.0.0a13-py3-none-any.whl", hash = "sha256:17ec3217cdd884c0b76d72cfd994b8cc877d4c7140993c6e7a83f9c562729091"},
 ]
+nonebot-plugin-apscheduler = [
+    {file = "nonebot-plugin-apscheduler-0.1.2.tar.gz", hash = "sha256:1765336cd388dde15f723ed12dbca942b04e4c25d5d7786878e447b09e68b909"},
+    {file = "nonebot_plugin_apscheduler-0.1.2-py3-none-any.whl", hash = "sha256:eed7b9e60d08826ae4919f82dc240fc7ec469185271c2271e14438a3e0ca7692"},
+]
 nonebot-plugin-manager = [
     {file = "nonebot_plugin_manager-0.4.0-py3-none-any.whl", hash = "sha256:b2d7eebe35e22202fd759f3693ed86d02de5b308ad6b804e39686f42cf3aa2a5"},
     {file = "nonebot_plugin_manager-0.4.0.tar.gz", hash = "sha256:fcd8357a62cc7a066a73dcdb34958b09fb535e069f62481cd3050e0b89785ebd"},
+]
+nonebot-plugin-test = [
+    {file = "nonebot-plugin-test-0.2.0.tar.gz", hash = "sha256:c9ee997c5c96160de4af02d10a7c6301b3fc4e942df7e70906df0534606ea23b"},
+    {file = "nonebot_plugin_test-0.2.0-py3-none-any.whl", hash = "sha256:75cd18cc282815a03250bb86c7d2a8d6a66a5064ac335bedc9a3e268a1e7dd13"},
 ]
 nonebot2 = [
     {file = "nonebot2-2.0.0a13-py3-none-any.whl", hash = "sha256:08422f31e42a705270a0c0dd5704febc9c929f4e7b9e94146c56faf926733536"},
@@ -785,22 +932,26 @@ numpy = [
     {file = "numpy-1.20.3.zip", hash = "sha256:e55185e51b18d788e49fe8305fd73ef4470596b33fc2c1ceb304566b99c71a69"},
 ]
 opencv-python-headless = [
-    {file = "opencv_python_headless-4.5.2.52-cp36-cp36m-macosx_10_15_x86_64.whl", hash = "sha256:ae3eb4b75212e67eb2ad1e68335df289bb171d1c96bf4f23678111acf20ddc4c"},
-    {file = "opencv_python_headless-4.5.2.52-cp36-cp36m-manylinux2014_x86_64.whl", hash = "sha256:c8ecc0b71cafdc97f460f9b584d81c05232985dae2f7793a0b06b3ce9b7a4353"},
-    {file = "opencv_python_headless-4.5.2.52-cp36-cp36m-win32.whl", hash = "sha256:f554f9c1c917d79b190e053d808f5c1ea6ab5d0538773a8221651b134e16d012"},
-    {file = "opencv_python_headless-4.5.2.52-cp36-cp36m-win_amd64.whl", hash = "sha256:51320b83de486e5b9a2f0aaab84547fb3e5b82942cca3b9994e30e218b8f35cc"},
-    {file = "opencv_python_headless-4.5.2.52-cp37-cp37m-macosx_10_15_x86_64.whl", hash = "sha256:738a706589acb058a3dfdcbb0cdc267c90279a7f11268f070b6b8f1508890b7b"},
-    {file = "opencv_python_headless-4.5.2.52-cp37-cp37m-manylinux2014_x86_64.whl", hash = "sha256:9ea17f8c2df64f92fb394c3f48002ead028e61e3ac102155bf98494e94a54e62"},
-    {file = "opencv_python_headless-4.5.2.52-cp37-cp37m-win32.whl", hash = "sha256:05791b18bf9992a103af83927a8a961f9e47b874adcfc4a091e97cef66d1c36e"},
-    {file = "opencv_python_headless-4.5.2.52-cp37-cp37m-win_amd64.whl", hash = "sha256:facc5445b203b7b148cc16cf443033c6b0f78151784b0bdb61108fa6b93fdb5f"},
-    {file = "opencv_python_headless-4.5.2.52-cp38-cp38-macosx_10_15_x86_64.whl", hash = "sha256:afb5643347cb0a4f20ecae2117aac371a603fbe9ee076c93895912355b816f8d"},
-    {file = "opencv_python_headless-4.5.2.52-cp38-cp38-manylinux2014_x86_64.whl", hash = "sha256:2d0db1fcd34b467f53527fc954078dd8de732fd44e6df01017fab98bb62c313f"},
-    {file = "opencv_python_headless-4.5.2.52-cp38-cp38-win32.whl", hash = "sha256:e9c73a996efd7a74a1f5b9c8493a3e6710448c6728101056ac291a12a9739c25"},
-    {file = "opencv_python_headless-4.5.2.52-cp38-cp38-win_amd64.whl", hash = "sha256:6063d758a8e7b1826d5f44d12bf8f9f103e46e3cef0d97a21e12a3eef3f26fdf"},
-    {file = "opencv_python_headless-4.5.2.52-cp39-cp39-macosx_10_15_x86_64.whl", hash = "sha256:9da86f759b1c6c8d54d8640fc05f8f9d90078289a63e0051ea00be75842a6b1f"},
-    {file = "opencv_python_headless-4.5.2.52-cp39-cp39-manylinux2014_x86_64.whl", hash = "sha256:3a3d3a9091e566680def58eab88382bd070bd2fa65d53ec452aef0ecf2f6fbec"},
-    {file = "opencv_python_headless-4.5.2.52-cp39-cp39-win32.whl", hash = "sha256:ac48bdc60b5997cf46c67a780e81872d44574adbfd7df81d06bb28947189d690"},
-    {file = "opencv_python_headless-4.5.2.52-cp39-cp39-win_amd64.whl", hash = "sha256:c07a5156b6d8f67abb84609deef0fb0c224d60a57012ba769d05f70c0775146c"},
+    {file = "opencv_python_headless-4.5.2.54-cp36-cp36m-macosx_10_15_x86_64.whl", hash = "sha256:c6d3baeb7c1e1bec8a5b6620219ce0f953154dad9b5dd10d7311bc98f5201e4b"},
+    {file = "opencv_python_headless-4.5.2.54-cp36-cp36m-manylinux2014_aarch64.whl", hash = "sha256:b62b24fb2eef8b46e3272e21380a43f9e32573f4554e0b611d075082f52acf2e"},
+    {file = "opencv_python_headless-4.5.2.54-cp36-cp36m-manylinux2014_x86_64.whl", hash = "sha256:f3a670b13758a370c49c37632e8b85caeb9f6669b612b092d0b718382ee9bf98"},
+    {file = "opencv_python_headless-4.5.2.54-cp36-cp36m-win32.whl", hash = "sha256:52783623386b7411dba772584d0d57fe60e5aee70cf36feeec8639b9e58dcf5a"},
+    {file = "opencv_python_headless-4.5.2.54-cp36-cp36m-win_amd64.whl", hash = "sha256:7de97d8781c905ed105c019210920a1d374004d20b4134d9978903c0f72769bc"},
+    {file = "opencv_python_headless-4.5.2.54-cp37-cp37m-macosx_10_15_x86_64.whl", hash = "sha256:740cdf843598f4a26718a640915fac21504add6b315eeecd4ad2905b55e02093"},
+    {file = "opencv_python_headless-4.5.2.54-cp37-cp37m-manylinux2014_aarch64.whl", hash = "sha256:6a2165d44d187f8e918aff555ae6a2ce300bfe02fff6c5577bd79144459657d6"},
+    {file = "opencv_python_headless-4.5.2.54-cp37-cp37m-manylinux2014_x86_64.whl", hash = "sha256:e61aebc9f45c2cbc06d1ff4661f352d652bf12b0dacf6eea03e42988ed344e35"},
+    {file = "opencv_python_headless-4.5.2.54-cp37-cp37m-win32.whl", hash = "sha256:64a89b30c9188c696f89bc800fa457c4c590de3732c36a5ce3c5fbde812a6f26"},
+    {file = "opencv_python_headless-4.5.2.54-cp37-cp37m-win_amd64.whl", hash = "sha256:a8e2a8813fa00fd59d487761bebe1b27d3e75ad206b9a35765492fa79a42a25c"},
+    {file = "opencv_python_headless-4.5.2.54-cp38-cp38-macosx_10_15_x86_64.whl", hash = "sha256:aa53aea49e1824a44a4033123a68502488ca980105f47d25ed6263b1fa545b71"},
+    {file = "opencv_python_headless-4.5.2.54-cp38-cp38-manylinux2014_aarch64.whl", hash = "sha256:33b9fe7000dbc1d8e44c17645c93a740f8e166d5c394784f31c11a6471a602ef"},
+    {file = "opencv_python_headless-4.5.2.54-cp38-cp38-manylinux2014_x86_64.whl", hash = "sha256:4f9c927040de5bce6508441f283b10b1edc285a7342d402f16c26eb81348cf5c"},
+    {file = "opencv_python_headless-4.5.2.54-cp38-cp38-win32.whl", hash = "sha256:742a8869415be521e20ab878a8a119e111ecd1da21bd828e41898c728555063f"},
+    {file = "opencv_python_headless-4.5.2.54-cp38-cp38-win_amd64.whl", hash = "sha256:4940d3cd9a9382fb58d4cea3f29cf32638130b991aaa8462fee92ff1a3cf6e99"},
+    {file = "opencv_python_headless-4.5.2.54-cp39-cp39-macosx_10_15_x86_64.whl", hash = "sha256:1f565b6dc87dcca1b3d78df7beae005781b684b1140128b0a71629fb7a3ec4e2"},
+    {file = "opencv_python_headless-4.5.2.54-cp39-cp39-manylinux2014_aarch64.whl", hash = "sha256:86da0d05fd7c19ba2ec7f5a4865d6b188e7e8e631a0890b83135ebb6837a7b9c"},
+    {file = "opencv_python_headless-4.5.2.54-cp39-cp39-manylinux2014_x86_64.whl", hash = "sha256:4735a717b770c5c08d267461bdfb8c5f4c9faa82b3fbb1a3ef01bfd0beaf943b"},
+    {file = "opencv_python_headless-4.5.2.54-cp39-cp39-win32.whl", hash = "sha256:5312bed3107e35030cfddc6e6e943985f22d165651558a0929a13925e3e154e8"},
+    {file = "opencv_python_headless-4.5.2.54-cp39-cp39-win_amd64.whl", hash = "sha256:32303224c4ce8cd362164f90c32bf95bbf131262611d8fe7c061baf73d2d6f05"},
 ]
 packaging = [
     {file = "packaging-20.9-py2.py3-none-any.whl", hash = "sha256:67714da7f7bc052e064859c05c595155bd1ee9f69f76557e21f051443c20947a"},
@@ -849,6 +1000,10 @@ pytest = [
     {file = "pytest-6.2.4-py3-none-any.whl", hash = "sha256:91ef2131a9bd6be8f76f1f08eac5c5317221d6ad1e143ae03894b862e8976890"},
     {file = "pytest-6.2.4.tar.gz", hash = "sha256:50bcad0a0b9c5a72c8e4e7c9855a3ad496ca6a881a3641b4260605450772c54b"},
 ]
+pytest-asyncio = [
+    {file = "pytest-asyncio-0.15.1.tar.gz", hash = "sha256:2564ceb9612bbd560d19ca4b41347b54e7835c2f792c504f698e05395ed63f6f"},
+    {file = "pytest_asyncio-0.15.1-py3-none-any.whl", hash = "sha256:3042bcdf1c5d978f6b74d96a151c4cfb9dcece65006198389ccd7e6c60eb1eea"},
+]
 pytest-cov = [
     {file = "pytest-cov-2.12.1.tar.gz", hash = "sha256:261ceeb8c227b726249b376b8526b600f38667ee314f910353fa318caa01f4d7"},
     {file = "pytest_cov-2.12.1-py2.py3-none-any.whl", hash = "sha256:261bb9e47e65bd099c89c3edf92972865210c36813f80ede5277dceb77a4a62a"},
@@ -856,6 +1011,18 @@ pytest-cov = [
 python-dotenv = [
     {file = "python-dotenv-0.17.1.tar.gz", hash = "sha256:b1ae5e9643d5ed987fc57cc2583021e38db531946518130777734f9589b3141f"},
     {file = "python_dotenv-0.17.1-py2.py3-none-any.whl", hash = "sha256:00aa34e92d992e9f8383730816359647f358f4a3be1ba45e5a5cefd27ee91544"},
+]
+python-engineio = [
+    {file = "python-engineio-3.14.2.tar.gz", hash = "sha256:eab4553f2804c1ce97054c8b22cf0d5a9ab23128075248b97e1a5b2f29553085"},
+    {file = "python_engineio-3.14.2-py2.py3-none-any.whl", hash = "sha256:5a9e6086d192463b04a1428ff1f85b6ba631bbb19d453b144ffc04f530542b84"},
+]
+python-socketio = [
+    {file = "python-socketio-4.6.1.tar.gz", hash = "sha256:cd1f5aa492c1eb2be77838e837a495f117e17f686029ebc03d62c09e33f4fa10"},
+    {file = "python_socketio-4.6.1-py2.py3-none-any.whl", hash = "sha256:5a21da53fdbdc6bb6c8071f40e13d100e0b279ad997681c2492478e06f370523"},
+]
+pytz = [
+    {file = "pytz-2021.1-py2.py3-none-any.whl", hash = "sha256:eb10ce3e7736052ed3623d49975ce333bcd712c7bb19a58b9e2089d4057d0798"},
+    {file = "pytz-2021.1.tar.gz", hash = "sha256:83a4a90894bf38e243cf052c8b58f381bfe9a7a483f6a9cab140bc7f702ac4da"},
 ]
 pyyaml = [
     {file = "PyYAML-5.4.1-cp27-cp27m-macosx_10_9_x86_64.whl", hash = "sha256:3b2b1824fe7112845700f815ff6a489360226a5609b96ec2190a45e62a9fc922"},
@@ -895,6 +1062,10 @@ requests = [
 rfc3986 = [
     {file = "rfc3986-1.5.0-py2.py3-none-any.whl", hash = "sha256:a86d6e1f5b1dc238b218b012df0aa79409667bb209e58da56d0b94704e712a97"},
     {file = "rfc3986-1.5.0.tar.gz", hash = "sha256:270aaf10d87d0d4e095063c65bf3ddbc6ee3d0b226328ce21e036f946e421835"},
+]
+six = [
+    {file = "six-1.16.0-py2.py3-none-any.whl", hash = "sha256:8abb2f1d86890a2dfb989f9a77cfcfd3e47c2a354b01111771326f8aa26e0254"},
+    {file = "six-1.16.0.tar.gz", hash = "sha256:1e61c37477a1626458e36f7b1d82aa5c9b094fa4802892072e49de9c60c4c926"},
 ]
 sniffio = [
     {file = "sniffio-1.2.0-py3-none-any.whl", hash = "sha256:471b71698eac1c2112a40ce2752bb2f4a4814c22a54a3eed3676bc0f5ca9f663"},
@@ -948,6 +1119,10 @@ typing-extensions = [
     {file = "typing_extensions-3.10.0.0-py2-none-any.whl", hash = "sha256:0ac0f89795dd19de6b97debb0c6af1c70987fd80a2d62d1958f7e56fcc31b497"},
     {file = "typing_extensions-3.10.0.0-py3-none-any.whl", hash = "sha256:779383f6086d90c99ae41cf0ff39aac8a7937a9283ce0a414e5dd782f4c94a84"},
     {file = "typing_extensions-3.10.0.0.tar.gz", hash = "sha256:50b6f157849174217d0656f99dc82fe932884fb250826c18350e159ec6cdf342"},
+]
+tzlocal = [
+    {file = "tzlocal-2.1-py2.py3-none-any.whl", hash = "sha256:e2cb6c6b5b604af38597403e9852872d7f534962ae2954c7f35efcb1ccacf4a4"},
+    {file = "tzlocal-2.1.tar.gz", hash = "sha256:643c97c5294aedc737780a49d9df30889321cbe1204eac2c2ec6134035a92e44"},
 ]
 urllib3 = [
     {file = "urllib3-1.26.5-py2.py3-none-any.whl", hash = "sha256:753a0374df26658f99d826cfe40394a686d05985786d946fbe4165b5148f5a7c"},
