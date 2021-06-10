@@ -15,12 +15,13 @@ scheduler: "AsyncIOScheduler" = require("nonebot_plugin_apscheduler").scheduler
 
 @scheduler.scheduled_job("interval", seconds=20, id="bili_dynamic")
 async def execute() -> None:
-    bot = list(get_bots().values())[0]
-    db = Database.load()
-    targets = db.__root__
-    if not targets:
+    if bots := get_bots():
+        bot = list(bots.values())[0]
+    else:
         return
-    for target in targets:
+
+    db = Database.load()
+    for target in db.__root__:
         if target.groups or target.users:
             try:
                 resp = await getDynamicStatus(target.uid)
