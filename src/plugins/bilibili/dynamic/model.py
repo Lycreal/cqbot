@@ -22,8 +22,8 @@ class Target(BaseModel):
 
     def update(self, other: "Target", remove: bool = False) -> bool:
         if self.uid == other.uid:
-            old_groups = self.groups
-            old_users = self.users
+            old_groups = self.groups.copy()
+            old_users = self.users.copy()
             if remove is False:
                 self.groups |= other.groups
                 self.users |= other.users
@@ -63,8 +63,9 @@ class Database(BaseModel):
                     count += saved_target.update(data, remove=remove)
                     break
             else:
-                db.__root__.append(data)
-                count += 1
+                if remove is False:
+                    db.__root__.append(data)
+                    count += 1
         db.save_to_file()
         return count
 
