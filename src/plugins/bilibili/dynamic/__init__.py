@@ -3,9 +3,8 @@ from typing import List
 
 from nonebot import Bot, on_command
 from nonebot.adapters import Event
-from nonebot.adapters.cqhttp import MessageEvent, GroupMessageEvent
+from nonebot.adapters.cqhttp import GroupMessageEvent
 from nonebot.log import logger
-from nonebot.plugin import CommandGroup
 from nonebot.typing import T_State
 
 from .datasource import getDynamicStatus

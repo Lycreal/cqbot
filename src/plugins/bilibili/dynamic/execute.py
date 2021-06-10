@@ -1,11 +1,11 @@
+from typing import TYPE_CHECKING
+
 from nonebot import require, get_bots
 from nonebot.adapters.cqhttp.message import Message, MessageSegment
 from nonebot.log import logger
 
 from .datasource import getDynamicStatus
 from .model import Database
-
-from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from nonebot_plugin_apscheduler import AsyncIOScheduler
