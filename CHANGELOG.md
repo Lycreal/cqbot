@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.3.0](https://www.github.com/Lycreal/cqbot/compare/v0.2.1...v0.3.0) (2021-06-12)
+
+
+### Bug Fixes
+
+* moderatecontent post ([335c42b](https://www.github.com/Lycreal/cqbot/commit/335c42bb4bd8a9bd1d0c4860737d1d01d4fb455f))
+* setu shuffle ([4e338df](https://www.github.com/Lycreal/cqbot/commit/4e338dfb8e33e509e352f1423b78be46c6a038ec))
+
 ### [0.2.1](https://www.github.com/Lycreal/cqbot/compare/v0.2.0...v0.2.1) (2021-06-03)
 
 
