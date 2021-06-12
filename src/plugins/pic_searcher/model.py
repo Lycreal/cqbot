@@ -13,7 +13,7 @@ class PicSearcher:
                 reply = await cls.do_search_saucenao(image)
         except Exception as e:
             import traceback
-            reply = f'处理异常：{traceback.format_exception_only(type(e), e)}'
+            reply = '处理异常：{}'.format("\n".join(traceback.format_exception_only(type(e), e)))
         return reply
 
     @classmethod

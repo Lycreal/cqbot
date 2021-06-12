@@ -1,13 +1,13 @@
+from typing import Dict
+
 from nonebot import Bot, logger
-from nonebot.plugin import on, on_message
 from nonebot.adapters import Event
 from nonebot.adapters.cqhttp.event import MessageEvent, GroupMessageEvent, PrivateMessageEvent
+from nonebot.plugin import on, on_message
 from nonebot.typing import T_State
 
-from .rule import full_match, contain_image
-
-from typing import Dict
 from .model import PicSearcher
+from .rule import full_match, contain_image
 
 # ====================== 搜图 ======================
 matcher_search_pic = on_message(rule=full_match('搜图'))

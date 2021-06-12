@@ -10,7 +10,7 @@ from .model import NSFWChecker
 # https://moderatecontent.com/documentation/anime
 class ModerateContentClient(NSFWChecker):
     api_key: str
-    api_url: str = 'https://api.moderatecontent.com/anime/'
+    api_url: str = 'https://api.moderatecontent.com/moderate/'
 
     async def call_api(self, image: Union[str, bytes]) -> Dict[str, Any]:
         if isinstance(image, str):
@@ -29,10 +29,8 @@ class ModerateContentClient(NSFWChecker):
         return respond
 
     async def call_api_post(self, image_bytes: bytes) -> Dict[str, Any]:
-        data = {
-            'key': self.api_key
-        }
-        files = {'media': BytesIO(image_bytes)}
+        data = {'key': self.api_key}
+        files = {'file': BytesIO(image_bytes)}
         async with httpx.AsyncClient(timeout=30) as client:  # type: httpx.AsyncClient
             resp = await client.post(self.api_url, data=data, files=files)
             respond: Dict[str, Any] = resp.json()

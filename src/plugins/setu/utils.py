@@ -27,7 +27,8 @@ def shuffle(image_bytes: bytes) -> bytes:
     image[0, -1] = randint(0, 255)
     image[-1, 0] = randint(0, 255)
     image[-1, -1] = randint(0, 255)
-    return cv2.imencode('.png', image)[1]
+    img_encode = cv2.imencode('.jpg', image)[1]
+    return bytes(img_encode)
 
 
 class CoolDown(BaseModel):
@@ -38,16 +39,11 @@ class CoolDown(BaseModel):
     """
     app: str
     td: float  # timedelta
-    share: bool = False
     value: T.Dict[int, datetime] = {}
 
     def update(self, mid: int) -> None:
-        if self.share:
-            mid = 0
         self.value.update({mid: datetime.now()})
 
     def check(self, mid: int) -> bool:
-        if self.share:
-            mid = 0
         ret = datetime.now() >= self.value.get(mid, datetime.utcfromtimestamp(0)) + timedelta(seconds=self.td)
         return ret

@@ -3,7 +3,9 @@ from pydantic import BaseSettings
 
 
 class Config(BaseSettings):
-    picsearcher_debug: bool = False
+    # plugin custom config
+    data_path: str = 'data'
+    debug: bool = False
 
     class Config:
         extra = "ignore"

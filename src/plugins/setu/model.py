@@ -10,7 +10,6 @@ from pydantic import BaseModel, ValidationError
 from .config import plugin_config
 
 data_path = plugin_config.data_path
-setu_apikey = plugin_config.setu_apikey
 setu_proxy = plugin_config.setu_proxy
 setu_r18 = plugin_config.setu_r18
 
@@ -28,7 +27,7 @@ class SetuData(BaseModel):
     r18: bool = None
     width: int = None
     height: int = None
-    tags: List[str] = None
+    tags: List[str] = []
 
     @property
     def purl(self) -> str:
