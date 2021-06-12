@@ -3,12 +3,12 @@ from datetime import datetime, timedelta
 from typing import Union
 
 from nonebot import Bot
-from nonebot import export
 from nonebot import logger
 from nonebot.adapters import Event
 from nonebot.adapters.cqhttp import Message, MessageEvent
 from nonebot.permission import SUPERUSER
 from nonebot.plugin import on_command, on
+from nonebot.plugin.export import export
 from nonebot.typing import T_State
 
 from .config import plugin_config
@@ -16,6 +16,8 @@ from .model import NSFWChecker
 from .moderatecontent import ModerateContentClient
 from .rule import contain_image, is_defined
 from .sightengine import SightEngineClient
+
+export = export()
 
 if plugin_config.moderatecontent_apikey:
     NSFW_checker: NSFWChecker = ModerateContentClient(
@@ -45,7 +47,7 @@ async def check_pic_handler(bot: Bot, event: Event, state: T_State) -> None:
 
 
 @auto_recall.handle()
-async def auto_recall_handler(bot: Bot, event: Event, state: T_State) -> None:
+async def auto_recall_handler(bot: Bot, event: MessageEvent, state: T_State) -> None:
     img_url = state['img_urls'][0]
     time_sent = datetime.now()
     level, description = await NSFW_checker.check_image(img_url)
@@ -56,7 +58,7 @@ async def auto_recall_handler(bot: Bot, event: Event, state: T_State) -> None:
         await bot.call_api('delete_msg', message_id=event.message_id)
 
 
-@export()
+@export
 async def check_and_recall(bot: Bot, message_id: int, image: Union[str, bytes, None] = None, delay: float = 10,
                            recall_by_default: bool = True) -> None:
     if NSFW_checker is None:

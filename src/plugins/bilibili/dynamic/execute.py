@@ -4,6 +4,7 @@ from nonebot import require, get_bots
 from nonebot.adapters.cqhttp.message import Message, MessageSegment
 from nonebot.log import logger
 
+from .config import plugin_config
 from .datasource import getDynamicStatus
 from .model import Database
 
@@ -24,7 +25,7 @@ async def execute() -> None:
     for target in db.__root__:
         if target.groups or target.users:
             try:
-                resp = await getDynamicStatus(target.uid)
+                resp = await getDynamicStatus(target.uid, debug=plugin_config.debug)
                 if resp:
                     target.name = resp.name
                     footer = f"\n\n动态地址: https://t.bilibili.com/{resp.dynamic_id}"

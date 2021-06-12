@@ -1,16 +1,16 @@
 import json
-import typing as T
 from collections import namedtuple
+from typing import List, Dict, Optional, Any, Tuple, Union
 
 import httpx
 
 # {uid:dynamic_id}
-LAST: T.Dict[str, int] = {}
+LAST: Dict[str, int] = {}
 
 Resp = namedtuple('Resp', 'name msg imgs dynamic_id')
 
 
-async def getDynamicStatus(uid: str, debug: int = 0) -> T.Optional[Resp]:
+async def getDynamicStatus(uid: str, debug: int = 0) -> Optional[Resp]:
     cards_data = await getCards(uid)
 
     last_dynamic = LAST.setdefault(uid, cards_data[0]['desc']['dynamic_id'])
@@ -32,7 +32,7 @@ async def getDynamicStatus(uid: str, debug: int = 0) -> T.Optional[Resp]:
         return None  # 没有新动态
 
 
-async def getCards(uid: str) -> T.List[dict]:
+async def getCards(uid: str) -> List[Dict[str, Any]]:
     url = 'https://api.vc.bilibili.com/dynamic_svr/v1/dynamic_svr/space_history'
     params = {
         'host_uid': str(uid),
@@ -45,8 +45,8 @@ async def getCards(uid: str) -> T.List[dict]:
     return cards_data['data']['cards']
 
 
-class CardData(dict):
-    def __init__(self, obj: T.Any) -> None:
+class CardData(Dict[str, Any]):
+    def __init__(self, obj: Any) -> None:
         super(CardData, self).__init__(obj)
         self['card'] = deep_decode(self['card'])
 
@@ -58,7 +58,7 @@ class CardData(dict):
         return Resp(name, msg, imgs, self['desc']['dynamic_id'])
 
     @staticmethod
-    def resolve_card(card: dict, name: str, c_type: int) -> T.Tuple[str, T.List[str]]:
+    def resolve_card(card: Dict[str, Any], name: str, c_type: int) -> Tuple[str, List[str]]:
         try:
             if c_type == 1:  # 转发
                 content = card['item'].get('content')
@@ -119,7 +119,7 @@ class CardData(dict):
         return msg, img_urls
 
 
-def deep_decode(j: T.Union[dict, list, str]) -> T.Union[dict, list, str]:
+def deep_decode(j: Union[Dict[str, Any], List[Any], str]) -> Union[Dict[str, Any], List[Any], str]:
     """将str完全解析为json"""
     if isinstance(j, dict):
         j = j.copy()

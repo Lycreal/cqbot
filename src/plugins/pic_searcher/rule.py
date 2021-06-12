@@ -1,8 +1,7 @@
-from nonebot.rule import Rule
-from nonebot.typing import T_State
-
 from nonebot.adapters import Bot, Event
 from nonebot.adapters.cqhttp import Message
+from nonebot.rule import Rule
+from nonebot.typing import T_State
 
 
 def full_match(*keywords: str) -> Rule:

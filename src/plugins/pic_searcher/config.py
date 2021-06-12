@@ -3,7 +3,7 @@ from pydantic import BaseSettings
 
 
 class Config(BaseSettings):
-    debug: bool = False
+    picsearcher_debug: bool = False
 
     class Config:
         extra = "ignore"

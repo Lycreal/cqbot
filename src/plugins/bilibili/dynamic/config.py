@@ -5,6 +5,7 @@ from pydantic import BaseSettings
 class Config(BaseSettings):
     # plugin custom config
     data_path: str = 'data'
+    debug: bool = False
 
     class Config:
         extra = "ignore"
