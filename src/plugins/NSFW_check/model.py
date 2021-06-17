@@ -16,7 +16,8 @@ class NSFWChecker(BaseModel):
             async with httpx.AsyncClient(timeout=30) as client:  # type: httpx.AsyncClient
                 resp = await client.get(image)
                 image_bytes: bytes = await resp.aread()
-
+        else:
+            image_bytes = image
         response = await self.call_api(image_bytes)
         result = await self.resolve_result(response)
         return result
