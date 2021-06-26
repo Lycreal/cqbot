@@ -262,6 +262,18 @@ apscheduler = ">=3.7.0,<4.0.0"
 nonebot2 = ">=2.0.0-alpha.8,<3.0.0"
 
 [[package]]
+name = "nonebot-plugin-help"
+version = "0.1.2"
+description = "A general help lister for nonebot2 plugins"
+category = "main"
+optional = false
+python-versions = ">=3.7.3,<4.0.0"
+
+[package.dependencies]
+nonebot-adapter-cqhttp = ">=2.0.0a11,<3.0.0"
+nonebot2 = ">=2.0.0-alpha.10,<3.0.0"
+
+[[package]]
 name = "nonebot-plugin-manager"
 version = "0.4.0"
 description = "Nonebot Plugin Manager base on import hook"
@@ -668,7 +680,7 @@ dev = ["pytest (>=4.6.2)", "black (>=19.3b0)"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "f7b8b059b2319dd421cde7122bf066204b11e345398aa69e7cb198d8066ec4f1"
+content-hash = "843cd89c7e0d636676a7909725150f13a8287d0f1384cc2f654e7f206c36c6f4"
 
 [metadata.files]
 aiofiles = [
@@ -886,6 +898,10 @@ nonebot-adapter-cqhttp = [
 nonebot-plugin-apscheduler = [
     {file = "nonebot-plugin-apscheduler-0.1.2.tar.gz", hash = "sha256:1765336cd388dde15f723ed12dbca942b04e4c25d5d7786878e447b09e68b909"},
     {file = "nonebot_plugin_apscheduler-0.1.2-py3-none-any.whl", hash = "sha256:eed7b9e60d08826ae4919f82dc240fc7ec469185271c2271e14438a3e0ca7692"},
+]
+nonebot-plugin-help = [
+    {file = "nonebot-plugin-help-0.1.2.tar.gz", hash = "sha256:466cc164d938313b49b1c64a75e63d340546f3aa36213e87abd6896ef4326c8a"},
+    {file = "nonebot_plugin_help-0.1.2-py3-none-any.whl", hash = "sha256:4fe827f223b60b922fa3764ca452354bc202f6655b5e3af176448bc9447cdbba"},
 ]
 nonebot-plugin-manager = [
     {file = "nonebot_plugin_manager-0.4.0-py3-none-any.whl", hash = "sha256:b2d7eebe35e22202fd759f3693ed86d02de5b308ad6b804e39686f42cf3aa2a5"},
