@@ -1,25 +1,28 @@
-from .message import generate_private_message, generate_group_message
+import pytest
+from nonebot.adapters.cqhttp import Message
+
+from .message import handle_private_message
 from .utils import MockResponse
 
-def test_search_pic(websocket, monkeypatch):
+
+@pytest.mark.asyncio
+async def test_search_pic(bot, monkeypatch):
     async def mock_get(self, url):
         return MockResponse(url)
 
     with monkeypatch.context() as m:
         m.setattr('httpx.AsyncClient.get', mock_get)
 
-        websocket.send_json(generate_private_message(websocket.self_id, '搜上图'))
-        respond = websocket.receive_json()
-        assert any('未找到上一张图片' in message['data']['text']
-                   for message in respond['params']['message'] if message['type'] == 'text')
+        await handle_private_message(bot, '搜上图')
+        respond: Message = (await bot.fetch())['message']
+        assert respond.extract_plain_text() == '未找到上一张图片'
+
+        await handle_private_message(bot, '[CQ:image,url=https://pixiv.cat/89937761.jpg]')
+        await handle_private_message(bot, '搜上图')
+        respond = (await bot.fetch())['message']
+        assert 'pixiv' in respond.extract_plain_text()
 
         msg = f'搜图 [CQ:image,url=https://pixiv.cat/89937761.jpg]'
-        websocket.send_json(generate_private_message(websocket.self_id, msg))
-        respond = websocket.receive_json()
-        text = ''.join([message['data']['text'] for message in respond['params']['message'] if message['type'] == 'text'])
-        assert 'pixiv' in text
-        websocket.send_json(generate_group_message(websocket.self_id, '[CQ:image,url=https://pixiv.cat/89937761.jpg]'))
-        websocket.send_json(generate_group_message(websocket.self_id, '搜上图'))
-        respond = websocket.receive_json()
-        assert any('pixiv' in message['data']['text']
-                   for message in respond['params']['message'] if message['type'] == 'text')
+        await handle_private_message(bot, msg)
+        respond = (await bot.fetch())['message']
+        assert 'pixiv' in respond.extract_plain_text()
