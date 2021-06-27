@@ -79,4 +79,4 @@ async def check_and_recall(bot: Bot, message_id: int, image: Union[str, bytes, N
         if level == 1:
             time_to_sleep = time_sent + timedelta(seconds=delay) - datetime.now()
             await asyncio.sleep(time_to_sleep.total_seconds())
-            await bot.call_api('delete_msg', message_id=message_id)
+            await bot.delete_msg(message_id=message_id)

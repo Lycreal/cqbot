@@ -103,7 +103,7 @@ async def sendSetu(bot: Bot, event: MessageEvent, state: T_State) -> None:
     num_timeout += len([t.cancel() for t in pending])
 
     for exc in exceptions:
-        traceback.print_exception(type(exc), exc, exc.__traceback__, limit=5)
+        logger.error('\n'.join(traceback.format_exception(type(exc), exc, exc.__traceback__, limit=5)))
 
     # 报告结果
     if num_exception or num_timeout:
