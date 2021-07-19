@@ -20,7 +20,7 @@ pydantic = "^1.8.1"
 lxml = "^4.6.3"
 httpx = "^0.17.1"
 opencv-python-headless = "^4.5.2"
-numpy = "^1.21.0"
+numpy = "^1.21.1"
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.2.4"
