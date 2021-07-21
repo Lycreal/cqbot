@@ -19,7 +19,7 @@ nonebot-plugin-help = "^0.1.2"
 pydantic = "^1.8.1"
 lxml = "^4.6.3"
 httpx = "^0.17.1"
-opencv-python-headless = "^4.5.2"
+opencv-python-headless = "^4.5.3"
 numpy = "^1.21.1"
 
 [tool.poetry.dev-dependencies]
