@@ -266,7 +266,7 @@ nonebot2 = ">=2.0.0-alpha.8,<3.0.0"
 
 [[package]]
 name = "nonebot-plugin-help"
-version = "0.1.2"
+version = "0.1.4"
 description = "A general help lister for nonebot2 plugins"
 category = "main"
 optional = false
@@ -683,7 +683,7 @@ dev = ["pytest (>=4.6.2)", "black (>=19.3b0)"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "9e0c3758801524cfeba6ed612e554c00c025bdc4bcafc00bf6605fd6cae17ae1"
+content-hash = "490cf1077b32169fd891968aaeba2bda63c9767b852f8337208198ee07a064fb"
 
 [metadata.files]
 aiofiles = [
@@ -905,8 +905,8 @@ nonebot-plugin-apscheduler = [
     {file = "nonebot_plugin_apscheduler-0.1.2-py3-none-any.whl", hash = "sha256:eed7b9e60d08826ae4919f82dc240fc7ec469185271c2271e14438a3e0ca7692"},
 ]
 nonebot-plugin-help = [
-    {file = "nonebot-plugin-help-0.1.2.tar.gz", hash = "sha256:466cc164d938313b49b1c64a75e63d340546f3aa36213e87abd6896ef4326c8a"},
-    {file = "nonebot_plugin_help-0.1.2-py3-none-any.whl", hash = "sha256:4fe827f223b60b922fa3764ca452354bc202f6655b5e3af176448bc9447cdbba"},
+    {file = "nonebot-plugin-help-0.1.4.tar.gz", hash = "sha256:78c992a503be6b094d4fd3dccfd9a2e50cb3f3fff683908bd2a93a58030c625d"},
+    {file = "nonebot_plugin_help-0.1.4-py3-none-any.whl", hash = "sha256:3bb3a99b3bd79e8f1ab7e53fce2e3218a5c0bc12c5bfc6de56f987d1179a7d55"},
 ]
 nonebot-plugin-manager = [
     {file = "nonebot_plugin_manager-0.4.0-py3-none-any.whl", hash = "sha256:b2d7eebe35e22202fd759f3693ed86d02de5b308ad6b804e39686f42cf3aa2a5"},
