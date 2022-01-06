@@ -27,7 +27,7 @@ pytest = "^6.2.5"
 pytest-cov = "^3.0.0"
 pytest-asyncio = "^0.15.1"
 starlette = "^0.13.6"
-requests = "^2.26.0"
+requests = "^2.27.1"
 mypy = "^0.930"
 nonebot-plugin-test = "^0.2.0"
 
