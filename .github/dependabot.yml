@@ -7,3 +7,6 @@ updates:
     schedule:
       interval: "daily"
     target-branch: "dev"
+    ignore:
+      - dependency-name: "*"
+        update-types: ["version-update:semver-patch"]
