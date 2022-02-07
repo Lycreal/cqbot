@@ -1,10 +1,10 @@
-nonebot2~=2.0.0a13.post1
-nonebot-adapter-cqhttp~=2.0.0a13
+nonebot2==2.0.0a14
+nonebot-adapter-cqhttp==2.0.0a14
 nonebot-plugin-manager~=0.4.0
 nonebot-plugin-apscheduler~=0.1.2
-nonebot-plugin-help~=0.1.2
+nonebot-plugin-help~=0.1.4
 pydantic~=1.8.1
-lxml~=4.6.3
-httpx~=0.17.1
-opencv-python-headless~=4.5.2
-numpy~=1.21.0
+lxml~=4.6.5
+httpx~=0.18.2
+opencv-python-headless~=4.5.5
+numpy~=1.22.0
