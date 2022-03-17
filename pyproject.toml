@@ -25,7 +25,7 @@ numpy = "^1.22.0"
 [tool.poetry.dev-dependencies]
 pytest = "^7.1.0"
 pytest-cov = "^3.0.0"
-pytest-asyncio = "^0.17.0"
+pytest-asyncio = "^0.18.2"
 starlette = "^0.13.6"
 requests = "^2.27.1"
 mypy = "^0.941"
