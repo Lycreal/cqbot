@@ -28,7 +28,7 @@ pytest = "^6.2.4"
 pytest-cov = "^2.12.0"
 pytest-asyncio = "^0.16.0"
 requests = "^2.25.1"
-mypy = "^0.910"
+mypy = "^0.971"
 nonebot-plugin-test = "^0.2.0"
 nonebug = "^0.2.1"
 
