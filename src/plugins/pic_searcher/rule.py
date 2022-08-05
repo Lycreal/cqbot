@@ -28,6 +28,6 @@ async def contain_image(bot: "Bot", event: "Event", state: T_State) -> bool:
 
     # noinspection Mypy, PyUnresolvedReferences
     state['img_urls'] = [
-        msg.data['url'] for msg in Message(event.message) if msg.type == 'image'
+        msg['data']['url'] for msg in event.message if msg['type'] == 'image'
     ]
     return bool(state['img_urls'])
