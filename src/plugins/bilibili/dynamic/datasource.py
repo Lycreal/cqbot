@@ -55,7 +55,15 @@ class CardData(Dict[str, Any]):
         c_type = self['desc']['type']
 
         msg, imgs = self.resolve_card(self['card'], name, c_type)
-        return Resp(name, msg, imgs, self['desc']['dynamic_id'])
+
+        # 如果太长，裁剪
+        if len(msg) > 130:
+            msg = msg[:120] + f'... (剩余{len(msg) - 120}字)'
+
+        if len(imgs) > 2:
+            msg += f'(共{len(imgs)}张图片)'
+
+        return Resp(name, msg, [imgs[0]], self['desc']['dynamic_id'])
 
     @staticmethod
     def resolve_card(card: Dict[str, Any], name: str, c_type: int) -> Tuple[str, List[str]]:

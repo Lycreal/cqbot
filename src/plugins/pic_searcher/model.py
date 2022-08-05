@@ -1,6 +1,6 @@
 import urllib.parse
 
-from .saucenao import get_saucenao_detail, SauceNAOError
+from .saucenao import get_saucenao_detail
 
 
 class PicSearcher:
@@ -35,8 +35,10 @@ class PicSearcher:
                 reply = str(result)
             else:
                 reply = '未找到相似图片\n'
-        except SauceNAOError as e:
-            reply = str(e)
+        except Exception as e:
+            import traceback
+            traceback.print_exc()
+            reply = '\n'.join(traceback.format_exception_only(type(e), e))
         return reply.strip()
 
     @staticmethod
@@ -50,12 +52,12 @@ class PicSearcher:
     @staticmethod
     def check_pixiv_url(url: str) -> bool:
         parse = urllib.parse.urlparse(url)
-        return bool('pixiv' in parse.hostname)
+        return bool(parse.hostname and 'pixiv' in parse.hostname)
 
     @staticmethod
     def shorten_pixiv_url(url: str) -> str:
         parse = urllib.parse.urlparse(url)
-        if 'pixiv' in parse.hostname:
+        if parse.hostname and 'pixiv' in parse.hostname:
             querys = dict(urllib.parse.parse_qsl(parse.query))
             illust_id = querys.get('illust_id')
             if illust_id:
