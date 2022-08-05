@@ -5,7 +5,7 @@ from typing import Dict
 
 import pytest
 from nonebot import get_bots
-from nonebot.adapters.cqhttp import Bot
+from nonebot.adapters.onebot.v11 import Bot
 from starlette.testclient import TestClient
 
 from .message import NewNumber
@@ -43,7 +43,7 @@ def bot(client: TestClient, monkeypatch) -> Bot:
     setattr(Bot, 'fetch', fetch)
 
     self_id = str(NewNumber.self_id())
-    with client.websocket_connect(url='/cqhttp/ws', headers={'X-Self-ID': self_id}):
+    with client.websocket_connect(url='/onebot/v11/ws', headers={'X-Self-ID': self_id}):
         while True:
             bot = get_bots().get(self_id)
             if bot:

@@ -2,7 +2,7 @@ from typing import Dict
 
 from nonebot import Bot, logger
 from nonebot.adapters import Event
-from nonebot.adapters.cqhttp.event import MessageEvent, GroupMessageEvent, PrivateMessageEvent
+from nonebot.adapters.onebot.v11.event import MessageEvent, GroupMessageEvent, PrivateMessageEvent
 from nonebot.plugin import on, on_message
 from nonebot.typing import T_State
 
@@ -14,7 +14,6 @@ matcher_search_pic = on_message(rule=full_match('搜图'))
 
 
 @matcher_search_pic.handle()
-@matcher_search_pic.args_parser
 async def get_image_url(bot: Bot, event: Event, state: T_State) -> None:
     if img_urls := [msg.data['url'] for msg in event.get_message() if msg.type == 'image']:
         state['img_urls'] = img_urls

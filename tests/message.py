@@ -1,7 +1,8 @@
+import json
 from datetime import datetime
 from typing import Union, Dict, Any
 
-from nonebot.adapters.cqhttp.bot import Bot
+from nonebot.adapters.onebot.v11 import Bot, GroupMessageEvent, PrivateMessageEvent
 
 group_id = 111111
 user_id = 222222
@@ -65,8 +66,10 @@ def generate_group_message(self_id: Union[int, str], message: str) -> Dict[str, 
 
 
 async def handle_private_message(bot: Bot, message: str) -> None:
-    return await bot.handle_message(generate_private_message(bot.self_id, message))
+    event = PrivateMessageEvent.parse_obj(generate_private_message(bot.self_id, message))
+    return await bot.handle_event(event)
 
 
 async def handle_group_message(bot: Bot, message: str) -> None:
-    return await bot.handle_message(generate_group_message(bot.self_id, message))
+    event = GroupMessageEvent.parse_obj(generate_group_message(bot.self_id, message))
+    return await bot.handle_event(event)

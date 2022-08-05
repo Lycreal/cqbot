@@ -2,7 +2,7 @@ import asyncio
 from typing import Optional
 
 import pytest
-from nonebot.adapters.cqhttp import Bot, Message
+from nonebot.adapters.onebot.v11 import Bot, Message
 
 from .message import handle_group_message
 from .utils import MockResponse

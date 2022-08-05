@@ -2,7 +2,7 @@ from base64 import b64encode
 
 from nonebot import Bot, on_message
 from nonebot.adapters import Event
-from nonebot.adapters.cqhttp import MessageSegment
+from nonebot.adapters.onebot.v11 import MessageSegment
 from nonebot.rule import Rule
 from nonebot.typing import T_State
 

@@ -7,7 +7,7 @@ from typing import List, Optional
 
 from nonebot import Bot, on_message, logger
 from nonebot.adapters import Event
-from nonebot.adapters.cqhttp import MessageEvent, MessageSegment, GroupMessageEvent
+from nonebot.adapters.onebot.v11 import MessageEvent, MessageSegment, GroupMessageEvent
 from nonebot.plugin import require
 from nonebot.typing import T_State
 from numpy import bincount

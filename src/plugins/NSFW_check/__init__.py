@@ -5,7 +5,7 @@ from typing import Union
 from nonebot import Bot
 from nonebot import logger
 from nonebot.adapters import Event
-from nonebot.adapters.cqhttp import Message, MessageEvent
+from nonebot.adapters.onebot.v11 import Message, MessageEvent
 from nonebot.permission import SUPERUSER
 from nonebot.plugin import on_command, on
 from nonebot.plugin.export import export

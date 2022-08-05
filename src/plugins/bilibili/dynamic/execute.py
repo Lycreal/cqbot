@@ -1,7 +1,7 @@
 from typing import TYPE_CHECKING
 
 from nonebot import require, get_bots
-from nonebot.adapters.cqhttp.message import Message, MessageSegment
+from nonebot.adapters.onebot.v11.message import Message, MessageSegment
 from nonebot.log import logger
 
 from .config import plugin_config

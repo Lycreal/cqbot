@@ -3,7 +3,7 @@ from typing import List
 
 from nonebot import Bot, on_command
 from nonebot.adapters import Event
-from nonebot.adapters.cqhttp import GroupMessageEvent, MessageEvent
+from nonebot.adapters.onebot.v11 import GroupMessageEvent, MessageEvent
 from nonebot.log import logger
 from nonebot.typing import T_State
 
@@ -44,7 +44,7 @@ async def first_receive(bot: Bot, event: Event, state: T_State) -> None:
         state['identifier'] = identifier
 
 
-@dynamic_monitor_add.got('uid_list', prompt='请输入动态地址', args_parser=first_receive)
+@dynamic_monitor_add.got('uid_list', prompt='请输入动态地址')
 async def add_handler(bot: Bot, event: Event, state: T_State) -> None:
     identifier = state['identifier']
     uid_list = state['uid_list']
@@ -53,7 +53,7 @@ async def add_handler(bot: Bot, event: Event, state: T_State) -> None:
     await bot.send(event, f'动态监控：新增{count}个频道')
 
 
-@dynamic_monitor_del.got('uid_list', prompt='请输入动态地址', args_parser=first_receive)
+@dynamic_monitor_del.got('uid_list', prompt='请输入动态地址')
 async def del_handler(bot: Bot, event: Event, state: T_State) -> None:
     identifier = state['identifier']
     uid_list = state['uid_list']

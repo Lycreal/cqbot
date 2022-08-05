@@ -1,5 +1,5 @@
 import pytest
-from nonebot.adapters.cqhttp import Message, MessageSegment
+from nonebot.adapters.onebot.v11 import Message, MessageSegment
 
 from .message import handle_group_message
 from .utils import MockResponse

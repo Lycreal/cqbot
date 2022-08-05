@@ -1,5 +1,5 @@
 from nonebot.adapters import Bot, Event
-from nonebot.adapters.cqhttp import Message
+from nonebot.adapters.onebot.v11 import Message
 from nonebot.rule import Rule
 from nonebot.typing import T_State
 
