@@ -42,14 +42,16 @@ async def search_pic(bot: Bot, event: Event, state: T_State) -> None:
 
 
 matcher_record_pic = on_message(rule=contain_image)
+matcher_record_pic_self = on("message_sent", rule=contain_image)
 matcher_search_pic_last = on_message(rule=full_match('搜上图'))
 
 pic_map: Dict[str, str] = {}  # 保存这个群的最近一张图 {"123456":http://xxx"}
 
 
 @matcher_record_pic.handle()
+@matcher_record_pic_self.handle()
 async def record_pic(bot: Bot, event: Event, state: T_State) -> None:
-    if hasattr(event, 'group_id'):
+    if isinstance(event, GroupMessageEvent):
         identifier = 'g' + str(event.group_id)
     elif isinstance(event, PrivateMessageEvent):
         identifier = 'p' + str(event.user_id)
