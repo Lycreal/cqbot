@@ -1,5 +1,12 @@
 # Changelog
 
+### [0.3.1](https://www.github.com/Lycreal/cqbot/compare/v0.3.0...v0.3.1) (2022-08-06)
+
+
+### Bug Fixes
+
+* picsearcher with empty hostname ([f234caf](https://www.github.com/Lycreal/cqbot/commit/f234caf237673296f3d9363c9c33a1a36281786c))
+
 ## [0.3.0](https://www.github.com/Lycreal/cqbot/compare/v0.2.1...v0.3.0) (2021-06-12)
 
 
