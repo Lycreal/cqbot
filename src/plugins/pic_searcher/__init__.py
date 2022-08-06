@@ -24,9 +24,12 @@ async def get_image_url(bot: Bot, event: Event, state: T_State) -> None:
 
 @matcher_search_pic.got('img_urls', prompt='请发送图片')
 async def search_pic(bot: Bot, event: Event, state: T_State) -> None:
+    state['img_urls'] = [
+        msg.data['url'] for msg in event.get_message() if msg.type == 'image'
+    ]
     if img_urls := state.get('img_urls', [])[:1]:  # 限制为一张
         for img_url in img_urls:
-            logger.info("搜图：%s" % img_url)
+            logger.info("搜图：%s" % repr(img_url))
             reply = await PicSearcher.do_search(img_url)
             await bot.send(event, reply)
     else:
@@ -39,14 +42,12 @@ async def search_pic(bot: Bot, event: Event, state: T_State) -> None:
 
 
 matcher_record_pic = on_message(rule=contain_image)
-matcher_record_pic_self = on("message_sent", rule=contain_image)
 matcher_search_pic_last = on_message(rule=full_match('搜上图'))
 
 pic_map: Dict[str, str] = {}  # 保存这个群的最近一张图 {"123456":http://xxx"}
 
 
 @matcher_record_pic.handle()
-@matcher_record_pic_self.handle()
 async def record_pic(bot: Bot, event: Event, state: T_State) -> None:
     if hasattr(event, 'group_id'):
         identifier = 'g' + str(event.group_id)
