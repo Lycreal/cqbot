@@ -10,6 +10,8 @@ from .model import PicSearcher
 from .rule import full_match, contain_image
 
 # ====================== 搜图 ======================
+from src.custom_events import MessageSentEvent
+
 matcher_search_pic = on_message(rule=full_match('搜图'))
 
 
@@ -51,10 +53,12 @@ pic_map: Dict[str, str] = {}  # 保存这个群的最近一张图 {"123456":http
 @matcher_record_pic.handle()
 @matcher_record_pic_self.handle()
 async def record_pic(bot: Bot, event: Event, state: T_State) -> None:
-    if isinstance(event, GroupMessageEvent):
+    if hasattr(event, 'group_id'):
         identifier = 'g' + str(event.group_id)
     elif isinstance(event, PrivateMessageEvent):
         identifier = 'p' + str(event.user_id)
+    elif isinstance(event, MessageSentEvent) and event.message_type == "private":
+        identifier = 'p' + str(event.target_id)
     else:
         return
     pic_map[identifier] = state["img_urls"][0]

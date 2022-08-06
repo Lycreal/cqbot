@@ -1,8 +1,8 @@
 import nonebot
 from nonebot.adapters.onebot.v11 import Adapter
-from src.custon_events import MessageSentEvent, PrivateMessageSentEvent, GroupMessageSentEvent
+from src.custom_events import MessageSentEvent
 
-Adapter.add_custom_model(MessageSentEvent, PrivateMessageSentEvent, GroupMessageSentEvent)
+Adapter.add_custom_model(MessageSentEvent)
 nonebot.init()
 
 driver = nonebot.get_driver()

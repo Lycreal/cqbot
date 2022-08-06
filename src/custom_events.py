@@ -4,11 +4,3 @@ from typing_extensions import Literal
 
 class MessageSentEvent(MessageEvent):
     post_type: Literal["message_sent"]
-
-
-class PrivateMessageSentEvent(PrivateMessageEvent, MessageSentEvent):
-    pass
-
-
-class GroupMessageSentEvent(GroupMessageEvent, MessageSentEvent):
-    pass

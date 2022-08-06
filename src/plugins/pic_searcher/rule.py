@@ -6,7 +6,7 @@ from nonebot.rule import Rule
 from nonebot.typing import T_State
 from nonebot.log import logger
 
-from src.custon_events import MessageSentEvent
+from src.custom_events import MessageSentEvent
 
 
 def full_match(*keywords: str) -> Rule:
@@ -27,7 +27,7 @@ def full_match(*keywords: str) -> Rule:
     return Rule(_keyword)
 
 
-async def contain_image(bot: "Bot", event: MessageEvent, state: T_State) -> bool:
+async def contain_image(bot: "Bot", event: Event, state: T_State) -> bool:
     state['img_urls'] = [
         msg.data['url'] for msg in event.get_message() if msg.type == 'image'
     ]
