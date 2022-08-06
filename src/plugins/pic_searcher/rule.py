@@ -1,7 +1,12 @@
+from typing import Union
+
 from nonebot.adapters import Bot
-from nonebot.adapters.onebot.v11 import Event, Message, MessageSegment
+from nonebot.adapters.onebot.v11 import Event, Message, MessageSegment, MessageEvent
 from nonebot.rule import Rule
 from nonebot.typing import T_State
+from nonebot.log import logger
+
+from src.custon_events import MessageSentEvent
 
 
 def full_match(*keywords: str) -> Rule:
@@ -23,14 +28,12 @@ def full_match(*keywords: str) -> Rule:
 
 
 async def contain_image(bot: "Bot", event: "Event", state: T_State) -> bool:
-    if event.get_type == 'message':
-        state['img_urls'] = [
-            msg.data['url'] for msg in event.get_message() if msg.type == 'image'
-        ]
-    elif event.get_type == 'message_sent':
-        state['img_urls'] = [
-            msg['data']['url'] for msg in event.message if msg['type'] == 'image'
-        ]
-    else:
+    if event.get_type() not in ["message", "message_sent"]:
         return False
+
+    event: Union[MessageEvent, MessageSentEvent]
+    state['img_urls'] = [
+        msg.data['url'] for msg in event.get_message() if msg.type == 'image'
+    ]
+    logger.info(f'img_urls: {state["img_urls"]}')
     return bool(state['img_urls'])
