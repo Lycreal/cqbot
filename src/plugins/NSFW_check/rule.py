@@ -7,7 +7,7 @@ from nonebot.typing import T_State
 
 def is_defined(obj: object) -> Rule:
     async def _is_defined(bot: "Bot", event: "Event", state: T_State) -> bool:
-        return bool(obj is not None)
+        return bool(obj)
 
     return Rule(_is_defined)
 
