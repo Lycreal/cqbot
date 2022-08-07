@@ -9,6 +9,8 @@ from .model import NSFWChecker
 
 # https://moderatecontent.com/documentation/anime
 class ModerateContentClient(NSFWChecker):
+    name: str = 'ModerateContent'
+
     api_key: str
     api_url: str = 'https://api.moderatecontent.com/moderate/'
 

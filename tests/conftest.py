@@ -13,6 +13,7 @@ from .message import NewNumber
 os.environ['COMMAND_START'] = '["/", ""]'
 os.environ['SUPERUSERS'] = "[222222]"
 os.environ['moderatecontent_apikey'] = 'abc'
+os.environ['sightengine_api_user'] = 'abc'
 
 
 @pytest.fixture(scope="session")

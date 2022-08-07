@@ -10,9 +10,10 @@ from .model import NSFWChecker
 
 # https://sightengine.com/docs/reference#nudity-detection
 class SightEngineClient(NSFWChecker):
+    name: str = 'SightEngine'
+
     api_user: str
     api_secret: str
-    threshold: float = 0.5
     api_url: str = 'https://api.sightengine.com/1.0/check.json'
 
     async def call_api(self, image: Union[str, bytes]) -> Dict[str, Any]:
@@ -46,11 +47,13 @@ class SightEngineClient(NSFWChecker):
         return respond
 
     async def resolve_result(self, body: Dict[str, Any]) -> Tuple[int, str]:
+        level = 0
         if body['status'] == 'success':
             nudity: Dict[str, float] = body['nudity']
             description = json.dumps(nudity)
-            level = 1 if nudity['safe'] < self.threshold else 0
+            # https://sightengine.com/docs/nsfw-detection-model
+            if nudity['raw'] >= max(nudity['partial'], nudity['safe']):
+                level = 1
         else:
             description = body['error']['message']
-            level = 0
         return level, description
