@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.0](https://www.github.com/Lycreal/cqbot/compare/v0.3.1...v0.4.0) (2022-08-07)
+
+
+### Features
+
+* multi NSFW checker ([4ce61e9](https://www.github.com/Lycreal/cqbot/commit/4ce61e99e639771872c63dda01cac556d0f1bafc))
+
 ### [0.3.1](https://www.github.com/Lycreal/cqbot/compare/v0.3.0...v0.3.1) (2022-08-06)
 
 
