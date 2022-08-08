@@ -49,19 +49,18 @@ async def check_pic_handler(bot: Bot, event: Event, state: T_State) -> None:
 
 
 @auto_recall.handle()
-async def auto_recall_handler(bot: Bot, event: MessageEvent, state: T_State) -> None:
+async def auto_recall_handler(bot: Bot, event: MessageEvent, state: T_State, delay: float = 30) -> None:
     img_url = state['img_urls'][0]
     time_sent = datetime.now()
     level, description = await NSFW_checker.check_image(img_url)
     if level == 1:  # adult
-        time_to_sleep = time_sent + timedelta(seconds=10) - datetime.now()
+        time_to_sleep = time_sent + timedelta(seconds=delay) - datetime.now()
         await asyncio.sleep(time_to_sleep.total_seconds())
         await bot.call_api('delete_msg', message_id=event.message_id)
 
 
 @export
-async def check_and_recall(bot: Bot, message_id: int, image: Union[str, bytes, None] = None, delay: float = 10,
-                           recall_by_default: bool = True) -> None:
+async def check_and_recall(bot: Bot, message_id: int, image: Union[str, bytes, None] = None, delay: float = 30) -> None:
     if not NSFW_checker:
         return
 
@@ -70,9 +69,12 @@ async def check_and_recall(bot: Bot, message_id: int, image: Union[str, bytes, N
     if image is None:
         msg = await bot.get_msg(message_id=message_id)
         image_urls = [msg.data['url'] for msg in Message(msg['message']) if msg.type == 'image']
-        image = image_urls[0]
+        if image_urls:
+            image = image_urls[0]
+        else:
+            return
 
-    level = int(recall_by_default)
+    level = 0
     try:
         level, description = await NSFW_checker.check_image(image)
     finally:
