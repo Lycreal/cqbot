@@ -23,12 +23,15 @@ async def get_image_url(bot: Bot, event: Event, state: T_State) -> None:
     elif isinstance(event, MessageEvent) and event.reply:
         state['img_urls'] = [msg.data['url'] for msg in event.reply.message if msg.type == 'image']
 
+    if state.get('img_urls'):
+        state['img_found'] = True
 
-@matcher_search_pic.got('img_urls', prompt='请发送图片')
+
+@matcher_search_pic.got('img_found', prompt='请发送图片')
 async def search_pic(bot: Bot, event: Event, state: T_State) -> None:
-    state['img_urls'] = [
-        msg.data['url'] for msg in event.get_message() if msg.type == 'image'
-    ]
+    if not state.get('img_urls'):
+        state['img_urls'] = [msg.data['url'] for msg in event.get_message() if msg.type == 'image']
+
     if img_urls := state.get('img_urls', [])[:1]:  # 限制为一张
         for img_url in img_urls:
             logger.info("搜图：%s" % repr(img_url))
