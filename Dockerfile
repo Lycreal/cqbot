@@ -6,6 +6,4 @@ COPY poetry.lock /app/
 COPY pyproject.toml /app/
 
 RUN pip install --no-cache-dir poetry &&\
-    poetry install &&\
-    poetry cache clear
-
+    poetry install --no-cache
