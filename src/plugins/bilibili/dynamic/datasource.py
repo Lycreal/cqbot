@@ -16,11 +16,8 @@ async def getDynamicStatus(uid: str, debug: int = 0) -> Optional[Resp]:
     last_dynamic = LAST.setdefault(uid, cards_data[0]['desc']['dynamic_id'])
 
     for i, card_data in enumerate(cards_data):
-        if last_dynamic == card_data['desc']['dynamic_id']:
+        if last_dynamic >= card_data['desc']['dynamic_id']:
             break
-    else:  # 没有找到上次动态，可能为程序初次运行或动态被删除
-        LAST[uid] = cards_data[0]['desc']['dynamic_id']
-        return None
 
     if debug:
         i = debug
