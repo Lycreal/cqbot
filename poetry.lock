@@ -759,18 +759,17 @@ nonebot2 = ">=2.0.0-alpha.8,<3.0.0"
 
 [[package]]
 name = "nonebot-plugin-help"
-version = "0.3.1"
+version = "0.4.1"
 description = "A general help lister for nonebot2 plugins"
 category = "main"
 optional = false
-python-versions = ">=3.7.3,<4.0.0"
+python-versions = ">=3.8.0,<4.0.0"
 files = [
-    {file = "nonebot-plugin-help-0.3.1.tar.gz", hash = "sha256:6cd19fd1f46588f72c8adf7cd0c5f8c553b9639567a5a41f249e12e5d42f6ed8"},
-    {file = "nonebot_plugin_help-0.3.1-py3-none-any.whl", hash = "sha256:b3656d0f0bd86fd377ba3f00a2affca549d3ec130c8d5022d2c46d9bd81f1fed"},
+    {file = "nonebot_plugin_help-0.4.1-py3-none-any.whl", hash = "sha256:119c96e4dd2b92aa2bbfbc815c665009bd15a6328d6236b65f0b5429e9a72136"},
+    {file = "nonebot_plugin_help-0.4.1.tar.gz", hash = "sha256:6c42f3bfe4a785f3094edef384da5c71191a8b30ba18aec2b967c0572b4a9305"},
 ]
 
 [package.dependencies]
-nonebot-adapter-onebot = ">=2.0.0-beta.1,<3.0.0"
 nonebot2 = ">=2.0.0-beta.4,<3.0.0"
 
 [[package]]
@@ -1674,4 +1673,4 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.8"
-content-hash = "a83eb7329c6b409eb1bcc886aa271739bacbdced1da27b81aa58054959d7888c"
+content-hash = "c6e9b467a521486406876c170fe34c7259b5b56b473bd3cdf6950f445cb25c35"
