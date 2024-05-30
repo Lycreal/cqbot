@@ -1,3 +1,4 @@
+import urllib.parse
 from typing import List
 
 import httpx
@@ -25,7 +26,7 @@ class SauceNAOError(Exception):
 
 
 async def get_saucenao_detail(img_url: str) -> List[SaucenaoResult]:
-    s_url = f'https://saucenao.com/search.php?url={img_url}'
+    s_url = f'https://saucenao.com/search.php?url={urllib.parse.quote_plus(img_url)}'
 
     async with httpx.AsyncClient(timeout=10) as client:  # type: httpx.AsyncClient
         resp = await client.get(s_url)
