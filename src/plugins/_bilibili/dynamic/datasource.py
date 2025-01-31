@@ -35,10 +35,14 @@ async def getCards(uid: str) -> List[Dict[str, Any]]:
         'host_uid': str(uid),
         'offset_dynamic_id': '0'
     }
+    headers = {
+        'user-agent': 'curl/7.58.0'
+    }
     async with httpx.AsyncClient() as client:  # type: httpx.AsyncClient
-        resp = await client.get(url, params=params)
+        resp = await client.get(url, params=params, headers=headers)
         res = await resp.aread()
     cards_data = json.loads(res)
+    print('debug:', res, cards_data)
     return cards_data['data']['cards']
 
 
