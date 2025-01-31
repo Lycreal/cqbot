@@ -1,3 +1,4 @@
+from asyncio import sleep
 from typing import TYPE_CHECKING
 
 from nonebot import require, get_bots
@@ -14,7 +15,7 @@ if TYPE_CHECKING:
 scheduler: "AsyncIOScheduler" = require("nonebot_plugin_apscheduler").scheduler
 
 
-@scheduler.scheduled_job("interval", seconds=20, id="bili_dynamic")
+@scheduler.scheduled_job("interval", seconds=120, id="bili_dynamic")
 async def execute() -> None:
     if bots := get_bots():
         bot = list(bots.values())[0]
@@ -43,5 +44,6 @@ async def execute() -> None:
                 import traceback
                 logger.error(f'动态检查出错：{target.name} {e}')
                 logger.error(traceback.format_exc())
+                await sleep(600)
                 continue
     db.save_to_file()
