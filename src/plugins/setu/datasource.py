@@ -12,10 +12,9 @@ blacklist = plugin_config.setu_blacklist
 
 
 class SetuResp(BaseModel):
-    code: int
-    msg: str
-    count: int = 0
+    code = 0
     data: List[SetuData] = []
+    msg = ''
 
     def save(self) -> None:
         SetuDatabase.save(*self.data)
@@ -26,13 +25,14 @@ class SetuResp(BaseModel):
     @staticmethod
     async def get(keyword: str = '') -> "SetuResp":
         # doc: https://api.lolicon.app/#/setu?id=api
-        api_url = 'https://api.lolicon.app/setu/'
+        api_url = 'https://api.lolicon.app/setu/v2'
         params: Dict[str, Union[int, str]] = {
             "r18": setu_r18,
             "keyword": keyword,
             "num": 10,
             "proxy": setu_proxy,
-            "size1200": 'true'
+            "size": 'regular',
+            "excludeAI": 'true'
         }
         async with httpx.AsyncClient(timeout=10) as client:  # type: httpx.AsyncClient
             response = await client.get(api_url, params=params)
