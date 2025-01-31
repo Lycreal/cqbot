@@ -23,11 +23,16 @@ class SetuData(BaseModel):
     uid: int = None
     title: str = None
     author: str = None
-    url: str
+    #url: str
     r18: bool = None
     width: int = None
     height: int = None
     tags: List[str] = []
+    urls: dict
+
+    @property
+    def url(self) -> str:
+        return self.urls['regular'] or list(self.urls.values)[0]
 
     @property
     def purl(self) -> str:
@@ -49,8 +54,11 @@ class SetuData(BaseModel):
     async def get(self) -> bytes:
         """从网络获取图像"""
         headers = {'Referer': 'https://www.pixiv.net/'} if 'i.pximg.net' in self.url else {}
+        headers['User-Agent'] = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36 Edg/129.0.0.0'
         async with httpx.AsyncClient(headers=headers, timeout=10) as client:  # type: httpx.AsyncClient
             response: httpx.Response = await client.get(self.url)
+            if response.status_code != 200:
+                raise ValueError(f'get setu failed, url: {self.url}, status code: {response.status_code}')
             img_bytes: bytes = await response.aread()
         return img_bytes
 

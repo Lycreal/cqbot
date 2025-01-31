@@ -20,7 +20,7 @@ from .utils import CoolDown, shuzi2number, shuffle
 
 setu_maximum = plugin_config.setu_maximum
 
-cd = CoolDown(app='setu', td=20)
+cd = CoolDown(app='setu', td=5)
 
 NSFW_check = require('NSFW_check')
 check_and_recall = NSFW_check.check_and_recall
@@ -28,6 +28,9 @@ check_and_recall = NSFW_check.check_and_recall
 
 async def setu_rule(bot: Bot, event: Event, state: T_State) -> bool:
     msg = event.get_plaintext()
+    if msg == '没有符合条件的色图':
+        return False
+
     if match := re.match(r'(?:.*?([\d一二两三四五六七八九十]*)张|来点)?(.{0,10}?)的?色图$', msg):
         number: int = shuzi2number(match[1])
         number = min(number, setu_maximum)
@@ -64,7 +67,7 @@ async def sendSetu(bot: Bot, event: MessageEvent, state: T_State) -> None:
     resp: SetuResp = state['setu_resp']
 
     data_array = resp.get_data()
-    if not data_array:
+    if resp.code == 0 and not data_array:
         resp.code = -2  # blacklist keywords
         resp.msg = '没有符合条件的色图'
 
