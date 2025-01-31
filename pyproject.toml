@@ -5,6 +5,7 @@ description = "just a chatting bot"
 authors = ["Lycreal"]
 license = "MIT"
 
+package-mode = false
 readme = 'README.md'  # Markdown files are supported
 
 repository = "https://github.com/Lycreal/cqbot"
