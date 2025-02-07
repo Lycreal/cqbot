@@ -1,11 +1,7 @@
-FROM python:3.8-slim
-
-RUN pip install --no-cache-dir poetry
+FROM python:3.12-slim
 
 WORKDIR /app
 
-COPY poetry.lock /app/
-COPY pyproject.toml /app/
-
-RUN poetry install --no-interaction --no-cache
-
+COPY pyproject.toml uv.lock /app/
+RUN --mount=from=ghcr.io/astral-sh/uv,source=/uv,target=/bin/uv \
+    uv sync --frozen
