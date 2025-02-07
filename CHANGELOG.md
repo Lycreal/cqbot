@@ -1,5 +1,14 @@
 # Changelog
 
+### [0.4.1](https://www.github.com/Lycreal/cqbot/compare/v0.4.0...v0.4.1) (2025-02-07)
+
+
+### Bug Fixes
+
+* pic_searcher in reply ([7185c6b](https://www.github.com/Lycreal/cqbot/commit/7185c6b1f1a3c3edca35ead3483523873546ce92))
+* prevent sending duplicate bilibili dynamics ([d3e5708](https://www.github.com/Lycreal/cqbot/commit/d3e570843c5e40232846f47dd1d3a416696de172))
+* unavailable Dockerfile ([d662a4f](https://www.github.com/Lycreal/cqbot/commit/d662a4f3520a64151e637432b2fa9fa4398aa360))
+
 ## [0.4.0](https://www.github.com/Lycreal/cqbot/compare/v0.3.1...v0.4.0) (2022-08-07)
 
 
