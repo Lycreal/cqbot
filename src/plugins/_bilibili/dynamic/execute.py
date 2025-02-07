@@ -12,7 +12,8 @@ from .model import Database
 if TYPE_CHECKING:
     from nonebot_plugin_apscheduler import AsyncIOScheduler
 
-scheduler: "AsyncIOScheduler" = require("nonebot_plugin_apscheduler").scheduler
+require("nonebot_plugin_apscheduler")
+from nonebot_plugin_apscheduler import scheduler
 
 
 @scheduler.scheduled_job("interval", seconds=120, id="bili_dynamic")

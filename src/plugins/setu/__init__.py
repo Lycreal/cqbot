@@ -22,8 +22,8 @@ setu_maximum = plugin_config.setu_maximum
 
 cd = CoolDown(app='setu', td=5)
 
-NSFW_check = require('NSFW_check')
-check_and_recall = NSFW_check.check_and_recall
+require('NSFW_check')
+from src.plugins.NSFW_check import check_and_recall
 
 
 async def setu_rule(bot: Bot, event: Event, state: T_State) -> bool:

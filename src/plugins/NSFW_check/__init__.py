@@ -7,7 +7,6 @@ from nonebot.adapters import Event
 from nonebot.adapters.onebot.v11 import Message, MessageEvent
 from nonebot.permission import SUPERUSER
 from nonebot.plugin import on_command, on
-from nonebot.plugin.export import export
 from nonebot.typing import T_State
 
 from .config import plugin_config
@@ -16,7 +15,6 @@ from .moderatecontent import ModerateContentClient
 from .rule import contain_image, is_defined
 from .sightengine import SightEngineClient
 
-export = export()
 
 NSFW_checker: NSFWMultiChecker = NSFWMultiChecker()
 if plugin_config.moderatecontent_apikey:
@@ -59,7 +57,6 @@ async def auto_recall_handler(bot: Bot, event: MessageEvent, state: T_State, del
         await bot.call_api('delete_msg', message_id=event.message_id)
 
 
-@export
 async def check_and_recall(bot: Bot, message_id: int, image: Union[str, bytes, None] = None, delay: float = 30) -> None:
     if not NSFW_checker:
         return
