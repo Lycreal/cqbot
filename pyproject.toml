@@ -17,7 +17,7 @@ dependencies = [
     "nonebot2[fastapi]>=2.4.1",
     "numpy>=2.2.2",
     "opencv-python-headless>=4.11.0.86",
-    "pydantic~=1.10.0",
+    "pydantic~=2.10.6",
 ]
 
 [dependency-groups]
